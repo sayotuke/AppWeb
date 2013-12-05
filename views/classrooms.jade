@@ -1,0 +1,10 @@
+div(class="container')
+  button(ng-click='getClassrooms()') findAll
+  button(ng-click='addClassroom()') add
+  table
+   thead
+    th id
+    th name
+   tbody(ng-repeat="classroom in classrooms")
+    td {{classroom.id}}
+    td {{classroom.name}}

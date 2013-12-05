@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  div(style="text-align:center;")
+   div(class="btn-group" )
+    a(href="#/classrooms" class="btn btn-primary") Classrooms
+    a(href="#/teachers" class="btn btn-primary") Teachers
+    a(href="#" class="btn btn-primary") Courses
+  div(ng-view="")
