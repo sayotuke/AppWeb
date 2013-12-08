@@ -4,12 +4,14 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
-var http = require('http');
 var path = require('path');
+var http = require('http');
+var routes = require('./routes');
 var classrooms = require('./controller/classrooms');
 var teachers = require('./controller/teachers');
+var courses = require("./controller/courses");
+var promotions = require("./controller/promotions");
+var schedules = require("./controller/schedules");
 
 var app = express();
 
@@ -22,6 +24,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.favicon());
+app.use(express.bodyParser());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
@@ -35,18 +38,37 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/users', user.list);
-
 //Classrooms
 app.get('/getClassrooms', classrooms.findAll);
-app.get('/addClassroom/:name', classrooms.add);
+app.post('/addClassroom/', classrooms.add);
+app.put('/editClassroom/:id/:name', classrooms.edit);
 app.delete('/deleteClassroom/:id', classrooms.delete);
-app.get('/editClassroom/:id/:name', classrooms.edit);
 
 //Teachers
 app.get('/getTeachers', teachers.findAll);
-app.get('/addTeacher', teachers.add);
+app.post('/addTeacher', teachers.add);
+app.put('/editTeacher/:id/:last_name/:first_name', teachers.edit);
+app.delete('/deleteTeacher/:id', teachers.delete);
 
+//Courses
+app.get('/getCourses', courses.findAll);
+app.post('/addCourse/', courses.add);
+app.put('/editCourse/:id/:name', courses.edit);
+app.delete('/deleteCourse/:id', courses.delete);
+
+//Promotions
+app.get('/getPromotions', promotions.findAll);
+app.post('/addPromotion/', promotions.add);
+app.put('/editPromotion/:id/:name', promotions.edit);
+app.delete('/deletePromotion/:id', promotions.delete);
+
+//Schedules
+app.post('/addSchedule', schedules.add);
+
+app.post('/uploadFile', function(req, res, next) {
+    console.log(req.files);
+    res.json("ok");
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

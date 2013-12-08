@@ -1,5 +1,5 @@
 <div class="container" ng-init="init()">
-    <h1>Classroomsfghfhgh</h1>
+    <h1>Locaux</h1>
     <table>
         <tr>
             <td>
@@ -13,8 +13,10 @@
 
         </tr>
     </table>
+    <br>
+    <br>
     <div>
-        <button class="btn btn-info" ng-click="isCollapsed = !isCollapsed">Ajouter</button>
+        <button id="addButton" ng-class="{'btn btn-info': !isCollapsed, 'btn btn-danger': isCollapsed}" ng-click="collapse()">Ajouter</button>
         <br>
         <br>
         <div collapse="!isCollapsed">
@@ -22,7 +24,7 @@
                 <table>
                     <tr>
                         <td>
-                           <input type="text" id="name" required placeholder="Nom du local"/>
+                           <input ng-model="data.name" type="text" id="name" required placeholder="Nom du local"/>
                         </td>
                     </tr>
                     <tr>
@@ -34,28 +36,34 @@
             </div>
         </div>
     </div>
-    <br>
-    <div  ng-show="classrooms.length > 0">
-    <table class="table table-hover">
+    <div  >
+    <table class="table table-hover table_crud">
         <thead>
-        <th>Name</th>
+        <th>#</th>
+        <th>Nom</th>
         <th></th>
         </thead>
         <tbody>
+        <tr ng-show="classrooms.length <= 0">
+            <td colspan="3" style="text-align: center;">
+                Aucun élément, appuyez sur le bouton  <button class="btn btn-info" ng-click="collapse()">Ajouter</button> pour commencer
+            </td>
+        </tr>
         <tr ng-repeat="classroom in classroomsFiltered = (classrooms | filter:search) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" repeat-directive>
-            <td style="width: 80%">
+            <td>{{classrooms.indexOf(classroom)}}</td>
+            <td style="width: 70%">
                 <span id="span{{classroom._id}}">{{classroom.name}}</span>
                 <input type="text" id="text{{classroom._id}}" class="hiddenElements"/>
-                <i id="saveButton{{classroom._id}}" class="icon-ok hiddenElements" ng-click="edit_save(classroom._id, ((currentPage-1)*entryLimit)+$index)"></i>
-                <i id="cancelButton{{classroom._id}}" class="icon-remove hiddenElements" ng-click="cancel(classroom._id)"></i>
             </td>
             <td>
-                <i id="editButton{{classroom._id}}" class="icon-pencil" ng-click="edit(classroom._id, classroom.name)"></i>
-                <i ng-click="delete(classroom._id, ((currentPage-1)*entryLimit)+$index)" class="icon-trash"></i>
+                <i id="saveButton{{classroom._id}}" class="icon-ok hiddenElements" ng-click="edit_save(classroom)"></i>
+                <i id="cancelButton{{classroom._id}}" class="icon-remove hiddenElements" ng-click="cancel(classroom)"></i>
+                <i id="editButton{{classroom._id}}" class="icon-pencil" ng-click="edit(classroom)"></i>
+                <i id="deleteButton{{classroom._id}}" ng-click="delete(classroom)" class="icon-trash"></i>
             </td>
         </tr>
         </tbody>
     </table>
-    <pagination num-pages="noOfPages" current-page="currentPage" max-size="maxSize" ></pagination>
+    <pagination boundary-links="true" num-pages="noOfPages" current-page="currentPage" max-size="maxSize" ></pagination>
     </div>
 </div>

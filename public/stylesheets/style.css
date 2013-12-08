@@ -8,3 +8,8 @@ a {
 }
 
 .nav, .pagination, .carousel a { cursor: pointer; }
+
+.table_crud th{
+   background-color: #18b1dd;
+    color : #ffffff;
+}

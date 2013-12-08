@@ -13,12 +13,34 @@ exports.findAll = function(req, res){
         });
 };
 
+exports.find = function(req, res){
+    Classroom.find({}).exec(function(err, result) {
+        if (!err) {
+            res.json(result);
+        } else {
+            console.log("erreur lors du find : "+err);
+            res.send("erreur");
+        };
+    });
+};
+
 exports.add = function(req, res){
-    var name = req.params.name;
+    var name = req.body.name;
     var temp = new Classroom({name: name});
     temp.save();
     res.json(temp);
 };
+
+exports.edit = function(req, res){
+    var id = req.params.id;
+    var name =req.params.name;
+    Classroom.findOne({_id: new ObjectId(id)}, function(err, doc){
+        doc.name = name;
+        doc.save();
+    });
+    res.json("ok");
+};
+
 exports.delete = function(req, res){
     var id = req.params.id;
     Classroom.find({_id: new ObjectId(id)}).remove(function(err) {
@@ -28,14 +50,4 @@ exports.delete = function(req, res){
             res.json("ko");
         }
     });
-};
-exports.edit = function(req, res){
-    var id = req.params.id;
-    var name =req.params.name;
-    console.log("name : "+name);
-    Classroom.findOne({_id: new ObjectId(id)}, function(err, doc){
-        doc.name = name;
-        doc.save();
-    });
-    res.json("ok");
 };

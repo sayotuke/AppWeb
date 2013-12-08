@@ -3,7 +3,10 @@ extends layout
 block content
   div(style="text-align:center;")
    div(class="btn-group" )
-    a(href="#/classrooms" class="btn btn-primary") Classrooms
-    a(href="#/teachers" class="btn btn-primary") Teachers
-    a(href="#" class="btn btn-primary") Courses
+    a(href="#/classrooms" class="btn btn-info") Locaux
+    a(href="#/teachers" class="btn btn-info") Professeurs
+    a(href="#/courses" class="btn btn-info") Cours
+    a(href="#/promotions" class="btn btn-info") Groupes
+    a(href="#/schedules" class="btn btn-info") Horaires
+    a(href="#/csv" class="btn btn-info") Import
   div(ng-view="")

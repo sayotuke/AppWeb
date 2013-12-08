@@ -1,3 +1,74 @@
-<div class="container">
-    <h2> Hello !</h2>
+<div class="container" ng-init="init()">
+    <h1>Professeurs</h1>
+    <table>
+        <tr>
+            <td>
+                <h3>Recherche</h3>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="text" ng-model="search" placeholder="Recherche" ng-change="filter()"/></td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div>
+        <button id="addButton" ng-class="{'btn btn-info': !isCollapsed, 'btn btn-danger': isCollapsed}" ng-click="collapse()">Ajouter</button>
+        <br>
+        <br>
+        <div collapse="!isCollapsed">
+            <div class="well" style="width: 30%">
+                <table>
+                    <tr>
+                        <td>
+                            <input ng-model="data.last_name" type="text" id="last_name" required placeholder="Nom"/>
+                            <input ng-model="data.first_name" type="text" id="first_name" required placeholder="Prénom"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btn btn-success" ng-click="add()">Confirmer</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div  >
+        <table class="table table-hover table_crud">
+            <thead>
+            <th>#</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th></th>
+            </thead>
+            <tbody>
+            <tr ng-show="teachers.length <= 0">
+                <td colspan="4" style="text-align: center;">
+                    Aucun élément, appuyez sur le bouton  <button class="btn btn-info" ng-click="collapse()">Ajouter</button> pour commencer
+                </td>
+            </tr>
+            <tr ng-repeat="teacher in teachersFiltered = (teachers | filter:search) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" repeat-directive>
+                <td>{{teachers.indexOf(teacher)}}</td>
+                <td style="width: 35%">
+                    <span id="span_last_name{{teacher._id}}">{{teacher.last_name}}</span>
+                    <input type="text" id="text_last_name{{teacher._id}}" class="hiddenElements"/>
+                </td>
+                <td style="width: 35%">
+                    <span id="span_first_name{{teacher._id}}">{{teacher.first_name}}</span>
+                    <input type="text" id="text_first_name{{teacher._id}}" class="hiddenElements"/>
+                </td>
+                <td>
+                    <i id="saveButton{{teacher._id}}" class="icon-ok hiddenElements" ng-click="edit_save(teacher)"></i>
+                    <i id="cancelButton{{teacher._id}}" class="icon-remove hiddenElements" ng-click="cancel(teacher)"></i>
+                    <i id="editButton{{teacher._id}}" class="icon-pencil" ng-click="edit(teacher)"></i>
+                    <i id="deleteButton{{teacher._id}}" ng-click="delete(teacher)" class="icon-trash"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <pagination boundary-links="true" num-pages="noOfPages" current-page="currentPage" max-size="maxSize" ></pagination>
+    </div>
 </div>
