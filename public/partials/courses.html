@@ -1,0 +1,69 @@
+<div class="container" ng-init="init()">
+    <h1>Cours</h1>
+    <table>
+        <tr>
+            <td>
+                <h3>Recherche</h3>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="text" ng-model="search.name" placeholder="Recherche" ng-change="filter()"/></td>
+
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div>
+        <button id="addButton" ng-class="{'btn btn-info': !isCollapsed, 'btn btn-danger': isCollapsed}" ng-click="collapse()">Ajouter</button>
+        <br>
+        <br>
+        <div collapse="!isCollapsed">
+            <div class="well" style="width: 30%">
+                <table>
+                    <tr>
+                        <td>
+                            <input ng-model="data.name" type="text" id="name" required placeholder="Nom du cours"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btn btn-success" ng-click="add()">Confirmer</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div  >
+        <table class="table table-hover table_crud">
+            <thead>
+            <th>#</th>
+            <th>Nom</th>
+            <th></th>
+            </thead>
+            <tbody>
+            <tr ng-show="courses.length <= 0">
+                <td colspan="3" style="text-align: center;">
+                    Aucun élément, appuyez sur le bouton  <button class="btn btn-info" ng-click="collapse()">Ajouter</button> pour commencer
+                </td>
+            </tr>
+            <tr ng-repeat="course in coursesFiltered = (courses | filter:search) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" repeat-directive>
+                <td>{{courses.indexOf(course)}}</td>
+                <td style="width: 70%">
+                    <span id="span{{course._id}}">{{course.name}}</span>
+                    <input type="text" id="text{{course._id}}" class="hiddenElements"/>
+                </td>
+                <td>
+                    <i id="saveButton{{course._id}}" class="icon-ok hiddenElements" ng-click="edit_save(course)"></i>
+                    <i id="cancelButton{{course._id}}" class="icon-remove hiddenElements" ng-click="cancel(course)"></i>
+                    <i id="editButton{{course._id}}" class="icon-pencil" ng-click="edit(course)"></i>
+                    <i id="deleteButton{{course._id}}" ng-click="delete(course)" class="icon-trash"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <pagination boundary-links="true" num-pages="noOfPages" current-page="currentPage" max-size="maxSize" ></pagination>
+    </div>
+</div>
