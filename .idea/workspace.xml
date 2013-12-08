@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4a13e38-af43-457a-8e18-f508c4804b6d" name="Default" comment="bonjour">
-      <change type="DELETED" beforePath="C:\Users\Pierre\IdeaProjects\AppWeb\public\javascripts\ui-bootstrap-tpls-0.1.0.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pierre\IdeaProjects\AppWeb\routes\index.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Pierre\IdeaProjects\AppWeb\routes\user.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/app.js" afterPath="$PROJECT_DIR$/public/javascripts/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/partials/classrooms.html" afterPath="$PROJECT_DIR$/public/partials/classrooms.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/classrooms.js" afterPath="$PROJECT_DIR$/controller/classrooms.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.jade" afterPath="$PROJECT_DIR$/views/index.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.jade" afterPath="$PROJECT_DIR$/views/layout.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/partials/teachers.html" afterPath="$PROJECT_DIR$/public/partials/teachers.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/teachers.js" afterPath="$PROJECT_DIR$/controller/teachers.js" />
+    <list default="true" id="f4a13e38-af43-457a-8e18-f508c4804b6d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="AppWeb.iws" />
@@ -116,7 +104,7 @@
     <file path="/dbUtils.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386062713835" ignored="false" />
     <file path="/a.dummy" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386067921015" ignored="false" />
     <file path="/style.css" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386539366620" ignored="false" />
-    <file path="/Dummy.txt" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386513666759" ignored="false" />
+    <file path="/Dummy.txt" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386539741642" ignored="false" />
     <file path="/teachers.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386361199026" ignored="false" />
     <file path="/course.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386365927944" ignored="false" />
     <file path="/courses.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386513414160" ignored="false" />
@@ -693,7 +681,11 @@
       <created>1386285500191</created>
       <updated>1386285500191</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="8.12.2013">
+      <created>1386539749915</created>
+      <updated>1386539749915</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -733,6 +725,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3288889" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -745,7 +738,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Colour Chooser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -792,7 +784,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="bonjour" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.12.2013" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -807,6 +799,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="bonjour" />
+    <MESSAGE value="8.12.2013" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
