@@ -1,11 +1,15 @@
 var mongoose = require('mongoose');
+var promotion = require('../model/promotion');
+var course = require('../model/course');
+var classroom = require('../model/classroom');
+var teacher = require('../model/teacher');
 var Schema = mongoose.Schema;
 ScheduleSchema = new Schema({
-    teachers: [Schema.Types.ObjectId],
-    classroom: Schema.Types.ObjectId,
-    course: Schema.Types.ObjectId,
-    promotion: Schema.Types.ObjectId,
-    date: {type: Date, default: Date.now},
+    teachers: [{type: Schema.Types.ObjectId, ref: 'Teacher'}],
+    classroom: {type: Schema.Types.ObjectId, ref: 'Classroom'},
+    course: {type: Schema.Types.ObjectId, ref: 'Course'},
+    promotion: {type: Schema.Types.ObjectId, ref: 'Promotion'},
+    date: Date,
     begin: Number,
     end: Number
 })

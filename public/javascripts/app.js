@@ -115,7 +115,7 @@ app.factory('scheduleFactory', ['$http', function($http) {
     var scheduleFactory = {};
 
     scheduleFactory.findAll = function () {
-        return $http.get('/getPromotions');
+        return $http.get('/getSchedules');
     };
 
     scheduleFactory.find = function (id) {
@@ -206,7 +206,11 @@ app.controller('ClassroomController',['$scope','$http','$timeout','classroomFact
     {
         $scope.isCollapsed = !$scope.isCollapsed;
         if(!$scope.isCollapsed)$('#addButton').text("Ajouter");
-        else $('#addButton').text("Annuler");
+        else
+        {
+            $scope.data = {};
+            $('#addButton').text("Annuler");
+        }
     }
 
     $scope.add = function () {
@@ -249,7 +253,7 @@ app.controller('ClassroomController',['$scope','$http','$timeout','classroomFact
         var newName = $("#text"+classroom._id).val();
         if(newName!="")
         {
-            classroomFactory.edit(classroom._id, newName).success(function(data, status, headers, config) {
+            classroomFactory.edit(classroom, newName).success(function(data, status, headers, config) {
                 $scope.classrooms[$scope.classrooms.indexOf(classroom)].name = newName;
             });
             $("#span"+classroom._id).show();
@@ -305,7 +309,11 @@ app.controller('TeacherController', ['$scope','$http','$timeout','teacherFactory
     {
         $scope.isCollapsed = !$scope.isCollapsed;
         if(!$scope.isCollapsed)$('#addButton').text("Ajouter");
-        else $('#addButton').text("Annuler");
+        else
+        {
+            $scope.data = {};
+            $('#addButton').text("Annuler");
+        }
     }
 
     $scope.add = function () {
@@ -410,7 +418,11 @@ app.controller('CourseController', ['$scope','$http','$timeout','courseFactory',
     {
         $scope.isCollapsed = !$scope.isCollapsed;
         if(!$scope.isCollapsed)$('#addButton').text("Ajouter");
-        else $('#addButton').text("Annuler");
+        else
+        {
+            $scope.data = {};
+            $('#addButton').text("Annuler");
+        }
     }
 
     $scope.add = function () {
@@ -506,7 +518,11 @@ app.controller("PromotionController", ['$scope','$http','$timeout','promotionFac
     {
         $scope.isCollapsed = !$scope.isCollapsed;
         if(!$scope.isCollapsed)$('#addButton').text("Ajouter");
-        else $('#addButton').text("Annuler");
+        else
+        {
+            $scope.data = {};
+            $('#addButton').text("Annuler");
+        }
     }
 
     $scope.add = function () {
@@ -581,30 +597,52 @@ app.controller("PromotionController", ['$scope','$http','$timeout','promotionFac
 
     };
 }]);
-app.controller('ScheduleController', ['$scope','$http','$timeout','classroomFactory','teacherFactory','courseFactory',
-    'promotionFactory', 'scheduleFactory', function($scope, $http, $timeout, classroomFactory, teacherFaotory,
-                                                  courseFactory, promotionFactory, scheduleFactory){
-    classroomFactory.findAll().success(function(data, status, headers, config) {
-        $scope.classrooms = data;
-    });
-    teacherFaotory.findAll().success(function(data, status, headers, config) {
-        $scope.teachers = data;
-    });
-    courseFactory.findAll().success(function(data, status, headers, config) {
-        $scope.courses = data;
-    });
-    promotionFactory.findAll().success(function(data, status, headers, config) {
-        $scope.promotions = data;
-    });
+app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
+    'promotionFactory', 'scheduleFactory', function ($scope, $http, $timeout, classroomFactory, teacherFaotory, courseFactory, promotionFactory, scheduleFactory) {
+        classroomFactory.findAll().success(function (data, status, headers, config) {
+            $scope.classrooms = data;
+        });
+        teacherFaotory.findAll().success(function (data, status, headers, config) {
+            $scope.teachers = data;
+            $scope.teachersLeft = $scope.teachers;
+        });
+        courseFactory.findAll().success(function (data, status, headers, config) {
+            $scope.courses = data;
+        });
+        promotionFactory.findAll().success(function (data, status, headers, config) {
+            $scope.promotions = data;
+        });
 
-        $scope.today = function() {
+        $(document).ready(function(){
+            $("#wheel-demo").minicolors({
+                control: $(this).attr('data-control') || 'hue',
+                defaultValue: $(this).attr('data-defaultValue') || '',
+                inline: $(this).attr('data-inline') === 'true',
+                letterCase: $(this).attr('data-letterCase') || 'lowercase',
+                opacity: $(this).attr('data-opacity'),
+                position: $(this).attr('data-position') || 'bottom left',
+                change: function (hex, opacity) {
+                    if (!hex) return;
+                    if (opacity) hex += ', ' + opacity;
+                    try {
+                        console.log(hex);
+                    } catch (e) {
+                    }
+                },
+                theme: 'bootstrap'
+            });
+        });
+
+
+
+        $scope.today = function () {
             $scope.dt = new Date();
         };
         $scope.today();
 
         $scope.showWeeks = true;
         $scope.toggleWeeks = function () {
-            $scope.showWeeks = ! $scope.showWeeks;
+            $scope.showWeeks = !$scope.showWeeks;
         };
 
         $scope.clear = function () {
@@ -612,17 +650,17 @@ app.controller('ScheduleController', ['$scope','$http','$timeout','classroomFact
         };
 
         // Disable weekend selection
-        $scope.disabled = function(date, mode) {
+        $scope.disabled = function (date, mode) {
             return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
         };
 
-        $scope.toggleMin = function() {
+        $scope.toggleMin = function () {
             $scope.minDate = ( $scope.minDate ) ? null : new Date();
         };
         $scope.toggleMin();
 
-        $scope.open = function() {
-            $timeout(function() {
+        $scope.open = function () {
+            $timeout(function () {
                 $scope.opened = true;
             });
         };
@@ -632,26 +670,69 @@ app.controller('ScheduleController', ['$scope','$http','$timeout','classroomFact
             'starting-day': 1
         };
 
-        $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
-        $scope.format = $scope.formats[0];
+        $scope.teachersTab = Array();
 
-    $scope.add = function()
-    {
-        var schedule = {
-            teachers: Array($scope.teacher._id),
-            classroom: $scope.classroom._id,
-            course: $scope.course._id,
-            promotion: $scope.promotion._id,
-            begin: 1,
-            end: 4
+        $scope.appendTeacher = function()
+        {
+            if($scope.teacher!==undefined && $scope.teacher!=="" && $scope.teachersTab.length<2)
+            {
+                $scope.teachersTab.push($scope.teacher);
+                $scope.teachersLeft.splice($scope.teachersLeft.indexOf($scope.teacher), 1);
+                $scope.teacher = undefined;
+            }
         };
-        console.log(schedule);
-        scheduleFactory.add(schedule).success(function (data, status, headers, config) {
-            $scope.result = data;
-    });;
-    }
 
-}]);
+        $scope.cancelTeacher = function(teacherAdded)
+        {
+            $scope.teachersLeft.push(teacherAdded);
+            $scope.teachersTab.splice($scope.teachersTab.indexOf(teacherAdded), 1);
+        }
+
+        $scope.add = function () {
+            var teachersIDs = Array();
+            for(id in $scope.teachersTab)
+            {
+                teachersIDs.push($scope.teachersTab[id]._id);
+            }
+            var schedule = {
+                teachers: teachersIDs,
+                classroom: $scope.classroom._id,
+                course: $scope.course._id,
+                promotion: $scope.promotion._id,
+                date: null,
+                begin: 1,
+                end: 4
+            };
+            console.log(schedule);
+            scheduleFactory.add(schedule).success(function (data, status, headers, config) {
+                $scope.result = data;
+            });
+        };
+
+        $scope.$on('$viewContentLoaded', $scope.test);
+
+        $scope.test = function(){
+            scheduleFactory.findAll().success(function(data){$scope.test = data;});
+            $("#wheel-demo").minicolors({
+                control: $(this).attr('data-control') || 'wheel',
+                defaultValue: $(this).attr('data-defaultValue') || '',
+                inline: $(this).attr('data-inline') === 'true',
+                letterCase: $(this).attr('data-letterCase') || 'lowercase',
+                opacity: $(this).attr('data-opacity'),
+                position: $(this).attr('data-position') || 'bottom left',
+                change: function (hex, opacity) {
+                    if (!hex) return;
+                    if (opacity) hex += ', ' + opacity;
+                    try {
+                        console.log(hex);
+                    } catch (e) {
+                    }
+                },
+                theme: 'bootstrap'
+            });
+        };
+
+    }]);
 app.controller('CsvController', function($scope, $http, $timeout){
 
     $.fn.upload = function(remote,data,successFn,progressFn) {

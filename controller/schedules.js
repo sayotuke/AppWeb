@@ -4,7 +4,12 @@ var schedule = require('../model/schedule');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 exports.findAll = function(req, res){
-    Schedule.find({}).exec(function(err, result) {
+    Schedule.find({})
+        .populate('classroom')
+        .populate('teachers')
+        .populate('course')
+        .populate('promotion')
+        .exec(function(err, result) {
         if (!err) {
             res.json(result);
         } else {
@@ -36,7 +41,8 @@ exports.add = function(req, res){
 
     var temp = new Schedule({
         teachers: teachers,
-        classroom: classroom, course: course,
+        classroom: classroom,
+        course: course,
         promotion: promotion,
         date: date,
         begin: begin,

@@ -13,3 +13,15 @@ a {
    background-color: #18b1dd;
     color : #ffffff;
 }
+
+.table_schedule_div{
+   height: 300px;
+   width: 400px;
+}
+
+.table_schedule{
+    width: 80%;
+}
+
+.schedule_preview_span {
+}

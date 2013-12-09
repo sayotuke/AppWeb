@@ -64,6 +64,7 @@ app.delete('/deletePromotion/:id', promotions.delete);
 
 //Schedules
 app.post('/addSchedule', schedules.add);
+app.get('/getSchedules', schedules.findAll);
 
 app.post('/uploadFile', function(req, res, next) {
     console.log(req.files);
