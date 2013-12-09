@@ -35,6 +35,7 @@ exports.add = function(req, res){
     var classroom = req.body.classroom;
     var course = req.body.course;
     var promotion = req.body.promotion;
+    var color = req.body.color;
     var date = req.body.date;
     var begin = req.body.begin;
     var end = req.body.end;
@@ -44,10 +45,12 @@ exports.add = function(req, res){
         classroom: classroom,
         course: course,
         promotion: promotion,
-        date: date,
+        color: color,
+        date: new Date(2013,11,10),
         begin: begin,
         end : end
     });
+    console.log(temp.date);
     temp.save();
     res.json(temp);
 };
@@ -70,5 +73,28 @@ exports.delete = function(req, res){
             console.log("erreur de delete : "+err);
             res.json("ko");
         }
+    });
+};
+
+exports.getSlotsTaken = function(req, res){
+    var day = req.params.day;
+    var month = req.params.month;
+    var year = req.params.year;
+    console.log(day);
+    console.log(month);
+    console.log(year);
+    Schedule.find({date:new Date(year, month, day)})
+        .populate('classroom')
+        .populate('teachers')
+        .populate('course')
+        .populate('promotion')
+        .exec(function(err, result) {
+        if (!err) {
+            console.log(result);
+            res.json(result);
+        } else {
+            console.log("erreur lors du find : "+err);
+            res.send("erreur");
+        };
     });
 };

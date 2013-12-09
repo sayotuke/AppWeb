@@ -122,6 +122,10 @@ app.factory('scheduleFactory', ['$http', function($http) {
         return $http.get(urlBase + '/' + id);
     };
 
+    scheduleFactory.getSlotsTaken = function (day, month, year) {
+        return $http.get('getSlotsTaken/' + day + '/' + month + '/' + year);
+    };
+
     scheduleFactory.add = function (data) {
         return $http.post('/addSchedule/',data);
     };
@@ -599,24 +603,33 @@ app.controller("PromotionController", ['$scope','$http','$timeout','promotionFac
 }]);
 app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
     'promotionFactory', 'scheduleFactory', function ($scope, $http, $timeout, classroomFactory, teacherFaotory, courseFactory, promotionFactory, scheduleFactory) {
-        classroomFactory.findAll().success(function (data, status, headers, config) {
-            $scope.classrooms = data;
-        });
-        teacherFaotory.findAll().success(function (data, status, headers, config) {
-            $scope.teachers = data;
-            $scope.teachersLeft = $scope.teachers;
-        });
-        courseFactory.findAll().success(function (data, status, headers, config) {
-            $scope.courses = data;
-        });
-        promotionFactory.findAll().success(function (data, status, headers, config) {
-            $scope.promotions = data;
-        });
 
-        $(document).ready(function(){
-            $("#wheel-demo").minicolors({
-                control: $(this).attr('data-control') || 'hue',
-                defaultValue: $(this).attr('data-defaultValue') || '',
+        $scope.init = function () {
+            classroomFactory.findAll().success(function (data, status, headers, config) {
+                $scope.classrooms = data;
+            });
+            teacherFaotory.findAll().success(function (data, status, headers, config) {
+                $scope.teachers = data;
+                $scope.teachersLeft = $scope.teachers;
+            });
+            courseFactory.findAll().success(function (data, status, headers, config) {
+                $scope.courses = data;
+            });
+            promotionFactory.findAll().success(function (data, status, headers, config) {
+                $scope.promotions = data;
+                //On l'appelle lors du dernier findAll pour être sûr que la vue est bien chargée
+                $scope.loadColors();
+            });
+
+        };
+
+        $scope.slots = Array(1,2,3,4,5,6,7,8);
+
+        $scope.loadColors = function(){
+            scheduleFactory.findAll().success(function(data){$scope.test = data;});
+            $("#wheel_model_schedule").minicolors({
+                control: $(this).attr('data-control') || 'wheel',
+                defaultValue: $(this).attr('data-defaultValue') || '#18b1dd',
                 inline: $(this).attr('data-inline') === 'true',
                 letterCase: $(this).attr('data-letterCase') || 'lowercase',
                 opacity: $(this).attr('data-opacity'),
@@ -631,9 +644,24 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 },
                 theme: 'bootstrap'
             });
-        });
-
-
+            $("#wheel_schedule").minicolors({
+                control: $(this).attr('data-control') || 'wheel',
+                defaultValue: $(this).attr('data-defaultValue') || '#18b1dd',
+                inline: $(this).attr('data-inline') === 'true',
+                letterCase: $(this).attr('data-letterCase') || 'lowercase',
+                opacity: $(this).attr('data-opacity'),
+                position: $(this).attr('data-position') || 'bottom left',
+                change: function (hex, opacity) {
+                    if (!hex) return;
+                    if (opacity) hex += ', ' + opacity;
+                    try {
+                        console.log(hex);
+                    } catch (e) {
+                    }
+                },
+                theme: 'bootstrap'
+            });
+        };
 
         $scope.today = function () {
             $scope.dt = new Date();
@@ -670,6 +698,14 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
             'starting-day': 1
         };
 
+        $scope.format="dd/MM/yyyy";
+
+        $scope.checkSlotsTaken = function()
+        {
+          scheduleFactory.getSlotsTaken($scope.dt.getDate(), $scope.dt.getMonth(),$scope.dt.getFullYear()).success(function(data){console.log(data[0].begin);});
+        };
+
+
         $scope.teachersTab = Array();
 
         $scope.appendTeacher = function()
@@ -688,7 +724,7 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
             $scope.teachersTab.splice($scope.teachersTab.indexOf(teacherAdded), 1);
         }
 
-        $scope.add = function () {
+        $scope.addScheduleModel = function () {
             var teachersIDs = Array();
             for(id in $scope.teachersTab)
             {
@@ -700,6 +736,7 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 course: $scope.course._id,
                 promotion: $scope.promotion._id,
                 date: null,
+                color: $('#wheel_model_schedule').val(),
                 begin: 1,
                 end: 4
             };
@@ -708,30 +745,6 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 $scope.result = data;
             });
         };
-
-        $scope.$on('$viewContentLoaded', $scope.test);
-
-        $scope.test = function(){
-            scheduleFactory.findAll().success(function(data){$scope.test = data;});
-            $("#wheel-demo").minicolors({
-                control: $(this).attr('data-control') || 'wheel',
-                defaultValue: $(this).attr('data-defaultValue') || '',
-                inline: $(this).attr('data-inline') === 'true',
-                letterCase: $(this).attr('data-letterCase') || 'lowercase',
-                opacity: $(this).attr('data-opacity'),
-                position: $(this).attr('data-position') || 'bottom left',
-                change: function (hex, opacity) {
-                    if (!hex) return;
-                    if (opacity) hex += ', ' + opacity;
-                    try {
-                        console.log(hex);
-                    } catch (e) {
-                    }
-                },
-                theme: 'bootstrap'
-            });
-        };
-
     }]);
 app.controller('CsvController', function($scope, $http, $timeout){
 

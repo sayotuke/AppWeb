@@ -11,7 +11,7 @@ a {
 
 .table_crud th{
    background-color: #18b1dd;
-    color : #ffffff;
+   color : #ffffff;
 }
 
 .table_schedule_div{
@@ -23,5 +23,20 @@ a {
     width: 80%;
 }
 
+.td-minicolors{
+    padding-top: 12px
+}
+
 .schedule_preview_span {
+}
+
+.schedule_time_slots {
+    border:solid 1px #DDDDDD;
+    margin-right:2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    float:left;
+    font-size:15px;
+    list-style: none;
+    display:block;
 }

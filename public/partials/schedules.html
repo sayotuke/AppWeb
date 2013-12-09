@@ -2,90 +2,7 @@
     <h1>Horaires</h1>
     <tabset>
         <tab heading="Créer un modèle d'horaire">
-    <div>
-            <table class="table_schedule">
-                <tr>
-                    <td>
-                        <div class="well table_schedule_div">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <label for="classroom">Classe </label>
-                                    </td>
-                                    <td>
-                                        <select id="classroom" ng-model="classroom"
-                                                ng-options="classroom as classroom.name for classroom in classrooms"></select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label for="teacher">Professeur(s) </label>
-                                    </td>
-                                    <td class="input-append">
-                                        <select id="teacher" ng-model="teacher"
-                                                ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft"></select>
-                                        <button class="btn btn-success" ng-click="appendTeacher()">+</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label for="course">Cours </label>
-                                    </td>
-                                    <td>
-                                        <select id="course" ng-model="course"
-                                                ng-options="course as course.name for course in courses"></select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label for="promotion">Groupe </label>
-                                    </td>
-                                    <td>
-                                        <select id="promotion" ng-model="promotion"
-                                                ng-options="promotion as promotion.name for promotion in promotions"></select>
-                                    </td>
-                                </tr>
-                            </table>
-                            <br>
-                            <br>
-                            <div class="form-horizontal">
-                                <input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate"
-                                       max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
-                                       ng-required="true" close-text="Close"/>
-                                <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="well table_schedule_div">
-                            <p><b>Classe</b> : {{ classroom.name }}</p>
-                            <p><b>Professeur(s)</b> :
-                            <ul ng-repeat="teacherAdded in teachersTab" style="list-style: none">
-                                <li>{{ teacherAdded.first_name }} {{ teacherAdded.last_name }}
-                                    <button class="btn-mini btn-danger" ng-click="cancelTeacher(teacherAdded)">Annuler</button>
-                                </li>
-                            </ul>
-
-                            </p>
-                            <p><b>Cours</b> : {{course.name }}</p>
-                            <p><b>Année</b> : {{ promotion.name }}</p>
-                            <p><b>Résultat</b> : {{result}}</p>
-                            <button class="btn btn-success" ng-click="add()">Ajouter</button>
-                            <button ng-click="test()">TEST</button>
-                            <input type="text" id="wheel-demo" class="form-control demo" data-control="wheel" value="#ff99ee">
-                            </div>
-                    </td>
-                </tr>
-            </table>
-            Add :
-            {{teachersTab}}
-            <hr>
-            Left :
-            {{teachersLeft}}
-        </div>
-            </tab>
-        <tab heading="Créer un horaire">
-            <div>
+            <div class="form-inline">
                 <table class="table_schedule">
                     <tr>
                         <td>
@@ -93,72 +10,194 @@
                                 <table>
                                     <tr>
                                         <td>
-                                            <label for="classroom">Classe </label>
+                                            Classe
                                         </td>
                                         <td>
-                                            <select id="classroom" ng-model="classroom"
+                                            <select ng-model="classroom"
                                                     ng-options="classroom as classroom.name for classroom in classrooms"></select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="teacher">Professeur(s) </label>
+                                            Professeur(s)
                                         </td>
                                         <td class="input-append">
-                                            <select id="teacher" ng-model="teacher"
+                                            <select ng-model="teacher"
                                                     ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft"></select>
                                             <button class="btn btn-success" ng-click="appendTeacher()">+</button>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="course">Cours </label>
+                                            Cours
                                         </td>
                                         <td>
-                                            <select id="course" ng-model="course"
+                                            <select ng-model="course"
                                                     ng-options="course as course.name for course in courses"></select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="promotion">Groupe </label>
+                                            Groupe
                                         </td>
                                         <td>
-                                            <select id="promotion" ng-model="promotion"
+                                            <select ng-model="promotion"
                                                     ng-options="promotion as promotion.name for promotion in promotions"></select>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td class="td-minicolors">
+                                            Couleur
+                                        </td>
+                                        <td>
+                                            <i id="wheel_model_schedule" class="form-control" data-control="wheel"
+                                               value="#ff99ee"></i>
+                                        </td>
+                                    </tr>
+
                                 </table>
-                                <br>
-                                <br>
-                                <div class="form-horizontal">
-                                    <input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate"
-                                           max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
-                                           ng-required="true" close-text="Close"/>
-                                    <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
-                                </div>
                             </div>
                         </td>
                         <td>
                             <div class="well table_schedule_div">
                                 <p><b>Classe</b> : {{ classroom.name }}</p>
+
                                 <p><b>Professeur(s)</b> :
-                                <ul ng-repeat="teacherAdded in teachersTab" style="list-style: none">
-                                    <li>{{ teacherAdded.first_name }} {{ teacherAdded.last_name }}
-                                        <button class="btn-mini btn-danger" ng-click="cancelTeacher(teacherAdded)">Annuler</button>
+                                <ul style="list-style: none">
+                                    <li ng-repeat="teacherAdded in teachersTab">{{ teacherAdded.first_name }} {{ teacherAdded.last_name }}
+                                        <button class="btn-mini btn-danger" ng-click="cancelTeacher(teacherAdded)">
+                                            Annuler
+                                        </button>
                                     </li>
                                 </ul>
 
                                 </p>
                                 <p><b>Cours</b> : {{course.name }}</p>
+
                                 <p><b>Année</b> : {{ promotion.name }}</p>
+
+                                <p><b>Résultat</b> : {{result}}</p>
+                                <button class="btn btn-success" ng-click="addScheduleModel()">Ajouter</button>
+                                <button ng-click="test()">TEST</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                Add :
+                {{teachersTab}}
+                <hr>
+                Left :
+                {{teachersLeft}}
+            </div>
+        </tab>
+        <tab heading="Créer un horaire">
+            <div class="form-inline">
+                <table class="table_schedule">
+                    <tr>
+                        <td>
+                            <div class="well table_schedule_div">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            Classe
+                                        </td>
+                                        <td>
+                                            <select ng-model="classroom"
+                                                    ng-options="classroom as classroom.name for classroom in classrooms"></select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Professeur(s)
+                                        </td>
+                                        <td class="input-append">
+                                            <select ng-model="teacher"
+                                                    ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft"></select>
+                                            <button class="btn btn-success" ng-click="appendTeacher()">+</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Cours
+                                        </td>
+                                        <td>
+                                            <select ng-model="course"
+                                                    ng-options="course as course.name for course in courses"></select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Groupe
+                                        </td>
+                                        <td>
+                                            <select ng-model="promotion"
+                                                    ng-options="promotion as promotion.name for promotion in promotions"></select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Jour
+                                        </td>
+                                        <td>
+                                            <div class="form-horizontal">
+                                                <input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="opened"
+                                                       min="minDate"
+                                                       max="'2050-06-22'" datepicker-options="dateOptions"
+                                                       date-disabled="disabled(date, mode)"
+                                                       ng-required="true" close-text="Close"
+                                                        ng-change="checkSlotsTaken()"/>
+                                                <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Tranches horaires
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li ng-repeat="slot in slots" class="schedule_time_slots">{{slot}}</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-minicolors">
+                                            Couleur
+                                        </td>
+                                        <td>
+                                            <span id="wheel_schedule" class="form-control" data-control="wheel"
+                                                  value="#ff99ee"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="well table_schedule_div">
+                                <p><b>Classe</b> : {{ classroom.name }}</p>
+
+                                <p><b>Professeur(s)</b> :
+                                <ul style="list-style: none">
+                                    <li ng-repeat="teacherAdded in teachersTab">{{ teacherAdded.first_name }} {{ teacherAdded.last_name }}
+                                        <button class="btn-mini btn-danger" ng-click="cancelTeacher(teacherAdded)">
+                                            Annuler
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                </p>
+                                <p><b>Cours</b> : {{course.name }}</p>
+
+                                <p><b>Année</b> : {{ promotion.name }}</p>
+
                                 <p><b>Résultat</b> : {{result}}</p>
                                 <button class="btn btn-success" ng-click="add()">Ajouter</button>
                             </div>
                         </td>
                     </tr>
                 </table>
-                <button ng-click="test()">TEST</button>
+                <button ng-click="loadColors()">TEST</button>
                 TEST : {{test}}
                 <hr>
                 Add :
@@ -168,5 +207,5 @@
                 {{teachersLeft}}
             </div>
         </tab>
-        </tabset>
+    </tabset>
 </div>

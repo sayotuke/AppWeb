@@ -9,6 +9,7 @@ ScheduleSchema = new Schema({
     classroom: {type: Schema.Types.ObjectId, ref: 'Classroom'},
     course: {type: Schema.Types.ObjectId, ref: 'Course'},
     promotion: {type: Schema.Types.ObjectId, ref: 'Promotion'},
+    color: String,
     date: Date,
     begin: Number,
     end: Number
