@@ -14,7 +14,7 @@
                                         </td>
                                         <td>
                                             <select ng-model="classroom"
-                                                    ng-options="classroom as classroom.name for classroom in classrooms"></select>
+                                                    ng-options="classroom as classroom.name for classroom in classrooms" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -23,7 +23,7 @@
                                         </td>
                                         <td class="input-append">
                                             <select ng-model="teacher"
-                                                    ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft"></select>
+                                                    ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft" required></select>
                                             <button class="btn btn-success" ng-click="appendTeacher()">+</button>
                                         </td>
                                     </tr>
@@ -33,7 +33,7 @@
                                         </td>
                                         <td>
                                             <select ng-model="course"
-                                                    ng-options="course as course.name for course in courses"></select>
+                                                    ng-options="course as course.name for course in courses" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -42,7 +42,7 @@
                                         </td>
                                         <td>
                                             <select ng-model="promotion"
-                                                    ng-options="promotion as promotion.name for promotion in promotions"></select>
+                                                    ng-options="promotion as promotion.name for promotion in promotions" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -70,13 +70,9 @@
                                         </button>
                                     </li>
                                 </ul>
-
                                 </p>
                                 <p><b>Cours</b> : {{course.name }}</p>
-
                                 <p><b>Année</b> : {{ promotion.name }}</p>
-
-                                <p><b>Résultat</b> : {{result}}</p>
                                 <button class="btn btn-success" ng-click="addScheduleModel()">Ajouter</button>
                                 <button ng-click="test()">TEST</button>
                             </div>
@@ -103,7 +99,7 @@
                                         </td>
                                         <td>
                                             <select ng-model="classroom"
-                                                    ng-options="classroom as classroom.name for classroom in classrooms"></select>
+                                                    ng-options="classroom as classroom.name for classroom in classrooms" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -112,7 +108,7 @@
                                         </td>
                                         <td class="input-append">
                                             <select ng-model="teacher"
-                                                    ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft"></select>
+                                                    ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft" required></select>
                                             <button class="btn btn-success" ng-click="appendTeacher()">+</button>
                                         </td>
                                     </tr>
@@ -122,7 +118,7 @@
                                         </td>
                                         <td>
                                             <select ng-model="course"
-                                                    ng-options="course as course.name for course in courses"></select>
+                                                    ng-options="course as course.name for course in courses" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -131,7 +127,8 @@
                                         </td>
                                         <td>
                                             <select ng-model="promotion"
-                                                    ng-options="promotion as promotion.name for promotion in promotions"></select>
+                                                    ng-options="promotion as promotion.name for promotion in promotions"
+                                                    ng-change="checkSlotsTaken()" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -152,12 +149,33 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            Tranches horaires
+                                            Plages horaires
                                         </td>
                                         <td>
                                             <ul>
-                                                <li ng-repeat="slot in slots" class="schedule_time_slots">{{slot}}</li>
+                                                <li ng-model="slot" ng-repeat="slot in slots" class="schedule_time_slots"
+                                                    ng-class="{'schedule_slot_taken': slot.taken, 'schedule_slot_not_taken': !slot.taken}">{{slot.id}}</li>
                                             </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Début
+                                        </td>
+                                        <td>
+                                            <select ng-model="begin"
+                                                    ng-options="slot.id as slot.name for slot in slots | filter:{taken: 'false'}" required>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Fin
+                                        </td>
+                                        <td>
+                                            <select ng-model="end"
+                                                    ng-options="slot.id as slot.name for slot in slots | filter:{taken: 'false'}" required>
+                                            </select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -185,14 +203,13 @@
                                         </button>
                                     </li>
                                 </ul>
-
                                 </p>
                                 <p><b>Cours</b> : {{course.name }}</p>
-
                                 <p><b>Année</b> : {{ promotion.name }}</p>
-
-                                <p><b>Résultat</b> : {{result}}</p>
-                                <button class="btn btn-success" ng-click="add()">Ajouter</button>
+                                <button class="btn btn-success" ng-click="addSchedule()">Ajouter</button>
+                                <br>
+                                <br>
+                                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
                             </div>
                         </td>
                     </tr>

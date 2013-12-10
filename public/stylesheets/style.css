@@ -40,3 +40,13 @@ a {
     list-style: none;
     display:block;
 }
+
+.schedule_slot_not_taken {
+    background-color: #19c749;
+    color : black;
+}
+
+.schedule_slot_taken {
+    background-color: #ff272c;
+    color : #ffffff;
+}

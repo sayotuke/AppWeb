@@ -65,7 +65,7 @@ app.delete('/deletePromotion/:id', promotions.delete);
 //Schedules
 app.post('/addSchedule', schedules.add);
 app.get('/getSchedules', schedules.findAll);
-app.get('/getSlotsTaken/:day/:month/:year', schedules.getSlotsTaken)
+app.get('/getSlotsTaken/:day/:month/:year/:promotion', schedules.getSlotsTaken)
 
 app.post('/uploadFile', function(req, res, next) {
     console.log(req.files);
