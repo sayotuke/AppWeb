@@ -126,6 +126,18 @@ app.factory('scheduleFactory', ['$http', function($http) {
         return $http.get('getSlotsTaken/' + day + '/' + month + '/' + year + '/' + promotion._id);
     };
 
+    scheduleFactory.getScheduleModels = function () {
+        return $http.get('getSchedulesModels/');
+    };
+
+    scheduleFactory.getTeacherTotalHour = function (teacher) {
+        return $http.get('getTeacherTotalHour/'+teacher._id);
+    };
+
+    scheduleFactory.getTeacherTotalHourByCourse = function (teacher, course) {
+        return $http.get('getTeacherTotalHourByCourse/' + teacher._id + '/' + course._id);
+    };
+
     scheduleFactory.add = function (data) {
         return $http.post('/addSchedule/',data);
     };
@@ -639,7 +651,6 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
             {id:8, taken: false, name:"17:00 - 18:00"});
 
         $scope.loadColors = function(){
-            scheduleFactory.findAll().success(function(data){$scope.test = data;});
             $("#wheel_model_schedule").minicolors({
                 control: $(this).attr('data-control') || 'wheel',
                 defaultValue: $(this).attr('data-defaultValue') || '#18b1dd',
@@ -650,10 +661,7 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 change: function (hex, opacity) {
                     if (!hex) return;
                     if (opacity) hex += ', ' + opacity;
-                    try {
-                        console.log(hex);
-                    } catch (e) {
-                    }
+                    $('.schedule_preview').css('background-color', hex);
                 },
                 theme: 'bootstrap'
             });
@@ -667,10 +675,7 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 change: function (hex, opacity) {
                     if (!hex) return;
                     if (opacity) hex += ', ' + opacity;
-                    try {
-                        console.log(hex);
-                    } catch (e) {
-                    }
+                    $('.schedule_preview').css('background-color', hex);
                 },
                 theme: 'bootstrap'
             });
@@ -718,29 +723,30 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
           if($scope.promotion!==undefined && $scope.promotion!=="")
           scheduleFactory.getSlotsTaken($scope.dt.getDate(), $scope.dt.getMonth(),$scope.dt.getFullYear(), $scope.promotion)
               .success(function(data){
+                 // console.log("data begin : "+data[1].begin+" data end : "+data[1].end);
                   for(var index in $scope.slots)
                   {
                       $scope.slots[index].taken = false;
                   }
                   for(var index in data)
                   {
-                      console.log("begin : "+data[index].begin);
-                      console.log("end : "+data[index].end)
                       if(data[index].begin === data[index].end)
                       {
+                          //console.log("begin et end : "+$scope.slots[data[index].begin-1])
                           $scope.slots[data[index].begin-1].taken = true;
                       }
                       else
                       {
                           var diff = data[index].end- data[index].begin;
-                          for(var i=data[index].begin-1; i<=diff; i++)
+                          //console.log("diff : "+diff);
+                          for(var i=data[index].begin-1; i<=diff+data[index].begin-1; i++)
                           {
+                            //  console.log("i : "+i);
+                              //console.log("off : "+$scope.slots[i].id)
                               $scope.slots[i].taken=true;
                           }
                       }
                   }
-                  console.log("slots : "+$scope.slots);
-
               });
         };
 
@@ -752,7 +758,14 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
             {
                 $scope.teachersTab.push($scope.teacher);
                 $scope.teachersLeft.splice($scope.teachersLeft.indexOf($scope.teacher), 1);
+                scheduleFactory.getTeacherTotalHour($scope.teacher).success(function(data){$scope.test = data;});
                 $scope.teacher = undefined;
+                if($scope.course!==undefined && $scope.course!=="")
+                {
+                    scheduleFactory.getTeacherTotalHourByCourse($scope.teachersTab[0], $scope.course).success(function(data){
+                        $scope.test2 = data;
+                    });
+                }
             }
         };
 
@@ -762,9 +775,19 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
             $scope.teachersTab.splice($scope.teachersTab.indexOf(teacherAdded), 1);
         }
 
+        $scope.checkCourseHours = function()
+        {
+            if($scope.teachersTab.length > 0 && $scope.course!==undefined && $scope.course!=="")
+            {
+                scheduleFactory.getTeacherTotalHourByCourse($scope.teachersTab[0], $scope.course).success(function(data){
+                    $scope.test2 = data;
+                });
+            }
+        }
+
         $scope.addScheduleModel = function () {
             var teachersIDs = Array();
-            for(id in $scope.teachersTab)
+            for(var id in $scope.teachersTab)
             {
                 teachersIDs.push($scope.teachersTab[id]._id);
             }
@@ -785,20 +808,22 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
         };
 
         $scope.addSchedule = function () {
-            if ($scope.teachersTab !== undefined && $scope.teachersTab.length > 0
-                && $scope.classroom !== undefined && $scope.classroom !== ""
-                && $scope.course !== undefined && $scope.course !== ""
-                && $scope.promotion !== undefined && $scope.promotion !== ""
+            if ($scope.classroom !== undefined && $scope.classroom !== "" && !$.isEmptyObject($scope.classroom)
+                && $scope.course !== undefined && $scope.course !== "" && !$.isEmptyObject($scope.course)
+                && $scope.promotion !== undefined && $scope.promotion !== ""  && !$.isEmptyObject($scope.promotion)
                 && $scope.begin !== undefined && $scope.begin !== ""
-                && $scope.end !== undefined && $scope.end !== "")
+                && $scope.end !== undefined && $scope.end !== "" )
             {
                 if ($scope.begin > $scope.end)
+                {
+                    $scope.alerts.length = 0;
                     $scope.alerts.push({type: 'error', msg: "La tranche de début ne peut être supérieure à la tranche de fin"})
-
+                }
                 var teachersIDs = Array();
                 for (id in $scope.teachersTab) {
                     teachersIDs.push($scope.teachersTab[id]._id);
                 }
+                if(teachersIDs.length===0)teachersIDs=null;
                 var schedule = {
                     teachers: teachersIDs,
                     classroom: $scope.classroom._id,
@@ -812,22 +837,29 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 scheduleFactory.add(schedule)
                     .success(function (data, status, headers, config) {
                         $scope.result = data;
-                        $scope.promotion = {};
+                        $scope.classroom = {};
+                        $scope.course = {};
+                        $scope.teachersLeft = $scope.teachers;
+                        $scope.teachersTab.length = 0;
                         $scope.begin = {};
                         $scope.end = {};
+                        $scope.checkSlotsTaken();
+                        $scope.alerts.length = 0;
                         $scope.alerts.push({type: 'success', msg: "Insertion de cours réussie"});
                     })
                     .error(function () {
+                        $scope.alerts.length = 0;
                         $scope.alerts.push({type: 'error', msg: "Un problème est survenu"})
                     });
             }
             else
             {
+                $scope.alerts.length = 0;
                 $scope.alerts.push({type: 'error', msg: "Veuillez remplir tous les champs"})
             }
         };
         $scope.test = function(){
-            scheduleFactory.findAll().success(function(data){$scope.test = data;})
+           // scheduleFactory.findAll().success(function(data){$scope.test = data;})
         }
 
     }]);

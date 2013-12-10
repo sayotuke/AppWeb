@@ -50,3 +50,20 @@ a {
     background-color: #ff272c;
     color : #ffffff;
 }
+
+.td-schedule-preview{
+    text-align: center;
+}
+
+.schedule_preview {
+    padding-top: 20px;
+    background-color: #00B7FF;
+    width: 300px;
+    height: 160px;
+    margin: auto;
+    border: 1px solid black;
+}
+
+.schedule_preview p {
+    text-align: center;
+}

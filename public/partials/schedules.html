@@ -10,11 +10,11 @@
                                 <table>
                                     <tr>
                                         <td>
-                                            Classe
+                                            Cours
                                         </td>
                                         <td>
-                                            <select ng-model="classroom"
-                                                    ng-options="classroom as classroom.name for classroom in classrooms" required></select>
+                                            <select ng-model="course"
+                                                    ng-options="course as course.name for course in courses" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -29,11 +29,11 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            Cours
+                                            Classe
                                         </td>
                                         <td>
-                                            <select ng-model="course"
-                                                    ng-options="course as course.name for course in courses" required></select>
+                                            <select ng-model="classroom"
+                                                    ng-options="classroom as classroom.name for classroom in classrooms" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -54,25 +54,28 @@
                                                value="#ff99ee"></i>
                                         </td>
                                     </tr>
-
                                 </table>
                             </div>
                         </td>
-                        <td>
-                            <div class="well table_schedule_div">
-                                <p><b>Classe</b> : {{ classroom.name }}</p>
 
-                                <p><b>Professeur(s)</b> :
-                                <ul style="list-style: none">
-                                    <li ng-repeat="teacherAdded in teachersTab">{{ teacherAdded.first_name }} {{ teacherAdded.last_name }}
-                                        <button class="btn-mini btn-danger" ng-click="cancelTeacher(teacherAdded)">
-                                            Annuler
-                                        </button>
-                                    </li>
-                                </ul>
-                                </p>
-                                <p><b>Cours</b> : {{course.name }}</p>
-                                <p><b>Année</b> : {{ promotion.name }}</p>
+                        <td class="td-schedule-preview">
+                            <div class="well table_schedule_div">
+                                <h4>Aperçu</h4>
+                                <div class="schedule_preview">
+                                    <p><b>{{ course.name }}</b></p>
+                                    <p>
+                                    <b><span ng-show="teachersTab.length<=0">Autonomie</span></b>
+                                    <ul style="list-style: none">
+                                        <li ng-repeat="teacherAdded in teachersTab"><p><b>{{ teacherAdded.last_name.toUpperCase() }} {{ teacherAdded.first_name.charAt(0).toUpperCase()+"." }} </b>
+                                            <i class="icon-remove" ng-click="cancelTeacher(teacherAdded)">
+                                            </i>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                    </p>
+                                    <p><b>{{ classroom.name }} - {{ promotion.name }}</b></p>
+                                </div>
+                                <br>
                                 <button class="btn btn-success" ng-click="addScheduleModel()">Ajouter</button>
                                 <button ng-click="test()">TEST</button>
                             </div>
@@ -95,11 +98,12 @@
                                 <table>
                                     <tr>
                                         <td>
-                                            Classe
+                                            Cours
                                         </td>
                                         <td>
-                                            <select ng-model="classroom"
-                                                    ng-options="classroom as classroom.name for classroom in classrooms" required></select>
+                                            <select ng-model="course"
+                                                    ng-options="course as course.name for course in courses"
+                                                    ng-change="checkCourseHours()" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -114,11 +118,11 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            Cours
+                                            Classe
                                         </td>
                                         <td>
-                                            <select ng-model="course"
-                                                    ng-options="course as course.name for course in courses" required></select>
+                                            <select ng-model="classroom"
+                                                    ng-options="classroom as classroom.name for classroom in classrooms" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -191,31 +195,34 @@
 
                             </div>
                         </td>
-                        <td>
+                        <td class="td-schedule-preview">
                             <div class="well table_schedule_div">
-                                <p><b>Classe</b> : {{ classroom.name }}</p>
-
-                                <p><b>Professeur(s)</b> :
-                                <ul style="list-style: none">
-                                    <li ng-repeat="teacherAdded in teachersTab">{{ teacherAdded.first_name }} {{ teacherAdded.last_name }}
-                                        <button class="btn-mini btn-danger" ng-click="cancelTeacher(teacherAdded)">
-                                            Annuler
-                                        </button>
-                                    </li>
-                                </ul>
-                                </p>
-                                <p><b>Cours</b> : {{course.name }}</p>
-                                <p><b>Année</b> : {{ promotion.name }}</p>
+                                <h4>Aperçu</h4>
+                                <div class="schedule_preview">
+                                    <p><b>{{ course.name }}</b></p>
+                                    <p>
+                                    <b><span ng-show="teachersTab.length<=0">Autonomie</span></b>
+                                    <ul style="list-style: none">
+                                        <li ng-repeat="teacherAdded in teachersTab"><p><b>{{ teacherAdded.last_name.toUpperCase() }} {{ teacherAdded.first_name.charAt(0).toUpperCase()+"." }} </b>
+                                            <i class="icon-remove" ng-click="cancelTeacher(teacherAdded)">
+                                            </i>
+                                        </p>
+                                        </li>
+                                    </ul>
+                                    </p>
+                                    <p><b>{{ classroom.name }} - {{ promotion.name }}</b></p>
+                                </div>
+                                <br>
                                 <button class="btn btn-success" ng-click="addSchedule()">Ajouter</button>
-                                <br>
-                                <br>
-                                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+                                <button ng-click="test()">TEST</button>
                             </div>
                         </td>
                     </tr>
                 </table>
+                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
                 <button ng-click="loadColors()">TEST</button>
-                TEST : {{test}}
+                Heure prof : {{test}}
+                Heure prof by cours : {{test2 }}
                 <hr>
                 Add :
                 {{teachersTab}}

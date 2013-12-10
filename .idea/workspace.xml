@@ -98,7 +98,7 @@
     <file path="$PROJECT_DIR$/node_modules/mongoose/examples/globalschemas/gs_example.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1385914118051" ignored="false" />
     <file path="$PROJECT_DIR$/node_modules/mongoose/node_modules/sliced/test/index.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1385914118051" ignored="false" />
     <file path="$PROJECT_DIR$/node_modules/mongoose/examples/lean/person.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1385914118051" ignored="false" />
-    <file path="/app.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386683837298" ignored="false" />
+    <file path="/app.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386717728406" ignored="false" />
     <file path="/classrooms.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386355367217" ignored="false" />
     <file path="/index.jade" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386517697467" ignored="false" />
     <file path="/classroom.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386019249729" ignored="false" />
@@ -108,8 +108,8 @@
     <file path="/classrooms.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386539321645" ignored="false" />
     <file path="/dbUtils.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386062713835" ignored="false" />
     <file path="/a.dummy" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386067921015" ignored="false" />
-    <file path="/style.css" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386668381740" ignored="false" />
-    <file path="/Dummy.txt" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386688307914" ignored="false" />
+    <file path="/style.css" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386705553571" ignored="false" />
+    <file path="/Dummy.txt" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386719945550" ignored="false" />
     <file path="/teachers.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386361199026" ignored="false" />
     <file path="/course.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386365927944" ignored="false" />
     <file path="/courses.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386513414160" ignored="false" />
@@ -119,8 +119,8 @@
     <file path="/promotion.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386513304118" ignored="false" />
     <file path="/promotions.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386513354865" ignored="false" />
     <file path="/schedule.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386618384456" ignored="false" />
-    <file path="/schedules.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386684569571" ignored="false" />
-    <file path="/schedules.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386682221979" ignored="false" />
+    <file path="/schedules.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386714270100" ignored="false" />
+    <file path="/schedules.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386717878907" ignored="false" />
     <file path="/*.regexp" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1386539158405" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -136,7 +136,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -173,6 +172,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -185,46 +185,44 @@
       <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="52" selection-start="2051" selection-end="2051" vertical-scroll-proportion="0.0">
+            <state line="71" column="38" selection-start="2318" selection-end="2318" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="teachers.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/partials/teachers.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="16" selection-start="1529" selection-end="1529" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="817" column="40" selection-start="28432" selection-end="28432" vertical-scroll-proportion="0.0">
+            <state line="634" column="46" selection-start="21297" selection-end="21297" vertical-scroll-proportion="0.058352403">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="promotions.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controller/promotions.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="36" selection-end="82" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="18" selection-start="676" selection-end="676" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="schedules.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="schedules.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="219" column="24" selection-start="12377" selection-end="12377" vertical-scroll-proportion="0.6145038">
-              <folding>
-                <element signature="n#style#0;n#ul#0;n#div#0;n#td#1;n#tr#0;n#table#0;n#div#0;n#tab#0;n#tabset#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
+            <state line="203" column="36" selection-start="11654" selection-end="11654" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="schedules.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/schedules.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="156" column="41" selection-start="4394" selection-end="4394" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -238,10 +236,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="schedules.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controller/schedules.js">
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="49" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.0">
+            <state line="63" column="12" selection-start="948" selection-end="948" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -278,9 +276,9 @@
         <option value="$PROJECT_DIR$/model/schedule.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/controller/schedules.js" />
         <option value="$PROJECT_DIR$/public/partials/schedules.html" />
         <option value="$PROJECT_DIR$/public/javascripts/app.js" />
-        <option value="$PROJECT_DIR$/controller/schedules.js" />
       </list>
     </option>
   </component>
@@ -288,8 +286,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -705,7 +703,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -714,10 +712,10 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Mongo Runner" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23679727" sideWeight="0.99810785" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850778" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -727,14 +725,14 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13484849" sideWeight="0.85860306" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Colour Chooser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28560606" sideWeight="0.65587735" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34412265" sideWeight="0.9989339" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2854856" sideWeight="0.655902" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.344098" sideWeight="0.9989339" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Colour Chooser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -842,11 +840,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/controller/courses.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="36" selection-end="76" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controller/classrooms.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="36" selection-end="82" vertical-scroll-proportion="0.047486033" />
@@ -872,53 +865,6 @@
         <state line="1752" column="41" selection-start="58551" selection-end="58566" vertical-scroll-proportion="0.5277247" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controller/promotions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="36" selection-end="82" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/schedule.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="30" selection-start="677" selection-end="677" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="52" selection-start="2051" selection-end="2051" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/schedules.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="49" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="817" column="40" selection-start="28432" selection-end="28432" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="18" selection-start="676" selection-end="676" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="41" selection-start="650" selection-end="650" vertical-scroll-proportion="0.69822484" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/index.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
@@ -931,12 +877,62 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/controller/promotions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="36" selection-end="82" vertical-scroll-proportion="0.030195381" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layout.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="41" selection-start="650" selection-end="650" vertical-scroll-proportion="0.45293072" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="71" column="38" selection-start="2318" selection-end="2318" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/schedules.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="41" selection-start="4394" selection-end="4394" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/schedule.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="30" selection-start="677" selection-end="677" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="12" selection-start="948" selection-end="948" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/partials/teachers.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="16" selection-start="1529" selection-end="1529" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="219" column="24" selection-start="12377" selection-end="12377" vertical-scroll-proportion="0.6145038">
-          <folding>
-            <element signature="n#style#0;n#ul#0;n#div#0;n#td#1;n#tr#0;n#table#0;n#div#0;n#tab#0;n#tabset#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state line="203" column="36" selection-start="11654" selection-end="11654" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="634" column="46" selection-start="21297" selection-end="21297" vertical-scroll-proportion="0.058352403">
+          <folding />
         </state>
       </provider>
     </entry>

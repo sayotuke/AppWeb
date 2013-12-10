@@ -63,8 +63,8 @@ exports.add = function (req, res) {
             promotion: promotion,
             color: color,
             date: null,
-            begin: begin,
-            end: end
+            begin: null,
+            end: null
         });
     }
     console.log(temp.date);
@@ -113,6 +113,62 @@ exports.getSlotsTaken = function (req, res) {
                 console.log("erreur lors du find : " + err);
                 res.send("erreur");
             }
-            ;
+        });
+};
+
+exports.getScheduleModels = function (req, res) {
+    Schedule.find({date: null})
+        .populate('classroom')
+        .populate('teachers')
+        .populate('course')
+        .populate('promotion')
+        .exec(function (err, result) {
+            if (!err) {
+                console.log(result);
+                res.json(result);
+            } else {
+                console.log("erreur lors du find : " + err);
+                res.send("erreur");
+            }
+        });
+};
+
+exports.getTeacherTotalHour = function (req, res) {
+    var id_teacher = req.params.id_teacher;
+    var total = 0;
+    Schedule.find({teachers: id_teacher, date: {'$ne':null}})
+        .exec(function (err, result) {
+            if (!err) {
+                for(var index in result)
+                {
+                    total+=(result[index].end - result[index].begin)+1;
+                }
+                console.log(total);
+                res.json(total);
+            } else {
+                console.log("erreur lors du find : " + err);
+                res.send("erreur");
+            }
+        });
+};
+
+exports.getTeacherTotalHourByCourse = function (req, res) {
+    var id_teacher = req.params.id_teacher;
+    var id_course = req.params.id_course;
+    var total = 0;
+    Schedule.find({teachers: id_teacher, course: id_course,date: {'$ne':null}})
+        .exec(function (err, result) {
+            if (!err) {
+                console.log(result);
+                for(var index in result)
+                {
+                    total+=(result[index].end - result[index].begin)+1;
+                }
+                console.log(total);
+                res.json(total);
+            } else {
+                console.log("erreur lors du find : " + err);
+                res.send("erreur");
+            }
         });
 };
