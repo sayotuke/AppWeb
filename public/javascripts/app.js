@@ -138,6 +138,10 @@ app.factory('scheduleFactory', ['$http', function($http) {
         return $http.get('getTeacherTotalHourByCourse/' + teacher._id + '/' + course._id);
     };
 
+    scheduleFactory.getPromotionTotalHourByCourse = function (promotion, course) {
+        return $http.get('getPromotionTotalHourByCourse/' + promotion._id + '/' + course._id);
+    };
+
     scheduleFactory.add = function (data) {
         return $http.post('/addSchedule/',data);
     };
@@ -622,7 +626,7 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
             });
             teacherFaotory.findAll().success(function (data, status, headers, config) {
                 $scope.teachers = data;
-                $scope.teachersLeft = $scope.teachers;
+                $scope.teachersLeft = $scope.teachers.slice(0);
             });
             courseFactory.findAll().success(function (data, status, headers, config) {
                 $scope.courses = data;
@@ -634,21 +638,17 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
             });
 
         };
+
+        $scope.teacherHours = Array();
+        $scope.teacherHoursByCourse = Array();
+        $scope.possibleSlots = Array();
         $scope.alerts = Array();
 
         $scope.closeAlert = function(index) {
             $scope.alerts.splice(index, 1);
         };
 
-        $scope.slots = Array(
-            {id:1, taken: false, name:"8:45 - 9:45"},
-            {id:2, taken: false, name:"9:45 - 10:45"},
-            {id:3, taken: false, name:"11:00 - 12:00"},
-            {id:4, taken: false, name:"12:00 - 13:00"},
-            {id:5, taken: false, name:"13:45 - 14:45"},
-            {id:6, taken: false, name:"14:45 - 15:45"},
-            {id:7, taken: false, name:"16:00 - 17:00"},
-            {id:8, taken: false, name:"17:00 - 18:00"});
+
 
         $scope.loadColors = function(){
             $("#wheel_model_schedule").minicolors({
@@ -720,10 +720,18 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
 
         $scope.checkSlotsTaken = function()
         {
+            $scope.slots = Array(
+                {id:1, taken: false, name:"8:45 - 9:45"},
+                {id:2, taken: false, name:"9:45 - 10:45"},
+                {id:3, taken: false, name:"11:00 - 12:00"},
+                {id:4, taken: false, name:"12:00 - 13:00"},
+                {id:5, taken: false, name:"13:45 - 14:45"},
+                {id:6, taken: false, name:"14:45 - 15:45"},
+                {id:7, taken: false, name:"16:00 - 17:00"},
+                {id:8, taken: false, name:"17:00 - 18:00"});
           if($scope.promotion!==undefined && $scope.promotion!=="")
           scheduleFactory.getSlotsTaken($scope.dt.getDate(), $scope.dt.getMonth(),$scope.dt.getFullYear(), $scope.promotion)
               .success(function(data){
-                 // console.log("data begin : "+data[1].begin+" data end : "+data[1].end);
                   for(var index in $scope.slots)
                   {
                       $scope.slots[index].taken = false;
@@ -732,17 +740,13 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                   {
                       if(data[index].begin === data[index].end)
                       {
-                          //console.log("begin et end : "+$scope.slots[data[index].begin-1])
                           $scope.slots[data[index].begin-1].taken = true;
                       }
                       else
                       {
                           var diff = data[index].end- data[index].begin;
-                          //console.log("diff : "+diff);
                           for(var i=data[index].begin-1; i<=diff+data[index].begin-1; i++)
                           {
-                            //  console.log("i : "+i);
-                              //console.log("off : "+$scope.slots[i].id)
                               $scope.slots[i].taken=true;
                           }
                       }
@@ -754,36 +758,77 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
 
         $scope.appendTeacher = function()
         {
+            var teacher = $scope.teacher;
             if($scope.teacher!==undefined && $scope.teacher!=="" && $scope.teachersTab.length<2)
             {
                 $scope.teachersTab.push($scope.teacher);
                 $scope.teachersLeft.splice($scope.teachersLeft.indexOf($scope.teacher), 1);
-                scheduleFactory.getTeacherTotalHour($scope.teacher).success(function(data){$scope.test = data;});
-                $scope.teacher = undefined;
+                scheduleFactory.getTeacherTotalHour(teacher).success(function(data){
+                     var temp = teacher.last_name+" "+teacher.first_name.charAt(0).toUpperCase()+". : "+data;
+                     $scope.teacherHours.push(temp);
+                });
                 if($scope.course!==undefined && $scope.course!=="")
                 {
-                    scheduleFactory.getTeacherTotalHourByCourse($scope.teachersTab[0], $scope.course).success(function(data){
-                        $scope.test2 = data;
+                    scheduleFactory.getTeacherTotalHourByCourse(teacher, $scope.course).success(function(data){
+                        var temp = teacher.last_name+" "+teacher.first_name.charAt(0).toUpperCase()+". : "+data;
+                        $scope.teacherHoursByCourse.push(temp);
                     });
                 }
+                $scope.teacher = undefined;
             }
         };
 
         $scope.cancelTeacher = function(teacherAdded)
         {
             $scope.teachersLeft.push(teacherAdded);
+            $scope.teacherHoursByCourse.splice($scope.teachersTab.indexOf(teacherAdded), 1);
+            $scope.teacherHours.splice($scope.teachersTab.indexOf(teacherAdded), 1);
             $scope.teachersTab.splice($scope.teachersTab.indexOf(teacherAdded), 1);
-        }
+
+        };
 
         $scope.checkCourseHours = function()
         {
+            $scope.teacherHoursByCourse.length = 0;
             if($scope.teachersTab.length > 0 && $scope.course!==undefined && $scope.course!=="")
             {
-                scheduleFactory.getTeacherTotalHourByCourse($scope.teachersTab[0], $scope.course).success(function(data){
-                    $scope.test2 = data;
+                var index = 0;
+                scheduleFactory.getTeacherTotalHourByCourse($scope.teachersTab[index], $scope.course).success(function (data) {
+                    var temp = $scope.teachersTab[index].last_name + " " + $scope.teachersTab[index].first_name.charAt(0).toUpperCase() + ". : " + data;
+                    $scope.teacherHoursByCourse.push(temp);
+                    if ($scope.teachersTab.length > 1) {
+                        index = 1;
+                        scheduleFactory.getTeacherTotalHourByCourse($scope.teachersTab[index], $scope.course).success(function (data) {
+                            var temp = $scope.teachersTab[index].last_name + " " + $scope.teachersTab[index].first_name.charAt(0).toUpperCase() + ". : " + data;
+                            $scope.teacherHoursByCourse.push(temp);
+
+                        });
+                    }
+                });
+
+            }
+        };
+
+        $scope.checkPromotionHours = function()
+        {
+            $scope.promotionHours=Array();
+            if($scope.course!==undefined && $scope.course!=="" && $scope.promotion!==undefined && $scope.promotion!=="")
+            {
+                scheduleFactory.getPromotionTotalHourByCourse($scope.promotion, $scope.course).success(function(data){
+                    $scope.promotionHours = $scope.promotion.name+" : "+data;
                 });
             }
-        }
+        };
+
+        $scope.checkPossibleSlots = function()
+        {
+            $scope.possibleSlots.length = 0;
+            for(var i=$scope.slots.indexOf($scope.begin); i<$scope.slots.length; i++)
+            {
+                if($scope.slots[i].taken)break;
+                $scope.possibleSlots.push($scope.slots[i]);
+            }
+        };
 
         $scope.addScheduleModel = function () {
             var teachersIDs = Array();
@@ -798,8 +843,8 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 promotion: $scope.promotion._id,
                 date: null,
                 color: $('#wheel_model_schedule').val(),
-                begin: 1,
-                end: 4
+                begin: null,
+                end: null
             };
             console.log(schedule);
             scheduleFactory.add(schedule).success(function (data, status, headers, config) {
@@ -811,10 +856,10 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
             if ($scope.classroom !== undefined && $scope.classroom !== "" && !$.isEmptyObject($scope.classroom)
                 && $scope.course !== undefined && $scope.course !== "" && !$.isEmptyObject($scope.course)
                 && $scope.promotion !== undefined && $scope.promotion !== ""  && !$.isEmptyObject($scope.promotion)
-                && $scope.begin !== undefined && $scope.begin !== ""
-                && $scope.end !== undefined && $scope.end !== "" )
+                && $scope.begin !== undefined && $scope.begin !== "" && !$.isEmptyObject($scope.begin)
+                && $scope.end !== undefined && $scope.end !== "" && !$.isEmptyObject($scope.end))
             {
-                if ($scope.begin > $scope.end)
+                if ($scope.begin.id > $scope.end.id)
                 {
                     $scope.alerts.length = 0;
                     $scope.alerts.push({type: 'error', msg: "La tranche de début ne peut être supérieure à la tranche de fin"})
@@ -831,20 +876,24 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                     promotion: $scope.promotion._id,
                     date: $scope.dt,
                     color: $('#wheel_schedule').val(),
-                    begin: $scope.begin,
-                    end: $scope.end
+                    begin: $scope.begin.id,
+                    end: $scope.end.id
                 };
                 scheduleFactory.add(schedule)
                     .success(function (data, status, headers, config) {
                         $scope.result = data;
                         $scope.classroom = {};
                         $scope.course = {};
-                        $scope.teachersLeft = $scope.teachers;
+                        $scope.teachersLeft = $scope.teachers.slice(0);
                         $scope.teachersTab.length = 0;
+                        $scope.teacherHours.length = 0;
+                        $scope.teacherHoursByCourse.length = 0;
+                        $scope.promotionHours = undefined;
+                        $scope.promotion = {};
                         $scope.begin = {};
                         $scope.end = {};
-                        $scope.checkSlotsTaken();
                         $scope.alerts.length = 0;
+                        $scope.possibleSlots.length = 0;
                         $scope.alerts.push({type: 'success', msg: "Insertion de cours réussie"});
                     })
                     .error(function () {

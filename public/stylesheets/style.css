@@ -16,7 +16,12 @@ a {
 
 .table_schedule_div{
    height: 300px;
-   width: 400px;
+   width: 370px;
+}
+
+.div_nb_hours{
+    height: 300px;
+    width: 170px;
 }
 
 .table_schedule{

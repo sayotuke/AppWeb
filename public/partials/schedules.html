@@ -77,16 +77,10 @@
                                 </div>
                                 <br>
                                 <button class="btn btn-success" ng-click="addScheduleModel()">Ajouter</button>
-                                <button ng-click="test()">TEST</button>
                             </div>
                         </td>
                     </tr>
                 </table>
-                Add :
-                {{teachersTab}}
-                <hr>
-                Left :
-                {{teachersLeft}}
             </div>
         </tab>
         <tab heading="Créer un horaire">
@@ -103,7 +97,7 @@
                                         <td>
                                             <select ng-model="course"
                                                     ng-options="course as course.name for course in courses"
-                                                    ng-change="checkCourseHours()" required></select>
+                                                    ng-change="checkCourseHours(); checkPromotionHours();" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -132,7 +126,7 @@
                                         <td>
                                             <select ng-model="promotion"
                                                     ng-options="promotion as promotion.name for promotion in promotions"
-                                                    ng-change="checkSlotsTaken()" required></select>
+                                                    ng-change="checkSlotsTaken(); checkPromotionHours();" required></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -168,7 +162,8 @@
                                         </td>
                                         <td>
                                             <select ng-model="begin"
-                                                    ng-options="slot.id as slot.name for slot in slots | filter:{taken: 'false'}" required>
+                                                    ng-options="slot as slot.name for slot in slots | filter:{taken: 'false'}"
+                                                    ng-change="checkPossibleSlots()" required>
                                             </select>
                                         </td>
                                     </tr>
@@ -178,7 +173,7 @@
                                         </td>
                                         <td>
                                             <select ng-model="end"
-                                                    ng-options="slot.id as slot.name for slot in slots | filter:{taken: 'false'}" required>
+                                                    ng-options="slot as slot.name for slot in possibleSlots" required>
                                             </select>
                                         </td>
                                     </tr>
@@ -214,21 +209,20 @@
                                 </div>
                                 <br>
                                 <button class="btn btn-success" ng-click="addSchedule()">Ajouter</button>
-                                <button ng-click="test()">TEST</button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="well div_nb_hours">
+                                <p><b>Total</b></p>
+                                <p ng-model="hour" ng-repeat="hour in teacherHours">{{hour}} h</p>
+                                <p><b>Par cours</b></p>
+                                <p ng-model="hourByCourse" ng-repeat="hourByCourse in teacherHoursByCourse">{{hourByCourse}} h</p>
+                                <p ng-show="promotionHours">{{promotionHours}} h</p>
                             </div>
                         </td>
                     </tr>
                 </table>
                 <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-                <button ng-click="loadColors()">TEST</button>
-                Heure prof : {{test}}
-                Heure prof by cours : {{test2 }}
-                <hr>
-                Add :
-                {{teachersTab}}
-                <hr>
-                Left :
-                {{teachersLeft}}
             </div>
         </tab>
     </tabset>

@@ -159,12 +159,29 @@ exports.getTeacherTotalHourByCourse = function (req, res) {
     Schedule.find({teachers: id_teacher, course: id_course,date: {'$ne':null}})
         .exec(function (err, result) {
             if (!err) {
-                console.log(result);
                 for(var index in result)
                 {
                     total+=(result[index].end - result[index].begin)+1;
                 }
-                console.log(total);
+                res.json(total);
+            } else {
+                console.log("erreur lors du find : " + err);
+                res.send("erreur");
+            }
+        });
+};
+
+exports.getPromotionTotalHourByCourse = function (req, res) {
+    var id_promotion = req.params.id_promotion;
+    var id_course = req.params.id_course;
+    var total = 0;
+    Schedule.find({promotion: id_promotion, course: id_course,date: {'$ne':null}})
+        .exec(function (err, result) {
+            if (!err) {
+                for(var index in result)
+                {
+                    total+=(result[index].end - result[index].begin)+1;
+                }
                 res.json(total);
             } else {
                 console.log("erreur lors du find : " + err);
