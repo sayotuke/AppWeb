@@ -15,7 +15,6 @@ exports.findAll = function (req, res) {
                 console.log("erreur lors du find : " + err);
                 res.send("erreur");
             }
-            ;
         });
 };
 
@@ -27,7 +26,6 @@ exports.find = function (req, res) {
             console.log("erreur lors du find : " + err);
             res.send("erreur");
         }
-        ;
     });
 };
 
@@ -40,10 +38,15 @@ exports.add = function (req, res) {
     if (req.body.data !== null)var date = new Date(req.body.date);
     var begin = req.body.begin;
     var end = req.body.end;
-    console.log(date);
-
+    console.log("classroom : "+classroom);
     var temp;
     if (date !== null) {
+        console.log("full year : "+date.getFullYear());
+        if(isClassroomTaken(classroom, date.getFullYear(), date.getMonth(), date.getDate()))
+        {
+            console.log("classroommmmm");
+            res.json("classroom");
+        }
         temp = new Schedule({
             teachers: teachers,
             classroom: classroom,
@@ -110,7 +113,7 @@ exports.getSlotsTaken = function (req, res) {
                 console.log(result);
                 res.json(result);
             } else {
-                console.log("erreur lors du find : " + err);
+                console.log("erreur getSlotsTaken : " + err);
                 res.send("erreur");
             }
         });
@@ -127,7 +130,7 @@ exports.getScheduleModels = function (req, res) {
                 console.log(result);
                 res.json(result);
             } else {
-                console.log("erreur lors du find : " + err);
+                console.log("erreur getScheduleModel : " + err);
                 res.send("erreur");
             }
         });
@@ -146,7 +149,7 @@ exports.getTeacherTotalHour = function (req, res) {
                 console.log(total);
                 res.json(total);
             } else {
-                console.log("erreur lors du find : " + err);
+                console.log("erreur getTeachersTotalHour : " + err);
                 res.send("erreur");
             }
         });
@@ -183,6 +186,33 @@ exports.getPromotionTotalHourByCourse = function (req, res) {
                     total+=(result[index].end - result[index].begin)+1;
                 }
                 res.json(total);
+            } else {
+                console.log("erreur lors du find : " + err);
+                res.send("erreur");
+            }
+        });
+};
+
+isClassroomTaken = function (id_classroom, year, month, day) {
+    /*var id_classroom = req.params.id_promotion;
+     var day = req.params.day;
+     var month = req.params.month;
+     var year = req.params.year; */
+    console.log("id_classroom : "+id_classroom);
+    console.log("year : "+year);
+    console.log("month : "+month);
+    console.log("day : "+day);
+    Schedule.findOne({classroom: id_classroom, date: new Date(year, month, day)})
+        .exec(function (err, result) {
+            if (!err) {
+                console.log("result : "+result);
+                if(result!==null)
+                {
+                    console.log("true");
+                    return true;
+                }
+
+                else {console.log("false");return false;}
             } else {
                 console.log("erreur lors du find : " + err);
                 res.send("erreur");

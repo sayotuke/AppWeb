@@ -881,20 +881,30 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 };
                 scheduleFactory.add(schedule)
                     .success(function (data, status, headers, config) {
-                        $scope.result = data;
-                        $scope.classroom = {};
-                        $scope.course = {};
-                        $scope.teachersLeft = $scope.teachers.slice(0);
-                        $scope.teachersTab.length = 0;
-                        $scope.teacherHours.length = 0;
-                        $scope.teacherHoursByCourse.length = 0;
-                        $scope.promotionHours = undefined;
-                        $scope.promotion = {};
-                        $scope.begin = {};
-                        $scope.end = {};
-                        $scope.alerts.length = 0;
-                        $scope.possibleSlots.length = 0;
-                        $scope.alerts.push({type: 'success', msg: "Insertion de cours réussie"});
+                        console.log("datatatatat : "+data);
+                        if(data==="classroom")
+                        {
+                            $scope.alerts.length = 0;
+                            $scope.alerts.push({type: 'error', msg: "Cette classe est déjà prise à cette heure là"});
+                        }
+                        else
+                        {
+                            $scope.result = data;
+                            $scope.classroom = {};
+                            $scope.course = {};
+                            $scope.teachersLeft = $scope.teachers.slice(0);
+                            $scope.teachersTab.length = 0;
+                            $scope.teacherHours.length = 0;
+                            $scope.teacherHoursByCourse.length = 0;
+                            $scope.promotionHours = undefined;
+                            $scope.promotion = {};
+                            $scope.begin = {};
+                            $scope.end = {};
+                            $scope.alerts.length = 0;
+                            $scope.possibleSlots.length = 0;
+                            $scope.alerts.push({type: 'success', msg: "Insertion de cours réussie"});
+                        }
+
                     })
                     .error(function () {
                         $scope.alerts.length = 0;
