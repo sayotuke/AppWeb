@@ -70,6 +70,9 @@ app.get('/getScheduleModels', schedules.getScheduleModels);
 app.get('/getTeacherTotalHour/:id_teacher', schedules.getTeacherTotalHour);
 app.get('/getTeacherTotalHourByCourse/:id_teacher/:id_course', schedules.getTeacherTotalHourByCourse);
 app.get('/getPromotionTotalHourByCourse/:id_promotion/:id_course', schedules.getPromotionTotalHourByCourse);
+app.get('/isClassroomTaken/:id_classroom/:id_course/:day/:month/:year/:begin/:end', schedules.isClassroomTaken);
+app.get('/isTeacherTaken/:teachers/:id_course/:day/:month/:year/:begin/:end', schedules.isTeacherTaken);
+
 
 app.post('/uploadFile', function(req, res, next) {
     console.log(req.files);

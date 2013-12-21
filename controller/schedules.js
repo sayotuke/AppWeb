@@ -38,16 +38,8 @@ exports.add = function (req, res) {
     if (req.body.data !== null)var date = new Date(req.body.date);
     var begin = req.body.begin;
     var end = req.body.end;
-    console.log("classroom : "+classroom);
-    var temp;
     if (date !== null) {
-        console.log("full year : "+date.getFullYear());
-        if(isClassroomTaken(classroom, date.getFullYear(), date.getMonth(), date.getDate()))
-        {
-            console.log("classroommmmm");
-            res.json("classroom");
-        }
-        temp = new Schedule({
+        var temp = new Schedule({
             teachers: teachers,
             classroom: classroom,
             course: course,
@@ -59,7 +51,7 @@ exports.add = function (req, res) {
         });
     }
     else {
-        temp = new Schedule({
+            var temp = new Schedule({
             teachers: teachers,
             classroom: classroom,
             course: course,
@@ -70,7 +62,6 @@ exports.add = function (req, res) {
             end: null
         });
     }
-    console.log(temp.date);
     temp.save();
     res.json(temp);
 };
@@ -193,29 +184,179 @@ exports.getPromotionTotalHourByCourse = function (req, res) {
         });
 };
 
-isClassroomTaken = function (id_classroom, year, month, day) {
-    /*var id_classroom = req.params.id_promotion;
-     var day = req.params.day;
-     var month = req.params.month;
-     var year = req.params.year; */
-    console.log("id_classroom : "+id_classroom);
-    console.log("year : "+year);
-    console.log("month : "+month);
-    console.log("day : "+day);
-    Schedule.findOne({classroom: id_classroom, date: new Date(year, month, day)})
+exports.isClassroomTaken = function (req, res) {
+    var id_classroom = req.params.id_classroom;
+    var id_course = req.params.id_course;
+    var day = req.params.day;
+    var month = req.params.month;
+    var year = req.params.year;
+    var begin = parseInt(req.params.begin);
+    var end = parseInt(req.params.end);
+    console.log("begin : "+begin+" end : "+end);
+    Schedule.find({classroom: id_classroom, date: new Date(year, month, day)}, 'begin end course')
         .exec(function (err, result) {
+            console.log("resuuuult : " + result);
             if (!err) {
-                console.log("result : "+result);
-                if(result!==null)
-                {
-                    console.log("true");
-                    return true;
-                }
 
-                else {console.log("false");return false;}
+                if (result !== null) {
+                    var slots = Array(
+                        {id: 1, taken: false, course: null},
+                        {id: 2, taken: false, course: null},
+                        {id: 3, taken: false, course: null},
+                        {id: 4, taken: false, course: null},
+                        {id: 5, taken: false, course: null},
+                        {id: 6, taken: false, course: null},
+                        {id: 7, taken: false, course: null},
+                        {id: 8, taken: false, course: null});
+                    for (var index in result) {
+                        if (result[index].begin === result[index].end) {
+                            console.log("begin result : "+ result[index].begin+"end result "+result[index].end);
+                            slots[result[index].begin - 1].taken = true;
+                            slots[result[index].begin - 1].course = result[index].course;
+                        }
+                        else {
+                            var diff = result[index].end - result[index].begin;
+                            console.log("diiiiiif "+diff);
+                            for (var i = result[index].begin - 1; i <= diff + result[index].begin - 1; i++) {
+                                console.log("i = " + i);
+                                console.log("result at index :" + result[index]);
+                                slots[i].taken = true;
+                                slots[i].course = result[index].course;
+                            }
+                        }
+                    }
+                    console.log(slots);
+
+                    var diff = end - begin;
+                    console.log("diff : " + diff);
+                    for (var i = begin - 1; i < slots.length; i++) {
+                        console.log("i : " + i);
+                        var libre = true;
+                        console.log("i+1 " + (i + 1));
+                        console.log("diff+1 " + (diff + i));
+                        for (var j = i; j <= diff + i; j++) {
+                            console.log(j);
+                            if (slots[j].taken === true) {
+                                console.log(id_course);
+                                console.log(slots[j].course);
+                                //On doit passer les deux params en strings sinon il considère qu'ils ne sont pas égaux
+                                //il les prend comme des objets je pense
+                                if (slots[j].course+"" !== id_course+"") {
+                                    libre = false;
+                                    console.log('pas libre et j = ' + j);
+                                    console.log("slots[j].course = "+slots[j].course+" et id_course = "+id_course);
+                                    break;
+                                }
+                            }
+                        }
+                        if (libre) {
+                            console.log("LIBRE");
+                            res.json(false);
+                            break;
+                        }
+                        else {
+                            console.log("PAS LIBRE");
+                            res.json(true);
+                            break;
+                        }
+                    }
+
+                }
+                //aucun schedule pour ce local à cette date donc libre
+                else {
+                    res.json(false);
+                }
             } else {
                 console.log("erreur lors du find : " + err);
-                res.send("erreur");
+            }
+        });
+};
+
+exports.isTeacherTaken = function (req, res) {
+    var teachers = req.params.teachers;
+    var teachersTab = teachers.split(",");
+    var id_course = req.params.id_course;
+    var day = req.params.day;
+    var month = req.params.month;
+    var year = req.params.year;
+    var begin = parseInt(req.params.begin);
+    var end = parseInt(req.params.end);
+    console.log("begin : "+begin+" end : "+end);
+    Schedule.find({teachers: teachersTab, date: new Date(year, month, day)}, 'begin end course')
+        .exec(function (err, result) {
+            console.log("resuuuult : " + result);
+            if (!err) {
+
+                if (result !== null) {
+                    var slots = Array(
+                        {id: 1, taken: false, course: null},
+                        {id: 2, taken: false, course: null},
+                        {id: 3, taken: false, course: null},
+                        {id: 4, taken: false, course: null},
+                        {id: 5, taken: false, course: null},
+                        {id: 6, taken: false, course: null},
+                        {id: 7, taken: false, course: null},
+                        {id: 8, taken: false, course: null});
+                    for (var index in result) {
+                        if (result[index].begin === result[index].end) {
+                            console.log("begin result : "+ result[index].begin+"end result "+result[index].end);
+                            slots[result[index].begin - 1].taken = true;
+                            slots[result[index].begin - 1].course = result[index].course;
+                        }
+                        else {
+                            var diff = result[index].end - result[index].begin;
+                            console.log("diiiiiif "+diff);
+                            for (var i = result[index].begin - 1; i <= diff + result[index].begin - 1; i++) {
+                                console.log("i = " + i);
+                                console.log("result at index :" + result[index]);
+                                slots[i].taken = true;
+                                slots[i].course = result[index].course;
+                            }
+                        }
+                    }
+                    console.log(slots);
+
+                    var diff = end - begin;
+                    console.log("diff : " + diff);
+                    for (var i = begin - 1; i < slots.length; i++) {
+                        console.log("i : " + i);
+                        var libre = true;
+                        console.log("i+1 " + (i + 1));
+                        console.log("diff+1 " + (diff + i));
+                        for (var j = i; j <= diff + i; j++) {
+                            console.log(j);
+                            if (slots[j].taken === true) {
+                                console.log(id_course);
+                                console.log(slots[j].course);
+                                //On doit passer les deux params en strings sinon il considère qu'ils ne sont pas égaux
+                                //il les prend comme des objets je pense
+                                if (slots[j].course+"" !== id_course+"") {
+                                    libre = false;
+                                    console.log('pas libre et j = ' + j);
+                                    console.log("slots[j].course = "+slots[j].course+" et id_course = "+id_course);
+                                    break;
+                                }
+                            }
+                        }
+                        if (libre) {
+                            console.log("LIBRE");
+                            res.json(false);
+                            break;
+                        }
+                        else {
+                            console.log("PAS LIBRE");
+                            res.json(true);
+                            break;
+                        }
+                    }
+
+                }
+                //aucun schedule pour ce local à cette date donc libre
+                else {
+                    res.json(false);
+                }
+            } else {
+                console.log("erreur lors du find : " + err);
             }
         });
 };
