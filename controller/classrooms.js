@@ -13,13 +13,26 @@ exports.findAll = function(req, res){
         });
 };
 
-exports.find = function(req, res){
+exports.findByName = function(name){
     Classroom.find({}).exec(function(err, result) {
         if (!err) {
-            res.json(result);
+            if(result!==null)
+            {
+                console.log("classroom déjà là");
+                return result._id;
+            }
+            else
+            {
+                console.log("je vais save");
+                temp = new Classroom({name: name});
+                temp.save().success(function(data){
+                    console.log("save success");
+                    return data._id;
+                });
+            }
         } else {
             console.log("erreur lors du find : "+err);
-            res.send("erreur");
+            return -1;
         };
     });
 };
