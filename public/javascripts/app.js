@@ -142,12 +142,12 @@ app.factory('scheduleFactory', ['$http', function ($http) {
         return $http.get('getPromotionTotalHourByCourse/' + promotion._id + '/' + course._id);
     };
 
-    scheduleFactory.isClassroomTaken = function (classroom, course,  day, month, year, begin, end) {
-        return $http.get('isClassroomTaken/' + classroom._id + '/' + course._id + '/' + day + '/' + month + '/' + year+ '/' + begin+ '/' + end);
+    scheduleFactory.isClassroomTaken = function (classroom, course, day, month, year, begin, end) {
+        return $http.get('isClassroomTaken/' + classroom._id + '/' + course._id + '/' + day + '/' + month + '/' + year + '/' + begin + '/' + end);
     };
 
-    scheduleFactory.isTeacherTaken = function (teachers, course,  day, month, year, begin, end) {
-        return $http.get('isTeacherTaken/' + teachers + '/' + course._id + '/' + day + '/' + month + '/' + year+ '/' + begin+ '/' + end);
+    scheduleFactory.isTeacherTaken = function (teachers, course, day, month, year, begin, end) {
+        return $http.get('isTeacherTaken/' + teachers + '/' + course._id + '/' + day + '/' + month + '/' + year + '/' + begin + '/' + end);
     };
 
     scheduleFactory.add = function (data) {
@@ -178,8 +178,8 @@ app.config(function ($routeProvider) {
     $routeProvider
         .when('/',
         {
-            controller: 'IndexController',
-            templateUrl: 'views/index.html'
+            controller: 'FrontOfficeController',
+            templateUrl: 'partials/index.html'
         })
         .when('/classrooms',
         {
@@ -596,13 +596,13 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
     };
 }]);
 app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
-    'promotionFactory', 'scheduleFactory', function ($scope, $http, $timeout, classroomFactory, teacherFaotory, courseFactory, promotionFactory, scheduleFactory) {
+    'promotionFactory', 'scheduleFactory', function ($scope, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory) {
 
         $scope.init = function () {
             classroomFactory.findAll().success(function (data, status, headers, config) {
                 $scope.classrooms = data;
             });
-            teacherFaotory.findAll().success(function (data, status, headers, config) {
+            teacherFactory.findAll().success(function (data, status, headers, config) {
                 $scope.teachers = data;
                 $scope.teachersLeft = $scope.teachers.slice(0);
             });
@@ -678,7 +678,7 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
         };
 
         $scope.toggleMin = function () {
-            $scope.minDate = ( $scope.minDate ) ? null : new Date();
+            $scope.minDate = ( $scope.minDate ) ? null : new Date(2012, 0, 1);
         };
         $scope.toggleMin();
 
@@ -693,7 +693,7 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
             'starting-day': 1
         };
 
-        $scope.format = "dd/MM/yyyy";
+        $scope.format = "yyyy/MM/dd";
 
         $scope.checkSlotsTaken = function () {
             $scope.slots = Array(
@@ -706,23 +706,24 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 {id: 7, taken: false, name: "16:00 - 17:00"},
                 {id: 8, taken: false, name: "17:00 - 18:00"});
             if ($scope.promotion !== undefined && $scope.promotion !== "")
-                scheduleFactory.getSlotsTaken($scope.dt.getDate(), $scope.dt.getMonth(), $scope.dt.getFullYear(), $scope.promotion)
-                    .success(function (data) {
-                        for (var index in $scope.slots) {
-                            $scope.slots[index].taken = false;
+                console.log($scope.dt);
+            scheduleFactory.getSlotsTaken($scope.dt.getDate(), $scope.dt.getMonth(), $scope.dt.getFullYear(), $scope.promotion)
+                .success(function (data) {
+                    for (var index in $scope.slots) {
+                        $scope.slots[index].taken = false;
+                    }
+                    for (var index in data) {
+                        if (data[index].begin === data[index].end) {
+                            $scope.slots[data[index].begin - 1].taken = true;
                         }
-                        for (var index in data) {
-                            if (data[index].begin === data[index].end) {
-                                $scope.slots[data[index].begin - 1].taken = true;
-                            }
-                            else {
-                                var diff = data[index].end - data[index].begin;
-                                for (var i = data[index].begin - 1; i <= diff + data[index].begin - 1; i++) {
-                                    $scope.slots[i].taken = true;
-                                }
+                        else {
+                            var diff = data[index].end - data[index].begin;
+                            for (var i = data[index].begin - 1; i <= diff + data[index].begin - 1; i++) {
+                                $scope.slots[i].taken = true;
                             }
                         }
-                    });
+                    }
+                });
         };
 
         $scope.teachersTab = Array();
@@ -784,6 +785,9 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
             }
         };
 
+        /*
+         Pour limiter l'input de end en fonction de begin et des slots possibles qu'il reste
+         */
         $scope.checkPossibleSlots = function () {
             $scope.possibleSlots.length = 0;
             for (var i = $scope.slots.indexOf($scope.begin); i < $scope.slots.length; i++) {
@@ -802,7 +806,7 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 classroom: $scope.classroom._id,
                 course: $scope.course._id,
                 promotion: $scope.promotion._id,
-                date: null,
+                //date: null,
                 color: $('#wheel_model_schedule').val(),
                 begin: null,
                 end: null
@@ -888,7 +892,9 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
         };
 
         $scope.test = function () {
-             scheduleFactory.findAll().success(function(data){$scope.test = data;})
+            scheduleFactory.findAll().success(function (data) {
+                $scope.test = data;
+            })
         }
 
     }]);
@@ -973,4 +979,597 @@ app.controller('CsvController', function ($scope, $http, $timeout) {
      });
      };  */
 
+});
+app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
+    'promotionFactory', 'scheduleFactory', function ($scope, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory) {
+        var heuresDebut = Array("8:45", "9:45", "11:00", "12:00", "13:45", "14:45", "16:00", "17:00");
+        var heuresFin = Array("9:45", "10:45", "12:00", "13:00", "14:45", "15:45", "17:00", "18:00");
+        var tree = null;
+
+        $scope.init = function () {
+            $scope.initializeTree();
+            $scope.defineSchedulerAttachedEvents();
+            $scope.configureAndInitializeScheduler();
+            $scope.getJsonData(false);
+            $scope.populate_comboboxes();
+        }
+
+        $scope.initializeTree = function () {
+            tree = new dhtmlXTreeObject('treebox_ClassesTree', '100%', '100%', 0);
+            //tree.enableAutoTooltips(true);
+            tree.enableDragAndDrop(true);
+            tree.attachEvent("onDrag", function () {
+                return false;
+            });
+            tree.setImagePath("javascripts/dhtmlx_tree/imgs/csh_yellowbooks/");
+            // création de la racine du tree
+            // obligatoire pour le bon fonctionnement de l'ajout des childs du tree
+            tree.loadJSONObject({id: 0, item: [
+                {id: 1, text: "Classes", im0: "tombs.gif", im1: "tombs_open.gif", im2: "tombs.gif"}
+            ]});
+        }
+
+        $scope.defineSchedulerAttachedEvents = function () {
+            scheduler.attachEvent("onTemplatesReady", function () {
+                //gestion des event drop depuis le tree (drag&drop)
+                scheduler.attachEvent("onExternalDragIn", function (id, source, e) {
+                    if (tree.getUserData(tree._dragged[0].id, "tip") == undefined) {
+                        return false;
+                    }
+                    else {
+                        var presentEvents = scheduler.getEvents(scheduler.getEvent(id).start_date, scheduler.getEvent(id).end_date);
+                        //console.log(d);
+                        var teacherName = "";
+                        for (var presEv in presentEvents) {
+                            if (presEv < (presentEvents.length) - 1) {
+                                if (presentEvents[presEv].text.indexOf(tree.getUserData(tree._dragged[0].id, "classroom")) != -1 || presentEvents[presEv].text.indexOf(tree.getUserData(tree._dragged[0].id, "course")) != -1 ||
+                                    presentEvents[presEv].text.indexOf(tree.getUserData(tree._dragged[0].id, "teachers")) != -1 || presentEvents[presEv].text.indexOf(tree.getUserData(tree._dragged[0].id, "group")) != -1)
+                                //alert("colision");
+                                    return false;
+                            }
+                            else {
+                                scheduler.getEvent(id).text = tree.getUserData(tree._dragged[0].id, "tip");
+                                scheduler.getEvent(id).color = tree.getUserData(tree._dragged[0].id, "color");
+                                scheduler.getEvent(id).start_date.getHours();
+                                scheduler.getEvent(id).start_date.getMinutes();
+                            }
+                        }
+                    }
+                    return true;
+                });
+
+                //gestion du surlignage de la tranche horaire survolée par la souris
+                var fix_date = function (date) {  // arrondis 17:48:56 en 17:30:00 par exemple
+                    date = new Date(date);
+                    if (date.getMinutes() < 15) {
+                        date.setMinutes(0);
+                    }
+                    else {
+                        if (date.getMinutes() < 30) {
+                            date.setMinutes(15);
+                        }
+                        else {
+                            if (date.getMinutes() < 45) {
+                                date.setMinutes(30);
+                            }
+                            else {
+                                date.setMinutes(45);
+                            }
+                        }
+                    }
+                    date.setSeconds(0);
+                    return date;
+                };
+                var marked = null;
+                var marked_date = null;
+                var event_step = 120;
+                scheduler.attachEvent("onEmptyClick", function (date, native_event) {
+                    scheduler.unmarkTimespan(marked);
+                    marked = null;
+
+                    var fixed_date = fix_date(date);
+                    scheduler.addEventNow(fixed_date, scheduler.date.add(fixed_date, event_step, "minute"));
+                });
+                scheduler.attachEvent("onMouseMove", function (event_id, native_event) {
+                    var date = scheduler.getActionData(native_event).date;
+                    var fixed_date = fix_date(date);
+                    if (+fixed_date != +marked_date) {
+                        scheduler.unmarkTimespan(marked);
+                        marked_date = fixed_date;
+                        marked = scheduler.markTimespan({
+                            start_date: fixed_date,
+                            end_date: scheduler.date.add(fixed_date, event_step, "minute"),
+                            css: "highlighted_timespan"
+                        });
+                    }
+                });
+            });
+        }
+
+        $scope.configureAndInitializeScheduler = function () {
+            //paremètres simples
+            scheduler.config.first_hour = 8;
+            scheduler.config.last_hour = 19;
+            scheduler.config.time_step = 15;
+            //scheduler.config.cascade_event_display = true;
+            //scheduler.config.cascade_event_count = 4;
+            //scheduler.config.cascade_event_margin = 30;
+            scheduler.config.event_duration = 120;
+            scheduler.config.details_on_create = true;
+            scheduler.config.details_on_dblclick = true;
+            //scheduler.config.readonly = true;
+            //scheduler.config.readonly_form = true;
+            //scheduler.config.wide_form = false;
+            //scheduler.init($element[0], new Date(),"month");
+            scheduler.ignore_week = function (date) {
+                if (date.getDay() == 6 || date.getDay() == 0) //cache samedi et dimanche
+                    return true;
+            };
+            scheduler.addMarkedTimespan({
+                days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
+                zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	// de 0h a 8h45	& de 18h a 24h
+                type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                css: "gray_section"
+            });
+            scheduler.addMarkedTimespan({
+                days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
+                zones: [13 * 60, 13 * 60 + 45],			// de 13h a 13h45
+                type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                css: "red_section"
+            });
+            scheduler.addMarkedTimespan({
+                days: [0, 6],                       // samedi et dimanche
+                zones: "fullday",       			// toute la journée
+                type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                css: "gray_section"
+            });
+            //scheduler.updateView();
+        }
+
+        $scope.getJsonData = function (isFromUser) {
+            var requestIsFromUser = isFromUser;
+
+            // récupération des données
+            var myGroupJsonString;
+            var myTeachersJsonString;
+            var myClassroomsJsonString;
+            var myCoursesJsonString;
+            var myEventListJsonString;
+
+
+            promotionFactory.findAll().success(function (data, status, headers, config) {
+                //$scope.promotions = data;
+                myGroupJsonString = JSON.stringify(data);
+                console.log("data : " + JSON.stringify(data));
+                localStorage.mySavedGroupJSONString = myGroupJsonString;
+            });
+            teacherFactory.findAll().success(function (data, status, headers, config) {
+                //$scope.promotions = data;
+                myTeachersJsonString = JSON.stringify(data);
+                localStorage.mySavedTeachersJSONString = myTeachersJsonString;
+            });
+            classroomFactory.findAll().success(function (data, status, headers, config) {
+                //$scope.promotions = data;
+                myClassroomsJsonString = JSON.stringify(data);
+                localStorage.mySavedClassroomsJSONString = myClassroomsJsonString;
+            });
+            courseFactory.findAll().success(function (data, status, headers, config) {
+                //$scope.promotions = data;
+                myCoursesJsonString = JSON.stringify(data);
+                localStorage.mySavedCoursesJSONString = myCoursesJsonString;
+            });
+            scheduleFactory.findAll().success(function (data, status, headers, config) {
+                //$scope.promotions = data;
+                myEventListJsonString = JSON.stringify(data);
+                localStorage.mySavedEventListJSONString = myEventListJsonString;
+                $scope.initialiseEvents();
+            });
+
+
+            /*if(typeof(Storage)!=="undefined"){
+             if (requestIsFromUser){
+
+             var myGroupJsonString;
+             var myTeachersJsonString;
+             var myClassroomsJsonString;
+             var myCoursesJsonString;
+             var myEventListJsonString;
+
+
+             promotionFactory.findAll().success(function (data, status, headers, config) {
+             //$scope.promotions = data;
+             myGroupJsonString = data;
+             });
+             teacherFactory.findAll().success(function (data, status, headers, config) {
+             //$scope.promotions = data;
+             myTeachersJsonString = data;
+             });
+             classroomFactory.findAll().success(function (data, status, headers, config) {
+             //$scope.promotions = data;
+             myClassroomsJsonString = data;
+             });
+             courseFactory.findAll().success(function (data, status, headers, config) {
+             //$scope.promotions = data;
+             myCoursesJsonString = data;
+             });
+             scheduleFactory.findAll().success(function (data, status, headers, config) {
+             //$scope.promotions = data;
+             myEventListJsonString = data;
+             initialiseEvents();
+             });
+
+
+             // récupération des données
+             var myGroupJsonString = $.getJSON("groupes.json", function() {});
+             var myTeachersJsonString = $.getJSON("teachers.json", function() {});
+             var myClassroomsJsonString = $.getJSON("classrooms.json", function() {});
+             var myCoursesJsonString = $.getJSON("courses.json", function() {});
+             var myEventListJsonString = $.getJSON("FullEventsList.json", function() {});
+
+             // callbacks en cas d'erreur
+             myGroupJsonString.fail(function(myGroupJsonString, textStatus, error){
+             console.log("erreur :" + error.message);
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
+             });
+             myTeachersJsonString.fail(function(myTeachersJsonString, textStatus, error){
+             console.log("erreur :" + error.message);
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
+             });
+             myClassroomsJsonString.fail(function(myClassroomsJsonString, textStatus, error){
+             console.log("erreur :" + error.message);
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
+             });
+             myCoursesJsonString.fail(function(myCoursesJsonString, textStatus, error){
+             console.log("erreur :" + error.message);
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
+             });
+             myEventListJsonString.fail(function(myEventListJsonString, textStatus, error){
+             console.log("erreur :" + error.message);
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
+             });
+
+             // callbacks quand la requete s'est bien terminée
+             myGroupJsonString.done(function(){
+             localStorage.mySavedGroupJSONString = myGroupJsonString.responseText;
+             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
+             });
+             myTeachersJsonString.done(function(){
+             localStorage.mySavedTeachersJSONString = myTeachersJsonString.responseText;
+             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
+             });
+             myClassroomsJsonString.done(function(){
+             localStorage.mySavedClassroomsJSONString = myClassroomsJsonString.responseText;
+             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
+             });
+             myCoursesJsonString.done(function(){
+             localStorage.mySavedCoursesJSONString = myCoursesJsonString.responseText;
+             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
+             });
+             myEventListJsonString.done(function(){
+             localStorage.mySavedEventListJSONString = myEventListJsonString.responseText;
+             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
+             initialiseEvents();
+             });
+             }
+             else{
+             if (!localStorage.mySavedEventListJSONString || !localStorage.myGroupJsonString || !localStorage.myTeachersJsonString || !localStorage.myClassroomsJsonString || !localStorage.myCoursesJsonString){
+
+
+             // callbacks en cas d'erreur
+             myGroupJsonString.fail(function(myGroupJsonString, textStatus, error){
+             console.log("erreur :" + error.message);
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
+             });
+             myTeachersJsonString.fail(function(myTeachersJsonString, textStatus, error){
+             console.log("erreur :" + error.message);
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
+             });
+             myClassroomsJsonString.fail(function(myClassroomsJsonString, textStatus, error){
+             console.log("erreur :" + error.message);
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
+             });
+             myCoursesJsonString.fail(function(myCoursesJsonString, textStatus, error){
+             console.log("erreur :" + error.message);
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
+             });
+             myEventListJsonString.fail(function(myEventListJsonString, textStatus, error){
+             console.log("erreur :" + error.message);
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
+             });
+
+             // callbacks quand la requete s'est bien terminée
+             myGroupJsonString.done(function(){
+             localStorage.mySavedGroupJSONString = myGroupJsonString.responseText;
+             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
+             });
+             myTeachersJsonString.done(function(){
+             localStorage.mySavedTeachersJSONString = myTeachersJsonString.responseText;
+             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
+             });
+             myClassroomsJsonString.done(function(){
+             localStorage.mySavedClassroomsJSONString = myClassroomsJsonString.responseText;
+             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
+             });
+             myCoursesJsonString.done(function(){
+             localStorage.mySavedCoursesJSONString = myCoursesJsonString.responseText;
+             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
+             });
+             myEventListJsonString.done(function(){
+             localStorage.mySavedEventListJSONString = myEventListJsonString.responseText;
+             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
+             initialiseEvents();
+             });
+             }
+             else{
+             //INCOMPLET : A FAIRE -> afficher le message ORANGE (La string existe déjà en local)
+             }
+             }
+             }
+             else
+             {
+             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (Le browser ne supporte pas le webstorage)
+             //document.getElementById("result").innerHTML="Sorry, your browser does not support web storage...";
+             }     */
+        };
+
+        $scope.initialiseEvents = function () {
+            //supression des éléments du tree avant de le reconstruire (si il y en a)
+            tree.deleteChildItems(1);
+            //récupération de la string dans le local storage
+            var JsonArray = jQuery.parseJSON(localStorage.mySavedEventListJSONString);
+            var jsonGroupsArray = jQuery.parseJSON(localStorage.mySavedGroupJSONString);
+            var itmNotNull = 0;
+            var nbItmsNotNull = 0;
+            //compte le nombre de "modèles" parmis la liste, on en a besoin dans la boucle suivante
+            for (var itms in JsonArray) {
+                if (new Date(JsonArray[itms].date).getTime() != new Date(0).getTime()) {
+                    itmNotNull++;
+                }
+            }
+            //début de la string contenant les event, il faut boucler sur la liste de schedule afin d'en extraire les modèles avant de parser la string
+            var eventsString = "[";
+            var cptGrp = 11;
+            for (var grp in jsonGroupsArray) {
+                // ajout des groupes au tree
+                tree.insertNewChild(1, cptGrp.toString(), jsonGroupsArray[grp].name, 0, 0, 0, 0, "CHILD");
+                var cptCours = 1;
+                var idCours = 1;
+                for (var itm in JsonArray) {
+                    // si la date N'EST PAS null, il s'agit un schedule
+                    if (new Date(JsonArray[itm].date).getTime() != new Date(0).getTime()) {
+                        if (grp == "0") {
+                            eventsString += '{id:"' + JsonArray[itm]._id;														//récupération de l'ID de l'event
+                            //récupération du texte de l'event
+                            eventsString += '", text:"' + JsonArray[itm].course.name + '<br>' + JsonArray[itm].classroom.name + ' / ' + JsonArray[itm].promotion.name + '<br>';
+                            var teacherName = "";
+                            if (JsonArray[itm].teachers != null) {
+                                var cpt = 0;
+                                for (var key in JsonArray[itm].teachers) {
+                                    lastname = JsonArray[itm].teachers[key].last_name;
+                                    firstname = JsonArray[itm].teachers[key].first_name;
+                                    if (cpt >= 1)
+                                        teacherName += " - "
+                                    teacherName += lastname + " " + firstname.charAt(0).toUpperCase() + ".";
+                                    cpt++;
+                                }
+                                eventsString += teacherName;
+                            }
+                            else {
+                                eventsString += "Autonomie";
+                            }
+                            var tempDate = new Date(JsonArray[itm].date);
+                            var dateWhitoutTime = (tempDate.getMonth() + 1) + '/' + tempDate.getDate() + '/' + tempDate.getFullYear();
+                            eventsString += '", start_date:"' + dateWhitoutTime + ' ' + heuresDebut[JsonArray[itm].begin - 1];	//récupération de l'heure de début de l'event
+                            eventsString += '", end_date:"' + dateWhitoutTime + ' ' + heuresFin[JsonArray[itm].end - 1];		//récupération de l'heure de fin de l'event
+                            eventsString += '", color:"' + JsonArray[itm].color;
+                            nbItmsNotNull++;												//récupération de la couleur de l'event
+                            if (nbItmsNotNull >= itmNotNull) {
+                                eventsString += '"}';
+                            }
+                            else {
+                                eventsString += '"},';
+                            }
+                            //console.log(eventsString);
+                        }
+                    }
+                    //si la date EST null, il s'agit d'un MODELE de schedule
+                    else {
+                        if (JsonArray[itm].promotion.name == jsonGroupsArray[grp].name) {
+                            var newIdString = cptGrp.toString() + idCours.toString();
+                            tree.insertNewChild(cptGrp, newIdString, JsonArray[itm].course.name, 0, 0, 0, 0, "");
+                            var teacherName = "";
+                            if (JsonArray[itm].teachers != null) {
+                                var cpt = 0;
+                                for (var key2 in JsonArray[itm].teachers) {
+                                    lastname = JsonArray[itm].teachers[key2].last_name;
+                                    firstname = JsonArray[itm].teachers[key2].first_name;
+                                    if (cpt >= 1) teacherName += " - ";
+                                    teacherName += lastname + " " + firstname.charAt(0).toUpperCase() + ".";
+                                    cpt++;
+                                }
+                                tree.setUserData(newIdString, "teachers", teacherName);
+                            }
+                            else {
+                                teacherName += "Autonomie";
+                                tree.setUserData(newIdString, "teachers", "NoTeachers");
+                            }
+                            tree.setUserData(newIdString, "color", JsonArray[itm].color);
+                            tree.setUserData(newIdString, "course", JsonArray[itm].course.name);
+                            tree.setUserData(newIdString, "group", JsonArray[itm].promotion.name);
+                            tree.setUserData(newIdString, "classroom", JsonArray[itm].classroom.name);
+                            tree.setUserData(newIdString, "tip", JsonArray[itm].course.name + "<br>" + JsonArray[itm].promotion.name + " / " + JsonArray[itm].classroom.name + "<br>" + teacherName);
+                            idCours++;
+                        }
+                        cptCours++;
+                    }
+                }
+                tree.closeItem(cptGrp);
+                cptGrp++;
+            }
+            eventsString += "]";
+            scheduler.parse(eventsString, "json");
+        };
+
+        $scope.populate_comboboxes = function () {
+            //remplissage des combobox (pour l'option de filtrage)
+            var cbx_groups = jQuery.parseJSON(localStorage.mySavedGroupJSONString);
+            var cbx_teachers = jQuery.parseJSON(localStorage.mySavedTeachersJSONString);
+            var cbx_classrooms = jQuery.parseJSON(localStorage.mySavedClassroomsJSONString);
+            var cbx_courses = jQuery.parseJSON(localStorage.mySavedCoursesJSONString);
+
+            $.each(cbx_groups, function (index, value) {
+                $("#Groups_Select_data").append('<option value="' + value.name + '">' + value.name + '</option>');
+            });
+            $.each(cbx_teachers, function (index, value) {
+                var teacherName = value.last_name + " " + value.first_name.charAt(0).toUpperCase() + ".";
+                $("#Teachers_Select_data").append('<option value="' + teacherName + '">' + teacherName + '</option>');
+            });
+            $.each(cbx_classrooms, function (index, value) {
+                $("#Classrooms_Select_data").append('<option value="' + value.name + '">' + value.name + '</option>');
+            });
+            $.each(cbx_courses, function (index, value) {
+                $("#Courses_Select_data").append('<option value="' + value.name + '">' + value.name + '</option>');
+            });
+            $scope.show_SelectedFilter(document.getElementById("Main_Select"));
+        };
+
+        $scope.test = function () {
+            //reload des données
+            //supression des éléments du tree avant de le reconstruire
+            tree.deleteChildItems(1);
+            getJsonData(true);
+            //document.getElementById("Groups_Select").className = "combobox_visibile";
+
+        };
+
+        $scope.filters = Array(
+            {value: "none", name: "--Filtres--"},
+            {value: "Groups_Select", name: "Groupes"},
+            {value: "Teachers_Select", name: "Professeurs"},
+            {value: "Classrooms_Select", name: "Locaux"},
+            {value: "Courses_Select", name: "Cours"});
+        $scope.filterChosen = "none";
+
+        $scope.filters = Array(
+            {value: "none", name: "--Filtres--"},
+            {value: "Groups_Select", name: "Groupes"},
+            {value: "Teachers_Select", name: "Professeurs"},
+            {value: "Classrooms_Select", name: "Locaux"},
+            {value: "Courses_Select", name: "Cours"});
+        $scope.filterChosen = "none";
+
+        $scope.show_SelectedFilter = function () {
+            var myMaincbx = $scope.filters;
+            for (var i = 0; i < myMaincbx.length; i++) {
+                console.log(myMaincbx[i]);
+                if (myMaincbx[i].value != "none") {
+                    if (myMaincbx[i].value == $scope.filterChosen)
+                        document.getElementById(myMaincbx[i].value).className = "combobox_visibile";
+                    else
+                        document.getElementById(myMaincbx[i].value).className = "combobox_hidden";
+                }
+            }
+        };
+
+        $scope.Filter_schedules = function () {
+            var mainBox = document.getElementById("Main_Select").options[document.getElementById("Main_Select").selectedIndex].value;
+            if (mainBox != "none") {
+                var selectedBox = document.getElementById(mainBox + "_data").options[document.getElementById(mainBox + "_data").selectedIndex].value;
+                // on vide le scheduler
+                scheduler.clearAll();
+                //on le reremplit avec les données filtrées
+                var JsonArrayFilter = jQuery.parseJSON(localStorage.mySavedEventListJSONString);
+                var itmNotNull = 0;
+                var nbItmsNotNull = 0;
+                //compte le nombre de "modèles" parmis la liste, on en a besoin dans la boucle suivante
+                for (var itms in JsonArrayFilter) {
+                    if (JsonArrayFilter[itms].date != null) itmNotNull++;
+                }
+                //début de la string contenant les event, il faut boucler sur la liste de schedule afin d'en extraire les modèles avant de parser la string
+                var eventsString = "[";
+                for (var itm in JsonArrayFilter) {
+                    // si la date N'EST PAS null, il s'agit un schedule
+                    if (JsonArrayFilter[itm].date != null) {
+                        console.log(JsonArrayFilter[itm]);
+                        //traitement du nom du professeur avant la condition (obligatoire pour le bon traitement)
+                        var teacherName = "";
+                        if (JsonArrayFilter[itm].teachers != null) {
+                            var cpt = 0;
+                            for (var key in JsonArrayFilter[itm].teachers) {
+                                lastname = JsonArrayFilter[itm].teachers[key].last_name;
+                                firstname = JsonArrayFilter[itm].teachers[key].first_name;
+                                if (cpt >= 1)
+                                    teacherName += " - "
+                                teacherName += lastname + " " + firstname.charAt(0).toUpperCase() + ".";
+                                cpt++;
+                            }
+                        }
+                        else {
+                            teacherName += "Autonomie";
+                        }
+
+                        if (JsonArrayFilter[itm].promotion.name == selectedBox || JsonArrayFilter[itm].classroom.name == selectedBox || JsonArrayFilter[itm].course.name == selectedBox || teacherName == selectedBox) {
+                            eventsString += '{id:"' + JsonArrayFilter[itm]._id;														//récupération de l'ID de l'event
+                            //récupération du texte de l'event
+                            eventsString += '", text:"' + JsonArrayFilter[itm].course.name + '<br>' + JsonArrayFilter[itm].classroom.name + ' / ' + JsonArrayFilter[itm].promotion.name + '<br>' + teacherName;
+                            var tempDate = new Date(JsonArrayFilter[itm].date);
+                            var dateWhitoutTime = (tempDate.getMonth() + 1) + '/' + tempDate.getDate() + '/' + tempDate.getFullYear();
+                            eventsString += '", start_date:"' + dateWhitoutTime + ' ' + heuresDebut[JsonArrayFilter[itm].begin - 1];	//récupération de l'heure de début de l'event
+                            eventsString += '", end_date:"' + dateWhitoutTime + ' ' + heuresFin[JsonArrayFilter[itm].end - 1];		//récupération de l'heure de fin de l'event
+                            eventsString += '", color:"' + JsonArrayFilter[itm].color;
+                            nbItmsNotNull++;												//récupération de la couleur de l'event
+                            if (nbItmsNotNull >= itmNotNull) {
+                                eventsString += '"}';
+                            }
+                            else {
+                                eventsString += '"},';
+                            }
+                            //console.log(eventsString);
+                        }
+                    }
+                }
+                eventsString += "]";
+                scheduler.parse(eventsString, "json");
+                console.log(selectedBox);
+            }
+            else {
+                initialiseEvents();
+            }
+        };
+
+
+        $(function () {
+            // Setup drop down menu
+            $('.dropdown-toggle').dropdown();
+
+            // Fix input element click problem
+            $('.dropdown input, .dropdown label').click(function (e) {
+                e.stopPropagation();
+            });
+        });
+    }]);
+
+app.directive('dhxScheduler', function () {
+    return {
+        restrict: 'A',
+        scope: false,
+        transclude: true,
+        template: '<div class="dhx_cal_navline" ng-transclude></div><div class="dhx_cal_header"></div><div class="dhx_cal_data"></div>',
+
+        link: function ($scope, $element, $attrs, $controller) {
+            //adjust size of a scheduler
+            $scope.$watch(function () {
+                return $element[0].offsetWidth + "." + $element[0].offsetHeight;
+            }, function () {
+                scheduler.setCurrentView();
+            });
+
+            //styling for dhtmlx scheduler
+            $element.addClass("dhx_cal_container");
+
+            //init scheduler
+            console.log("directive");
+            scheduler.init($element[0], new Date(), "week");
+        }
+    };
 });

@@ -12,9 +12,10 @@ var teachers = require('./controller/teachers');
 var courses = require("./controller/courses");
 var promotions = require("./controller/promotions");
 var schedules = require("./controller/schedules");
+var csvHandler = require("./controller/csvHandler");
 var csv = require('csv');
 var fs = require('fs');
-
+var async = require('async');
 var app = express();
 
 // database connection
@@ -77,64 +78,7 @@ app.get('/isTeacherTaken/:teachers/:id_course/:day/:month/:year/:begin/:end', sc
 
 
 //TO-DO : gérer les fichiers non csv !!!!!!!!!
-app.post('/uploadFile', function(req, res, next) {
-    console.log(req.files.myFile.path);
-    //CSV File Path or CSV String or Readable Stream Object
-    var csvFileName = req.files.myFile.path;
-
-    csv()
-        .from.stream(fs.createReadStream(csvFileName))
-        .transform( function(row){
-            row.unshift(row.pop());
-            return row;
-        })
-        .on('record', function(row,index){
-            console.log('#'+index+' '+JSON.stringify(row));
-            var temp = JSON.stringify(row).split(";");
-            //console.log(temp);
-            temp[0] = temp[0].substr(2);
-            var day = temp[0].substr(-2);
-            var month = temp[0].substr(5,2);
-            var year = temp[0].substr(0,4);
-            console.log("day : "+day);
-            console.log("month : "+month);
-            console.log("year : "+year);
-            temp[temp.length-1] = temp[temp.length-1].substr(0, temp[temp.length-1].length-2);
-            var begin = temp[1];
-            var end = temp[2];
-            var classroom = temp[3];
-            var course = temp[4];
-            var promotion = temp[5]+"-"+temp[6];
-
-            var classroomChecked = false;
-            console.log("avant check");
-            var result = classrooms.findByName(classroom);
-            while(!classroomChecked)
-            {
-                console.log("go go ");
-
-                console.log(result);
-                /*if(result!==-1 && result!==undefined)*/classroomChecked=true;
-            }
-          /*  for(var index in temp)
-            {
-                console.log(temp[index]);
-            }    */
-
-            /* var tab = (temp+"").split(";");
-             for(var index in tab)
-             {
-                 console.log(tab[index]);
-             }   */
-        })
-        .on('end', function(count){
-            console.log('Number of lines: '+count);
-        })
-        .on('error', function(error){
-            console.log(error.message);
-        });
-    res.json("ok");
-});
+app.post('/uploadFile', csvHandler.import);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

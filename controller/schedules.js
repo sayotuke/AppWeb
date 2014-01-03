@@ -198,7 +198,7 @@ exports.isClassroomTaken = function (req, res) {
             console.log("resuuuult : " + result);
             if (!err) {
 
-                if (result !== null) {
+                if (result !== null && result.length>=1) {
                     var slots = Array(
                         {id: 1, taken: false, course: null},
                         {id: 2, taken: false, course: null},
@@ -271,6 +271,109 @@ exports.isClassroomTaken = function (req, res) {
             }
         });
 };
+
+exports.isClassroomTakenCSV = function (req, callback) {
+    var id_classroom = req.params.id_classroom;
+    var id_course = req.params.id_course;
+    var id_promotion = req.params.id_promotion;
+    var day = req.params.day;
+    var month = req.params.month;
+    var year = req.params.year;
+    var begin = parseInt(req.params.begin);
+    var end = parseInt(req.params.end);
+    //console.log("begin : "+begin+" end : "+end);
+    console.log(year +"/"+month+"/"+day);
+    Schedule.find({classroom: id_classroom, date: new Date(year, month, day)}, 'begin end course promotion')
+        .exec(function (err, result) {
+            console.log("resuuuult : " + result.length);
+            if (!err) {
+
+                if (result !== null && result.length>=1) {
+                    var slots = Array(
+                        {id: 1, taken: false, course: null, promotion: null},
+                        {id: 2, taken: false, course: null, promotion: null},
+                        {id: 3, taken: false, course: null, promotion: null},
+                        {id: 4, taken: false, course: null, promotion: null},
+                        {id: 5, taken: false, course: null, promotion: null},
+                        {id: 6, taken: false, course: null, promotion: null},
+                        {id: 7, taken: false, course: null, promotion: null},
+                        {id: 8, taken: false, course: null, promotion: null});
+                    for (var index in result) {
+                        if (result[index].begin === result[index].end) {
+                            //console.log("begin result : "+ result[index].begin+"end result "+result[index].end);
+                            slots[result[index].begin - 1].taken = true;
+                            slots[result[index].begin - 1].course = result[index].course;
+                            slots[result[index].begin - 1].promotion = result[index].promotion;
+                        }
+                        else {
+                            var diff = result[index].end - result[index].begin;
+                            //console.log("diiiiiif "+diff);
+                            for (var i = result[index].begin - 1; i <= diff + result[index].begin - 1; i++) {
+                                //console.log("i = " + i);
+                                //console.log("result at index :" + result[index]);
+                                slots[i].taken = true;
+                                slots[i].course = result[index].course;
+                                slots[i].promotion = result[index].promotion;
+                            }
+                        }
+                    }
+                    console.log(slots);
+
+                    var diff = end - begin;
+                    //console.log("diff : " + diff);
+                    for (var i = begin - 1; i < slots.length; i++) {
+                        //console.log("i : " + i);
+                        var libre = true;
+                        //console.log("i+1 " + (i + 1));
+                        //console.log("diff+1 " + (diff + i));
+                        for (var j = i; j <= diff + i; j++) {
+                            //console.log(j);
+                            if (slots[j].taken === true) {
+                                //console.log(id_course);
+                                //console.log(slots[j].course);
+                                //On doit passer les deux params en strings sinon il considère qu'ils ne sont pas égaux
+                                //il les prend comme des objects je pense
+                                if (slots[j].course+"" !== id_course+"") {
+                                    libre = false;
+                                    //console.log('pas libre et j = ' + j);
+                                    //console.log("slots[j].course = "+slots[j].course+" et id_course = "+id_course);
+                                    break;
+                                }
+                                else
+                                {
+                                    //Le même groupe dans le même local à la même heure avec le même cours, pas libre donc car déjà présent
+                                    if(slots[j].promotion+"" === id_promotion+"")
+                                    {
+                                        libre=false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (libre) {
+                            console.warn("CLASSE LIBRE "+id_classroom);
+                            callback(false);
+                            break;
+                        }
+                        else {
+                            console.warn("CLASSE PAS LIBRE "+id_classroom);
+                            callback(true);
+                            break;
+                        }
+                    }
+
+                }
+                //aucun schedule pour ce local à cette date donc libre
+                else {
+                    console.warn("CLASSE LIBRE "+id_classroom);
+                    callback(false);
+                }
+            } else {
+                console.warn("erreur lors du find : " + err);
+            }
+        });
+};
+
 
 exports.isTeacherTaken = function (req, res) {
     var teachers = req.params.teachers;
@@ -282,12 +385,16 @@ exports.isTeacherTaken = function (req, res) {
     var begin = parseInt(req.params.begin);
     var end = parseInt(req.params.end);
     console.log("begin : "+begin+" end : "+end);
-    Schedule.find({teachers: teachersTab, date: new Date(year, month, day)}, 'begin end course')
+    if(teachers!==null || teachers.lenght===0){
+        res.json(false);
+    }
+    else{
+    Schedule.find({teachers: teachersTab, date: new Date(year, month, day)}, 'begin end course promotion')
         .exec(function (err, result) {
             console.log("resuuuult : " + result);
             if (!err) {
 
-                if (result !== null) {
+                if (result !== null && result.length>=1) {
                     var slots = Array(
                         {id: 1, taken: false, course: null},
                         {id: 2, taken: false, course: null},
@@ -351,7 +458,7 @@ exports.isTeacherTaken = function (req, res) {
                     }
 
                 }
-                //aucun schedule pour ce local à cette date donc libre
+                //aucun schedule pour ce prof à cette date donc libre
                 else {
                     res.json(false);
                 }
@@ -359,4 +466,111 @@ exports.isTeacherTaken = function (req, res) {
                 console.log("erreur lors du find : " + err);
             }
         });
+    }
 };
+
+exports.isTeacherTakenCSV = function (req, callback) {
+    var teachersTab = req.params.teachers;
+    var id_course = req.params.id_course;
+    var id_promotion = req.params.id_promotion;
+    var day = req.params.day;
+    var month = req.params.month;
+    var year = req.params.year;
+    var begin = parseInt(req.params.begin);
+    var end = parseInt(req.params.end);
+    console.log("PROF DATE : "+year +"/"+month+"/"+day);
+    //console.log(teachersTab[0]);
+    //console.log("begin : "+begin+" end : "+end);
+    Schedule.find({teachers: teachersTab, date: new Date(year, month, day)}, 'begin end course promotion')
+        .exec(function (err, result) {
+            //console.log("resuuuult : " + result);
+            if (!err) {
+
+                if (result !== null && result.length>=1) {
+                    var slots = Array(
+                        {id: 1, taken: false, course: null, promotion: null},
+                        {id: 2, taken: false, course: null, promotion: null},
+                        {id: 3, taken: false, course: null, promotion: null},
+                        {id: 4, taken: false, course: null, promotion: null},
+                        {id: 5, taken: false, course: null, promotion: null},
+                        {id: 6, taken: false, course: null, promotion: null},
+                        {id: 7, taken: false, course: null, promotion: null},
+                        {id: 8, taken: false, course: null, promotion: null});
+                    for (var index in result) {
+                        if (result[index].begin === result[index].end) {
+                            //console.log("begin result : "+ result[index].begin+"end result "+result[index].end);
+                            slots[result[index].begin - 1].taken = true;
+                            slots[result[index].begin - 1].course = result[index].course;
+                            slots[result[index].begin - 1].promotion = result[index].promotion;
+                        }
+                        else {
+                            var diff = result[index].end - result[index].begin;
+                            //console.log("diiiiiif "+diff);
+                            for (var i = result[index].begin - 1; i <= diff + result[index].begin - 1; i++) {
+                                //console.log("i = " + i);
+                                //console.log("result at index :" + result[index]);
+                                slots[i].taken = true;
+                                slots[i].course = result[index].course;
+                                slots[i].promotion = result[index].promotion;
+                            }
+                        }
+                    }
+                    //console.log(slots);
+
+                    var diff = end - begin;
+                    //console.log("diff : " + diff);
+                    for (var i = begin - 1; i < slots.length; i++) {
+                        //console.log("i : " + i);
+                        var libre = true;
+                        //console.log("i+1 " + (i + 1));
+                        //console.log("diff+1 " + (diff + i));
+                        for (var j = i; j <= diff + i; j++) {
+                            //console.log(j);
+                            if (slots[j].taken === true) {
+                                //console.log(id_course);
+                                //console.log(slots[j].course);
+                                //On doit passer les deux params en strings sinon il considère qu'ils ne sont pas égaux
+                                //il les prend comme des objets je pense
+                                if (slots[j].course+"" !== id_course+"") {
+                                    libre = false;
+                                    //console.log('pas libre et j = ' + j);
+                                    //console.log("slots[j].course = "+slots[j].course+" et id_course = "+id_course);
+                                    break;
+                                }
+                                else
+                                {
+                                    //Le même groupe avec le même local à la même heure avec le même cours, pas libre donc car déjà présent
+                                    if(slots[j].promotion+"" === id_promotion+"")
+                                    {
+                                        libre=false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (libre) {
+                            console.warn("PROF LIBRE "+teachersTab);
+                            callback(false);
+                            break;
+                        }
+                        else {
+                            console.warn("PROF PAS LIBRE "+teachersTab);
+                            callback(true);
+                            break;
+                        }
+                    }
+
+                }
+                //aucun schedule pour ce local à cette date donc libre
+                else {
+                    console.warn("PROF LIBRE "+teachersTab);
+                    callback(false);
+                }
+            } else {
+                console.log("erreur lors du find : " + err);
+            }
+        });
+};
+
+
+

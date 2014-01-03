@@ -14,8 +14,10 @@ exports.findAll = function(req, res){
 };
 
 exports.findByName = function(name){
-    Classroom.find({}).exec(function(err, result) {
+    console.log("voici name : "+name);
+    Classroom.findOne({name: name}).exec(function(err, result) {
         if (!err) {
+            console.log("voici result : "+result);
             if(result!==null)
             {
                 console.log("classroom déjà là");
@@ -25,16 +27,14 @@ exports.findByName = function(name){
             {
                 console.log("je vais save");
                 temp = new Classroom({name: name});
-                temp.save().success(function(data){
-                    console.log("save success");
-                    return data._id;
-                });
+                temp.save();
             }
         } else {
             console.log("erreur lors du find : "+err);
             return -1;
         };
     });
+
 };
 
 exports.add = function(req, res){

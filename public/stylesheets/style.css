@@ -72,3 +72,138 @@ a {
 .schedule_preview p {
     text-align: center;
 }
+
+.navbar-inner {
+    background-image: -moz-linear-gradient(top, #18b1dd, #00B7FF) !important;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#18b1dd), to(#00B7FF)) !important;
+    background-image: -webkit-linear-gradient(top, #18b1dd, #00B7FF) !important;
+    background-image: -o-linear-gradient(top, #18b1dd, #00B7FF) !important;
+    background-image: linear-gradient(to bottom, #18b1dd, #00B7FF) !important;
+    color : white !important;
+}
+
+.navbar .nav > li > a {
+    color: white !important;
+}
+
+
+.navbar .nav > li :hover {
+    background-color: #333333 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.dhx_body{
+    text-align: center;
+}
+
+.dhx_time_block.dhx_marked_timespan{
+    margin-left: 0px;
+}
+
+.dhtmlXTooltip.tooltip{
+    opacity: 100;
+}
+
+.dhx_marked_timespan.dhx_now_time{
+    margin-left: 0px;
+    min-height: 0px;
+}
+
+.dhx_cal_event {
+    z-index: 1;
+    cursor: pointer;
+}
+
+.highlighted_timespan {
+    background-color: #87cefa;
+    margin-left: 0px !important;
+    opacity:0.5;
+    filter:alpha(opacity=50);
+    cursor: pointer;
+    z-index: 0;
+}
+
+.red_section{
+    background-color: red;
+    opacity:0.5;
+}
+
+.gray_section{
+    background-color: gray;
+    opacity:0.5;
+}
+
+#myMenu{
+    position: relative;
+    top:15px;
+    left:15px;
+    height:60%;
+    width: 90%
+}
+
+.accordion-group {
+    border: 1px solid #CECECE;
+    padding: 5px;
+}
+
+.accordion-toggle{
+    border: 1px solid #CECECE;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.accordion-toggle.collapsed{
+    border-radius: 4px;
+    margin-bottom: 2px;
+}
+
+.accordion-inner{
+    border-top: 0px solid #CECECE;
+    border-bottom: 1px solid #CECECE;
+    border-right: 1px solid #CECECE;
+    border-left: 1px solid #CECECE;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    margin-bottom: 2px;
+}
+
+.accordion-body.in.collapse{
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    margin-bottom: 2px;
+}
+.accordion-body.collapse{
+    margin-bottom: 2px;
+}
+
+.combobox_hidden{
+    display:none !important;
+}
+
+.combobox_visibile{
+    display: block;
+}
+
+.brand{
+    float: left !important;
+}
+
+.loginFormInput{
+    margin-bottom: 15px !important;
+    height: auto !important;
+}

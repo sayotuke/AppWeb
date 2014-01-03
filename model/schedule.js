@@ -10,7 +10,7 @@ ScheduleSchema = new Schema({
     course: {type: Schema.Types.ObjectId, ref: 'Course'},
     promotion: {type: Schema.Types.ObjectId, ref: 'Promotion'},
     color: String,
-    date: Date,
+    date: {type: Date, default: new Date(0)},
     begin: Number,
     end: Number
 })

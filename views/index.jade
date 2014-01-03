@@ -2,11 +2,30 @@ extends layout
 
 block content
   div(style="text-align:center;")
-   div(class="btn-group" )
-    a(href="#/classrooms" class="btn btn-info") Locaux
-    a(href="#/teachers" class="btn btn-info") Professeurs
-    a(href="#/courses" class="btn btn-info") Cours
-    a(href="#/promotions" class="btn btn-info") Groupes
-    a(href="#/schedules" class="btn btn-info") Horaires
-    a(href="#/csv" class="btn btn-info") Import
+   div(class="navbar navbar-fixed-top" )
+
+
+
+    .navbar
+      .navbar-inner(style="padding-left:20px;")
+          a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.brand(href="#") MASI Scheduler
+          .nav-collapse.collapse
+           ul.nav
+            li.active
+             a(href="#/classrooms") Locaux
+            li
+             a(href="#/teachers") Professeurs
+            li
+             a(href="#/courses") Cours
+            li
+             a(href="#/promotions") Groupes
+            li
+             a(href="#/schedules") Horaires
+            li
+             a(href="#/csv") Import
+
   div(ng-view="")
