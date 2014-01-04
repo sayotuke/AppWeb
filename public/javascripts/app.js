@@ -596,7 +596,7 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
     };
 }]);
 app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
-    'promotionFactory', 'scheduleFactory', function ($scope, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory) {
+    'promotionFactory', 'scheduleFactory', function ($scope, $location, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory) {
 
         $scope.init = function () {
             classroomFactory.findAll().success(function (data, status, headers, config) {
@@ -1127,189 +1127,85 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
         }
 
         $scope.getJsonData = function (isFromUser) {
-            var requestIsFromUser = isFromUser;
-
-            // récupération des données
             var myGroupJsonString;
             var myTeachersJsonString;
             var myClassroomsJsonString;
             var myCoursesJsonString;
             var myEventListJsonString;
 
-
-            promotionFactory.findAll().success(function (data, status, headers, config) {
-                //$scope.promotions = data;
-                myGroupJsonString = JSON.stringify(data);
-                console.log("data : " + JSON.stringify(data));
-                localStorage.mySavedGroupJSONString = myGroupJsonString;
-            });
-            teacherFactory.findAll().success(function (data, status, headers, config) {
-                //$scope.promotions = data;
-                myTeachersJsonString = JSON.stringify(data);
-                localStorage.mySavedTeachersJSONString = myTeachersJsonString;
-            });
-            classroomFactory.findAll().success(function (data, status, headers, config) {
-                //$scope.promotions = data;
-                myClassroomsJsonString = JSON.stringify(data);
-                localStorage.mySavedClassroomsJSONString = myClassroomsJsonString;
-            });
-            courseFactory.findAll().success(function (data, status, headers, config) {
-                //$scope.promotions = data;
-                myCoursesJsonString = JSON.stringify(data);
-                localStorage.mySavedCoursesJSONString = myCoursesJsonString;
-            });
-            scheduleFactory.findAll().success(function (data, status, headers, config) {
-                //$scope.promotions = data;
-                myEventListJsonString = JSON.stringify(data);
-                localStorage.mySavedEventListJSONString = myEventListJsonString;
-                $scope.initialiseEvents();
-            });
-
-
-            /*if(typeof(Storage)!=="undefined"){
-             if (requestIsFromUser){
-
-             var myGroupJsonString;
-             var myTeachersJsonString;
-             var myClassroomsJsonString;
-             var myCoursesJsonString;
-             var myEventListJsonString;
-
-
-             promotionFactory.findAll().success(function (data, status, headers, config) {
-             //$scope.promotions = data;
-             myGroupJsonString = data;
-             });
-             teacherFactory.findAll().success(function (data, status, headers, config) {
-             //$scope.promotions = data;
-             myTeachersJsonString = data;
-             });
-             classroomFactory.findAll().success(function (data, status, headers, config) {
-             //$scope.promotions = data;
-             myClassroomsJsonString = data;
-             });
-             courseFactory.findAll().success(function (data, status, headers, config) {
-             //$scope.promotions = data;
-             myCoursesJsonString = data;
-             });
-             scheduleFactory.findAll().success(function (data, status, headers, config) {
-             //$scope.promotions = data;
-             myEventListJsonString = data;
-             initialiseEvents();
-             });
-
-
-             // récupération des données
-             var myGroupJsonString = $.getJSON("groupes.json", function() {});
-             var myTeachersJsonString = $.getJSON("teachers.json", function() {});
-             var myClassroomsJsonString = $.getJSON("classrooms.json", function() {});
-             var myCoursesJsonString = $.getJSON("courses.json", function() {});
-             var myEventListJsonString = $.getJSON("FullEventsList.json", function() {});
-
-             // callbacks en cas d'erreur
-             myGroupJsonString.fail(function(myGroupJsonString, textStatus, error){
-             console.log("erreur :" + error.message);
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
-             });
-             myTeachersJsonString.fail(function(myTeachersJsonString, textStatus, error){
-             console.log("erreur :" + error.message);
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
-             });
-             myClassroomsJsonString.fail(function(myClassroomsJsonString, textStatus, error){
-             console.log("erreur :" + error.message);
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
-             });
-             myCoursesJsonString.fail(function(myCoursesJsonString, textStatus, error){
-             console.log("erreur :" + error.message);
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
-             });
-             myEventListJsonString.fail(function(myEventListJsonString, textStatus, error){
-             console.log("erreur :" + error.message);
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
-             });
-
-             // callbacks quand la requete s'est bien terminée
-             myGroupJsonString.done(function(){
-             localStorage.mySavedGroupJSONString = myGroupJsonString.responseText;
-             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
-             });
-             myTeachersJsonString.done(function(){
-             localStorage.mySavedTeachersJSONString = myTeachersJsonString.responseText;
-             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
-             });
-             myClassroomsJsonString.done(function(){
-             localStorage.mySavedClassroomsJSONString = myClassroomsJsonString.responseText;
-             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
-             });
-             myCoursesJsonString.done(function(){
-             localStorage.mySavedCoursesJSONString = myCoursesJsonString.responseText;
-             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
-             });
-             myEventListJsonString.done(function(){
-             localStorage.mySavedEventListJSONString = myEventListJsonString.responseText;
-             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
-             initialiseEvents();
-             });
-             }
-             else{
-             if (!localStorage.mySavedEventListJSONString || !localStorage.myGroupJsonString || !localStorage.myTeachersJsonString || !localStorage.myClassroomsJsonString || !localStorage.myCoursesJsonString){
-
-
-             // callbacks en cas d'erreur
-             myGroupJsonString.fail(function(myGroupJsonString, textStatus, error){
-             console.log("erreur :" + error.message);
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
-             });
-             myTeachersJsonString.fail(function(myTeachersJsonString, textStatus, error){
-             console.log("erreur :" + error.message);
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
-             });
-             myClassroomsJsonString.fail(function(myClassroomsJsonString, textStatus, error){
-             console.log("erreur :" + error.message);
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
-             });
-             myCoursesJsonString.fail(function(myCoursesJsonString, textStatus, error){
-             console.log("erreur :" + error.message);
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
-             });
-             myEventListJsonString.fail(function(myEventListJsonString, textStatus, error){
-             console.log("erreur :" + error.message);
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (impossible de mener a bien la requete)
-             });
-
-             // callbacks quand la requete s'est bien terminée
-             myGroupJsonString.done(function(){
-             localStorage.mySavedGroupJSONString = myGroupJsonString.responseText;
-             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
-             });
-             myTeachersJsonString.done(function(){
-             localStorage.mySavedTeachersJSONString = myTeachersJsonString.responseText;
-             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
-             });
-             myClassroomsJsonString.done(function(){
-             localStorage.mySavedClassroomsJSONString = myClassroomsJsonString.responseText;
-             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
-             });
-             myCoursesJsonString.done(function(){
-             localStorage.mySavedCoursesJSONString = myCoursesJsonString.responseText;
-             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
-             });
-             myEventListJsonString.done(function(){
-             localStorage.mySavedEventListJSONString = myEventListJsonString.responseText;
-             //INCOMPLET : A FAIRE -> afficher le message VERT (récupération des données terminée)
-             initialiseEvents();
-             });
-             }
-             else{
-             //INCOMPLET : A FAIRE -> afficher le message ORANGE (La string existe déjà en local)
-             }
-             }
-             }
-             else
-             {
-             //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (Le browser ne supporte pas le webstorage)
-             //document.getElementById("result").innerHTML="Sorry, your browser does not support web storage...";
-             }     */
+            // vérifie si le local storage est dispo sur le browser
+            if(typeof(Storage)!=="undefined"){
+                //vérifie si la requete viens du user
+                if (isFromUser){
+                    promotionFactory.findAll().success(function (data, status, headers, config) {
+                        //$scope.promotions = data;
+                        myGroupJsonString = JSON.stringify(data);
+                        console.log("data : " + JSON.stringify(data));
+                        localStorage.mySavedGroupJSONString = myGroupJsonString;
+                    });
+                    teacherFactory.findAll().success(function (data, status, headers, config) {
+                        //$scope.promotions = data;
+                        myTeachersJsonString = JSON.stringify(data);
+                        localStorage.mySavedTeachersJSONString = myTeachersJsonString;
+                    });
+                    classroomFactory.findAll().success(function (data, status, headers, config) {
+                        //$scope.promotions = data;
+                        myClassroomsJsonString = JSON.stringify(data);
+                        localStorage.mySavedClassroomsJSONString = myClassroomsJsonString;
+                    });
+                    courseFactory.findAll().success(function (data, status, headers, config) {
+                        //$scope.promotions = data;
+                        myCoursesJsonString = JSON.stringify(data);
+                        localStorage.mySavedCoursesJSONString = myCoursesJsonString;
+                    });
+                    scheduleFactory.findAll().success(function (data, status, headers, config) {
+                        //$scope.promotions = data;
+                        myEventListJsonString = JSON.stringify(data);
+                        localStorage.mySavedEventListJSONString = myEventListJsonString;
+                        $scope.initialiseEvents();
+                    });
+                }
+                else{
+                    if (!localStorage.mySavedEventListJSONString || !localStorage.mySavedGroupJSONString || !localStorage.mySavedTeachersJSONString ||
+                        !localStorage.mySavedClassroomsJSONString || !localStorage.mySavedCoursesJSONString){
+                        promotionFactory.findAll().success(function (data, status, headers, config) {
+                            //$scope.promotions = data;
+                            myGroupJsonString = JSON.stringify(data);
+                            console.log("data : " + JSON.stringify(data));
+                            localStorage.mySavedGroupJSONString = myGroupJsonString;
+                        });
+                        teacherFactory.findAll().success(function (data, status, headers, config) {
+                            //$scope.promotions = data;
+                            myTeachersJsonString = JSON.stringify(data);
+                            localStorage.mySavedTeachersJSONString = myTeachersJsonString;
+                        });
+                        classroomFactory.findAll().success(function (data, status, headers, config) {
+                            //$scope.promotions = data;
+                            myClassroomsJsonString = JSON.stringify(data);
+                            localStorage.mySavedClassroomsJSONString = myClassroomsJsonString;
+                        });
+                        courseFactory.findAll().success(function (data, status, headers, config) {
+                            //$scope.promotions = data;
+                            myCoursesJsonString = JSON.stringify(data);
+                            localStorage.mySavedCoursesJSONString = myCoursesJsonString;
+                        });
+                        scheduleFactory.findAll().success(function (data, status, headers, config) {
+                            //$scope.promotions = data;
+                            myEventListJsonString = JSON.stringify(data);
+                            localStorage.mySavedEventListJSONString = myEventListJsonString;
+                            $scope.initialiseEvents();
+                        });
+                    }
+                    else{
+                        //INCOMPLET : A FAIRE -> afficher le message ORANGE (La string existe déjà en local, chargement des données connues)
+                        $scope.initialiseEvents();
+                    }
+                }
+            }
+            else{
+                //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (Le browser ne supporte pas le webstorage)
+                //document.getElementById("result").innerHTML="Sorry, your browser does not support web storage...";
+            }
         };
 
         $scope.initialiseEvents = function () {
@@ -1317,7 +1213,10 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
             tree.deleteChildItems(1);
             //récupération de la string dans le local storage
             var JsonArray = jQuery.parseJSON(localStorage.mySavedEventListJSONString);
+            console.log(localStorage.mySavedEventListJSONString);
             var jsonGroupsArray = jQuery.parseJSON(localStorage.mySavedGroupJSONString);
+            console.log(localStorage.mySavedGroupJSONString);
+
             var itmNotNull = 0;
             var nbItmsNotNull = 0;
             //compte le nombre de "modèles" parmis la liste, on en a besoin dans la boucle suivante
@@ -1533,11 +1432,11 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
                 console.log(selectedBox);
             }
             else {
-                initialiseEvents();
+                $scope.initialiseEvents();
             }
         };
 
-
+        //fais en sorte que le menu de login ne se barre pas quand on clique dans un des champs (login/pwd)
         $(function () {
             // Setup drop down menu
             $('.dropdown-toggle').dropdown();
@@ -1573,3 +1472,10 @@ app.directive('dhxScheduler', function () {
         }
     };
 });
+
+function HeaderController($scope, $location)
+{
+    $scope.isActive = function (viewLocation) {
+        return viewLocation === $location.path();
+    };
+}

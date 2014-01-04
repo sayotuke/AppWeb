@@ -1,31 +1,36 @@
 extends layout
 
 block content
-  div(style="text-align:center;")
-   div(class="navbar navbar-fixed-top" )
+    div(style="text-align:center;")
+        .navbar.navbar-fixed-top
+            .navbar-inner(style="padding-left:20px;")
+                a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a.navbarStyle.brand(href="#") MASI Scheduler
+                .nav-collapse.collapse(ng-controller="HeaderController")
+                    ul.nav
+                        li(ng-class="{ active: isActive('/classrooms')}")
+                            a.navbarStyle(href="#/classrooms") Locaux
+                        li(ng-class="{ active: isActive('/teachers')}")
+                            a.navbarStyle(href="#/teachers") Professeurs
+                        li(ng-class="{ active: isActive('/courses')}")
+                            a.navbarStyle(href="#/courses") Cours
+                        li(ng-class="{ active: isActive('/promotions')}")
+                            a.navbarStyle(href="#/promotions") Groupes
+                        li(ng-class="{ active: isActive('/schedules')}")
+                            a.navbarStyle(href="#/schedules") Horaires
+                        li(ng-class="{ active: isActive('/csv')}")
+                            a.navbarStyle(href="#/csv") Import
+                    ul.nav.pull-right
+                        li.dropdown
+                            a.navbarStyle.dropdown-toggle(href="#", data-toggle="dropdown", style="margin-right: 15px;") Connexion
+                                strong.caret
+                            .dropdown-menu(style="padding: 15px; padding-bottom: 0px;")
+                                form(action="/login", method="post")
+                                    input.loginFormInput(type="text", name="username", placeholder="login", size="30")
+                                    input.loginFormInput(type="password", name="password", placeholder="password", size="30")
+                                    input.btn.btn-primary(style="clear: left; width: 100%; height: 32px; font-size: 13px;", type="submit", name="commit", value="Connexion")
 
-
-
-    .navbar
-      .navbar-inner(style="padding-left:20px;")
-          a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.brand(href="#") MASI Scheduler
-          .nav-collapse.collapse
-           ul.nav
-            li.active
-             a(href="#/classrooms") Locaux
-            li
-             a(href="#/teachers") Professeurs
-            li
-             a(href="#/courses") Cours
-            li
-             a(href="#/promotions") Groupes
-            li
-             a(href="#/schedules") Horaires
-            li
-             a(href="#/csv") Import
-
-  div(ng-view="")
+    div(ng-view="")
