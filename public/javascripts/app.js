@@ -989,7 +989,7 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
         $scope.init = function () {
             $scope.initializeTree();
             $scope.defineSchedulerAttachedEvents();
-            $scope.configureAndInitializeScheduler();
+            //$scope.configureAndInitializeScheduler();
             $scope.getJsonData(false);
             $scope.populate_comboboxes();
         }
@@ -1085,7 +1085,7 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
                 });
             });
         }
-
+        /*
         $scope.configureAndInitializeScheduler = function () {
             //paremètres simples
             scheduler.config.first_hour = 8;
@@ -1097,6 +1097,7 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
             scheduler.config.event_duration = 120;
             scheduler.config.details_on_create = true;
             scheduler.config.details_on_dblclick = true;
+            scheduler.config.left_border = true;
             //scheduler.config.readonly = true;
             //scheduler.config.readonly_form = true;
             //scheduler.config.wide_form = false;
@@ -1123,8 +1124,9 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
                 type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                 css: "gray_section"
             });
-            //scheduler.updateView();
+            scheduler.updateView();
         }
+        */
 
         $scope.getJsonData = function (isFromUser) {
             var myGroupJsonString;
@@ -1449,6 +1451,8 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
     }]);
 
 app.directive('dhxScheduler', function () {
+    console.log($scope.jose);
+    if ($scope.jose !== true){
     return {
         restrict: 'A',
         scope: false,
@@ -1468,14 +1472,55 @@ app.directive('dhxScheduler', function () {
 
             //init scheduler
             console.log("directive");
+
+            //paremètres simples
+            scheduler.config.first_hour = 8;
+            scheduler.config.last_hour = 19;
+            scheduler.config.time_step = 15;
+            //scheduler.config.cascade_event_display = true;
+            //scheduler.config.cascade_event_count = 4;
+            //scheduler.config.cascade_event_margin = 30;
+            scheduler.config.event_duration = 120;
+            scheduler.config.details_on_create = true;
+            scheduler.config.details_on_dblclick = true;
+            scheduler.config.left_border = true;
+            //scheduler.config.readonly = true;
+            //scheduler.config.readonly_form = true;
+            //scheduler.config.wide_form = false;
             scheduler.init($element[0], new Date(), "week");
+            scheduler.ignore_week = function (date) {
+                if (date.getDay() == 6 || date.getDay() == 0) //cache samedi et dimanche
+                    return true;
+            };
+            scheduler.addMarkedTimespan({
+                days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
+                zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	// de 0h a 8h45	& de 18h a 24h
+                type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                css: "gray_section"
+            });
+            scheduler.addMarkedTimespan({
+                days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
+                zones: [13 * 60, 13 * 60 + 45],			// de 13h a 13h45
+                type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                css: "red_section"
+            });
+            scheduler.addMarkedTimespan({
+                days: [0, 6],                       // samedi et dimanche
+                zones: "fullday",       			// toute la journée
+                type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                css: "gray_section"
+            });
+            scheduler.updateView();
+            $scope.jose = true;
         }
+
     };
+    }
 });
 
-function HeaderController($scope, $location)
-{
+
+app.controller('NavBarController', function ($scope, $location) {
     $scope.isActive = function (viewLocation) {
         return viewLocation === $location.path();
     };
-}
+});
