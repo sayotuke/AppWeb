@@ -980,18 +980,39 @@ app.controller('CsvController', function ($scope, $http, $timeout) {
      };  */
 
 });
-app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
-    'promotionFactory', 'scheduleFactory', function ($scope, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory) {
+
+app.page_reload = function($route)
+{
+    console.log("reloading");
+    $route.reload();
+    console.log("reloaded");
+}
+
+//Pour vérifier si le scheduler est déjà chargé pour ne pas le charger une deuxième fois
+app.scheduler_loaded = false;
+app.onTemplatesReady = undefined;
+app.onExternalDragIn = undefined;
+app.onEmptyClick = undefined;
+app.onMouseMove = undefined;
+app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
+    'promotionFactory', 'scheduleFactory', function ($scope,$route, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory) {
         var heuresDebut = Array("8:45", "9:45", "11:00", "12:00", "13:45", "14:45", "16:00", "17:00");
         var heuresFin = Array("9:45", "10:45", "12:00", "13:00", "14:45", "15:45", "17:00", "18:00");
         var tree = null;
-
+        //
         $scope.init = function () {
             $scope.initializeTree();
             $scope.defineSchedulerAttachedEvents();
-            //$scope.configureAndInitializeScheduler();
+            $scope.configureAndInitializeScheduler();
             $scope.getJsonData(false);
             $scope.populate_comboboxes();
+        }
+
+        $scope.page_reload = function()
+        {
+            console.log("reloading");
+            $route.reload();
+            console.log("reloaded");
         }
 
         $scope.initializeTree = function () {
@@ -1010,9 +1031,19 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
         }
 
         $scope.defineSchedulerAttachedEvents = function () {
-            scheduler.attachEvent("onTemplatesReady", function () {
+            if(app.onTemplatesReady !== undefined)
+                scheduler.detachEvent(app.onTemplatesReady);
+            if(app.onExternalDragIn !== undefined)
+                scheduler.detachEvent(app.onExternalDragIn);
+            if(app.onEmptyClick !== undefined)
+                scheduler.detachEvent(app.onEmptyClick);
+            if(app.onMouseMove !== undefined)
+                scheduler.detachEvent(app.onMouseMove);
+            console.log(app.onTemplatesReady);
+
+            app.onTemplatesReady = scheduler.attachEvent("onTemplatesReady", function () {
                 //gestion des event drop depuis le tree (drag&drop)
-                scheduler.attachEvent("onExternalDragIn", function (id, source, e) {
+                app.onExternalDragIn = scheduler.attachEvent("onExternalDragIn", function (id, source, e) {
                     if (tree.getUserData(tree._dragged[0].id, "tip") == undefined) {
                         return false;
                     }
@@ -1036,6 +1067,12 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
                         }
                     }
                     return true;
+                });
+                scheduler.attachEvent("onViewChange", function (new_mode , new_date){
+                    if(new_mode==="month"){
+                    $(' div .gray_section').css("display","none");
+                    $(' div .red_section').css("display","none");
+                    }
                 });
 
                 //gestion du surlignage de la tranche horaire survolée par la souris
@@ -1063,14 +1100,14 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
                 var marked = null;
                 var marked_date = null;
                 var event_step = 120;
-                scheduler.attachEvent("onEmptyClick", function (date, native_event) {
+                app.onEmptyClick = scheduler.attachEvent("onEmptyClick", function (date, native_event) {
                     scheduler.unmarkTimespan(marked);
                     marked = null;
 
                     var fixed_date = fix_date(date);
                     scheduler.addEventNow(fixed_date, scheduler.date.add(fixed_date, event_step, "minute"));
                 });
-                scheduler.attachEvent("onMouseMove", function (event_id, native_event) {
+                app.onmousemove = scheduler.attachEvent("onMouseMove", function (event_id, native_event) {
                     var date = scheduler.getActionData(native_event).date;
                     var fixed_date = fix_date(date);
                     if (+fixed_date != +marked_date) {
@@ -1085,7 +1122,7 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
                 });
             });
         }
-        /*
+
         $scope.configureAndInitializeScheduler = function () {
             //paremètres simples
             scheduler.config.first_hour = 8;
@@ -1101,32 +1138,62 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
             //scheduler.config.readonly = true;
             //scheduler.config.readonly_form = true;
             //scheduler.config.wide_form = false;
-            //scheduler.init($element[0], new Date(),"month");
+            scheduler.init('MASI_scheduler', new Date(),"month");
             scheduler.ignore_week = function (date) {
                 if (date.getDay() == 6 || date.getDay() == 0) //cache samedi et dimanche
                     return true;
             };
-            scheduler.addMarkedTimespan({
-                days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
-                zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	// de 0h a 8h45	& de 18h a 24h
-                type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
-                css: "gray_section"
-            });
-            scheduler.addMarkedTimespan({
-                days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
-                zones: [13 * 60, 13 * 60 + 45],			// de 13h a 13h45
-                type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
-                css: "red_section"
-            });
-            scheduler.addMarkedTimespan({
-                days: [0, 6],                       // samedi et dimanche
-                zones: "fullday",       			// toute la journée
-                type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
-                css: "gray_section"
-            });
-            scheduler.updateView();
+            if(!app.scheduler_loaded){
+                app.morningAndNightHours = scheduler.addMarkedTimespan({
+                    days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
+                    zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	// de 0h a 8h45	& de 18h a 24h
+                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    css: "gray_section"
+                });
+                app.lunchTime = scheduler.addMarkedTimespan({
+                    days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
+                    zones: [13 * 60, 13 * 60 + 45],			// de 13h a 13h45
+                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    css: "red_section"
+                });
+                app.weekends = scheduler.addMarkedTimespan({
+                    days: [0, 6],                       // samedi et dimanche
+                    zones: "fullday",       			// toute la journée
+                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    css: "gray_section"
+                });
+            }
+            else
+            {
+                scheduler.deleteMarkedTimespan(app.morningAndNightHours);
+                scheduler.deleteMarkedTimespan(app.lunchTime);
+                scheduler.deleteMarkedTimespan(app.weekends);
+                //scheduler.updateView();
+                app.morningAndNightHours = scheduler.addMarkedTimespan({
+                    days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
+                    zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	// de 0h a 8h45	& de 18h a 24h
+                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    css: "gray_section"
+                });
+                app.lunchTime = scheduler.addMarkedTimespan({
+                    days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
+                    zones: [13 * 60, 13 * 60 + 45],			// de 13h a 13h45
+                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    css: "red_section"
+                });
+                app.weekends = scheduler.addMarkedTimespan({
+                    days: [0, 6],                       // samedi et dimanche
+                    zones: "fullday",       			// toute la journée
+                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    css: "gray_section"
+                });
+            }
+            $(' div .gray_section').css("display","none");
+            $(' div .red_section').css("display","none");
+
+            app.scheduler_loaded = true;
         }
-        */
+
 
         $scope.getJsonData = function (isFromUser) {
             var myGroupJsonString;
@@ -1173,7 +1240,7 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
                         promotionFactory.findAll().success(function (data, status, headers, config) {
                             //$scope.promotions = data;
                             myGroupJsonString = JSON.stringify(data);
-                            console.log("data : " + JSON.stringify(data));
+                            //console.log("data : " + JSON.stringify(data));
                             localStorage.mySavedGroupJSONString = myGroupJsonString;
                         });
                         teacherFactory.findAll().success(function (data, status, headers, config) {
@@ -1215,9 +1282,9 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
             tree.deleteChildItems(1);
             //récupération de la string dans le local storage
             var JsonArray = jQuery.parseJSON(localStorage.mySavedEventListJSONString);
-            console.log(localStorage.mySavedEventListJSONString);
+            //console.log(localStorage.mySavedEventListJSONString);
             var jsonGroupsArray = jQuery.parseJSON(localStorage.mySavedGroupJSONString);
-            console.log(localStorage.mySavedGroupJSONString);
+            //console.log(localStorage.mySavedGroupJSONString);
 
             var itmNotNull = 0;
             var nbItmsNotNull = 0;
@@ -1362,7 +1429,7 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
         $scope.show_SelectedFilter = function () {
             var myMaincbx = $scope.filters;
             for (var i = 0; i < myMaincbx.length; i++) {
-                console.log(myMaincbx[i]);
+                //console.log(myMaincbx[i]);
                 if (myMaincbx[i].value != "none") {
                     if (myMaincbx[i].value == $scope.filterChosen)
                         document.getElementById(myMaincbx[i].value).className = "combobox_visibile";
@@ -1391,7 +1458,7 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
                 for (var itm in JsonArrayFilter) {
                     // si la date N'EST PAS null, il s'agit un schedule
                     if (JsonArrayFilter[itm].date != null) {
-                        console.log(JsonArrayFilter[itm]);
+                        //console.log(JsonArrayFilter[itm]);
                         //traitement du nom du professeur avant la condition (obligatoire pour le bon traitement)
                         var teacherName = "";
                         if (JsonArrayFilter[itm].teachers != null) {
@@ -1431,7 +1498,7 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
                 }
                 eventsString += "]";
                 scheduler.parse(eventsString, "json");
-                console.log(selectedBox);
+                //console.log(selectedBox);
             }
             else {
                 $scope.initialiseEvents();
@@ -1450,9 +1517,9 @@ app.controller('FrontOfficeController', ['$scope', '$http', '$timeout', 'classro
         });
     }]);
 
-app.directive('dhxScheduler', function () {
-    console.log($scope.jose);
-    if ($scope.jose !== true){
+
+
+/*app.directive('dhxScheduler', function () {
     return {
         restrict: 'A',
         scope: false,
@@ -1461,6 +1528,25 @@ app.directive('dhxScheduler', function () {
 
         link: function ($scope, $element, $attrs, $controller) {
             //adjust size of a scheduler
+
+            if(app.scheduler_loaded == true){
+                scheduler = app.mainScheduler;
+                $scope.$watch(function () {
+                    return $element[0].offsetWidth + "." + $element[0].offsetHeight;
+                }, function () {
+                    scheduler.setCurrentView();
+                });
+
+                //styling for dhtmlx scheduler
+                $element.addClass("dhx_cal_container");
+                $scope.initializeTree();
+                //$scope.defineSchedulerAttachedEvents();
+                scheduler.init($element[0], new Date(), "week");
+                $scope.getJsonData(false);
+                $scope.populate_comboboxes();
+                //return scheduler;
+            }
+            else{
             $scope.$watch(function () {
                 return $element[0].offsetWidth + "." + $element[0].offsetHeight;
             }, function () {
@@ -1471,8 +1557,9 @@ app.directive('dhxScheduler', function () {
             $element.addClass("dhx_cal_container");
 
             //init scheduler
-            console.log("directive");
 
+                $scope.initializeTree();
+                $scope.defineSchedulerAttachedEvents();
             //paremètres simples
             scheduler.config.first_hour = 8;
             scheduler.config.last_hour = 19;
@@ -1487,7 +1574,9 @@ app.directive('dhxScheduler', function () {
             //scheduler.config.readonly = true;
             //scheduler.config.readonly_form = true;
             //scheduler.config.wide_form = false;
-            scheduler.init($element[0], new Date(), "week");
+                scheduler.init($element[0], new Date(), "week");
+           // if (app.scheduler_loaded !== true){
+
             scheduler.ignore_week = function (date) {
                 if (date.getDay() == 6 || date.getDay() == 0) //cache samedi et dimanche
                     return true;
@@ -1510,13 +1599,20 @@ app.directive('dhxScheduler', function () {
                 type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                 css: "gray_section"
             });
-            scheduler.updateView();
-            $scope.jose = true;
-        }
 
-    };
+            //scheduler.updateView();
+            app.scheduler_loaded = true;
+            app.mainScheduler = scheduler;
+                $scope.getJsonData(false);
+                $scope.populate_comboboxes();
+            }
+            //$scope.configureAndInitializeScheduler();
+
+
+        //}
     }
-});
+    }
+}); */
 
 
 app.controller('NavBarController', function ($scope, $location) {

@@ -2,20 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4a13e38-af43-457a-8e18-f508c4804b6d" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Drunk\IdeaProjects\AppWeb\public\partials\FullEventsList.json" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Drunk\IdeaProjects\AppWeb\public\partials\classrooms.json" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Drunk\IdeaProjects\AppWeb\public\partials\courses.json" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Drunk\IdeaProjects\AppWeb\public\partials\groupes.json" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Drunk\IdeaProjects\AppWeb\public\partials\teachers.json" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/app.js" afterPath="$PROJECT_DIR$/public/javascripts/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/runConfigurations/app_js.xml" afterPath="$PROJECT_DIR$/.idea/runConfigurations/app_js.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css" afterPath="$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/partials/index.html" afterPath="$PROJECT_DIR$/public/partials/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.jade" afterPath="$PROJECT_DIR$/views/index.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/partials/schedules.html" afterPath="$PROJECT_DIR$/public/partials/schedules.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="AppWeb.iws" />
     <ignored path=".idea/workspace.xml" />
+    <file path="/Dummy.txt" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388871093102" ignored="false" />
+    <file path="/app.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388889857910" ignored="false" />
+    <file path="/index.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388881837939" ignored="false" />
+    <file path="/index.jade" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388884189989" ignored="false" />
+    <file path="/schedules.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388883669988" ignored="false" />
+    <file path="/dhtmlxscheduler.css" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388887914355" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +32,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -67,6 +68,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -79,67 +81,7 @@
       <file leaf-file-name="index.jade" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/index.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="47" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0" vertical-offset="111" max-vertical-offset="714">
-              <folding>
-                <marker date="1388819822117" expanded="true" signature="21:2193" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="37:2171" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="170:340" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="497:1346" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="528:645" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="672:790" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="817:927" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="954:1072" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="1099:1216" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="1243:1346" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="1369:2171" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="1411:2171" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="1450:1596" placeholder="..." />
-                <marker date="1388819822117" expanded="true" signature="1721:2171" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="982" column="40" selection-start="38758" selection-end="38758" vertical-scroll-proportion="-15.175439" vertical-offset="24479" max-vertical-offset="26027">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="0" selection-start="2764" selection-end="2764" vertical-scroll-proportion="0.0" vertical-offset="2270" max-vertical-offset="2822">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/partials/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="60" selection-start="2736" selection-end="2736" vertical-scroll-proportion="-27.461538" vertical-offset="0" max-vertical-offset="969">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="layout.jade" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/layout.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="9" selection-start="9" selection-end="9" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="schedules.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="127" column="120" selection-start="7212" selection-end="7280" vertical-scroll-proportion="0.0" vertical-offset="2159" max-vertical-offset="4012">
+            <state line="11" column="118" selection-start="534" selection-end="534" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -148,8 +90,74 @@
       <file leaf-file-name="bootstrap.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4226" column="19" selection-start="80728" selection-end="80728" vertical-scroll-proportion="0.0" vertical-offset="71315" max-vertical-offset="104941">
+            <state line="4226" column="19" selection-start="80728" selection-end="80728" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="schedules.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="27" selection-start="364" selection-end="364" vertical-scroll-proportion="-5.8846154">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="layout.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/layout.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="9" selection-start="9" selection-end="9" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/partials/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="31" selection-start="2505" selection-end="2505" vertical-scroll-proportion="-7.1153846">
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#6;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="103" column="45" selection-start="2047" selection-end="2047" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1071" column="31" selection-start="43338" selection-end="43338" vertical-scroll-proportion="0.8011696">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dhtmlxscheduler.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1475" column="0" selection-start="29424" selection-end="29465" vertical-scroll-proportion="-6.84">
+              <folding>
+                <element signature="e#1273#1656#2" expanded="true" />
+                <element signature="e#2803#3010#2" expanded="true" />
+                <element signature="e#3287#3602#2" expanded="true" />
+                <element signature="e#4170#4481#2" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -172,10 +180,8 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public/partials/promotions.html" />
         <option value="$PROJECT_DIR$/public/partials/teachers.html" />
         <option value="$PROJECT_DIR$/public/stylesheets/bootstrap.css" />
-        <option value="$PROJECT_DIR$/public/partials/schedules.html" />
         <option value="$PROJECT_DIR$/controller/classrooms.js" />
         <option value="$PROJECT_DIR$/controller/schedules.js" />
         <option value="$PROJECT_DIR$/controller/csvHandler.js" />
@@ -184,9 +190,11 @@
         <option value="$PROJECT_DIR$/views/layout.jade" />
         <option value="$PROJECT_DIR$/model/schedule.js" />
         <option value="$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css" />
-        <option value="$PROJECT_DIR$/public/partials/index.html" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/public/partials/index.html" />
+        <option value="$PROJECT_DIR$/public/partials/schedules.html" />
         <option value="$PROJECT_DIR$/views/index.jade" />
+        <option value="$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css" />
         <option value="$PROJECT_DIR$/public/javascripts/app.js" />
       </list>
     </option>
@@ -243,7 +251,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -357,6 +364,28 @@
               <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dhtmlx_scheduler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AppWeb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AppWeb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -388,20 +417,21 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Project" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="292" />
-    <property name="project.structure.proportion" value="0.0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="292" />
+    <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.32333332" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="296" />
-    <property name="recentsLimit" value="5" />
-    <property name="MemberChooser.sorted" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="296" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="C:/Program Files/nodejs/node.exe" />
+    <property name="last_opened_file_path" value="C:/Node.js/node.exe" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="293" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="971" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="967" />
@@ -415,15 +445,15 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="ChangesBrowser.SHOW_FLATTEN" value="true" />
     <property name="options.lastSelected" value="appearance" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="ChangesBrowser.SHOW_FLATTEN" value="true" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="options.searchVisible" value="true" />
@@ -438,7 +468,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Node.js.app.js">
-    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails" singleton="true">
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
       <module name="" />
       <setting name="vmparams" value="" />
       <setting name="cmdLine" value="run-app" />
@@ -448,7 +478,7 @@
       <setting name="launchBrowser" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
       <option name="PROGRAM_PARAMETERS" />
@@ -462,11 +492,7 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
-      <method />
-    </configuration>
     <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="$PROJECT_DIR$">
-      <browser start="false" url="" with-js-debugger="false" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -549,7 +575,6 @@
         <LauncherParameters>
           <option name="browserFamily" value="FIREFOX" />
           <option name="launcherType" value="OSDefault" />
-          <option name="newPlayerInstance" value="false" />
           <option name="playerPath" value="FlashPlayerDebugger.exe" />
         </LauncherParameters>
       </option>
@@ -574,7 +599,6 @@
       <option name="CLASS_NAME" value="" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
       <option name="USE_COMMAND_LINE" value="true" />
       <option name="COMMAND_LINE" value="" />
@@ -583,7 +607,6 @@
       <option name="NETWORK_SPEED" value="full" />
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" output_log_level="null" package_name="" scope="Class">
@@ -592,7 +615,6 @@
         <LauncherParameters>
           <option name="browserFamily" value="FIREFOX" />
           <option name="launcherType" value="OSDefault" />
-          <option name="newPlayerInstance" value="false" />
           <option name="playerPath" value="FlashPlayerDebugger.exe" />
         </LauncherParameters>
       </option>
@@ -602,10 +624,7 @@
     </configuration>
     <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="myFilePath" />
       <option name="GLUE" />
-      <option name="myNameFilter" />
-      <option name="myGeneratedName" />
       <option name="MAIN_CLASS_NAME" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
@@ -639,9 +658,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
       <option name="USE_COMMAND_LINE" value="true" />
       <option name="COMMAND_LINE" value="" />
@@ -650,7 +667,6 @@
       <option name="NETWORK_SPEED" value="full" />
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <list size="1">
@@ -744,34 +760,34 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32963374" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32963374" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Mongo Runner" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43986636" sideWeight="0.99810785" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35849056" sideWeight="0.3343983" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35746104" sideWeight="0.3344017" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32777777" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852387" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17358893" sideWeight="0.64476615" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35849056" sideWeight="0.66560173" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13178703" sideWeight="0.64476615" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19764957" sideWeight="0.64253896" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35746104" sideWeight="0.6655983" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32963374" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32741398" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Mongo Runner" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43986636" sideWeight="0.99810785" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Colour Chooser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -786,15 +802,63 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="true" />
     <option name="myTodoPanelSettings">
-      <TodoPanelSettings />
+      <value>
+        <are-packages-shown value="false" />
+        <are-modules-shown value="false" />
+        <flatten-packages value="false" />
+        <is-autoscroll-to-source value="false" />
+      </value>
     </option>
+    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
+    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
+    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
+    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
+    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
+    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
+    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
+    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
+    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
+    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
+    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
+    <option name="LIMIT_HISTORY" value="true" />
+    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
+    <option name="UPDATE_FILTER_SCOPE_NAME" />
+    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
+    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
+    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
+    <option name="LAST_COMMIT_MESSAGE" value="04.01.2014_francesco" />
+    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
+    <option name="ACTIVE_VCS_NAME" />
+    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
+    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
+    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
+    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="bonjour" />
     <MESSAGE value="8.12.2013" />
     <MESSAGE value="8.12.2013_2" />
     <MESSAGE value="11.12.2013" />
     <MESSAGE value="04.01.2014_francesco" />
-    <option name="LAST_COMMIT_MESSAGE" value="04.01.2014_francesco" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -832,7 +896,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="15" />
+      <option name="time" value="18" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -840,404 +904,116 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="60" selection-start="462" selection-end="462" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
-          <folding>
-            <marker date="1388819822117" expanded="true" signature="21:2193" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="37:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="170:340" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="497:1346" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="528:645" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="672:790" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="817:927" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="954:1072" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1099:1216" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1243:1346" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1369:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1411:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1450:1596" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1721:2171" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="992" column="12" selection-start="39431" selection-end="39431" vertical-scroll-proportion="0.0" vertical-offset="16864" max-vertical-offset="25279">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="0" selection-start="2764" selection-end="2764" vertical-scroll-proportion="0.0" vertical-offset="433" max-vertical-offset="2822">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="60" selection-start="2736" selection-end="2736" vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="969">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="9" selection-start="9" selection-end="9" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="120" selection-start="7212" selection-end="7280" vertical-scroll-proportion="0.0" vertical-offset="2159" max-vertical-offset="4012">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4226" column="19" selection-start="80728" selection-end="80728" vertical-scroll-proportion="0.0" vertical-offset="71315" max-vertical-offset="104941">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="44" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="714">
-          <folding>
-            <marker date="1388819822117" expanded="true" signature="21:2193" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="37:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="170:340" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="497:1346" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="528:645" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="672:790" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="817:927" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="954:1072" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1099:1216" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1243:1346" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1369:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1411:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1450:1596" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1721:2171" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1480" column="1" selection-start="66296" selection-end="66296" vertical-scroll-proportion="0.0" vertical-offset="25160" max-vertical-offset="25279">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="1" selection-start="2573" selection-end="2574" vertical-scroll-proportion="0.0" vertical-offset="2227" max-vertical-offset="2822">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="60" selection-start="2736" selection-end="2736" vertical-scroll-proportion="0.0" vertical-offset="444" max-vertical-offset="969">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="53" selection-start="1569" selection-end="1569" vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="544">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="120" selection-start="7212" selection-end="7280" vertical-scroll-proportion="0.0" vertical-offset="2159" max-vertical-offset="4012">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4226" column="19" selection-start="80728" selection-end="80728" vertical-scroll-proportion="0.0" vertical-offset="71315" max-vertical-offset="104941">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4372" column="7" selection-start="83492" selection-end="83492" vertical-scroll-proportion="0.0" vertical-offset="74324" max-vertical-offset="104941">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="0" selection-start="1665" selection-end="1665" vertical-scroll-proportion="0.0" vertical-offset="1598" max-vertical-offset="3638">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="95" selection-start="641" selection-end="641" vertical-scroll-proportion="0.0" vertical-offset="73" max-vertical-offset="969">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="21" selection-start="441" selection-end="441" vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="629">
-          <folding>
-            <marker date="1388819822117" expanded="true" signature="21:2193" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="37:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="170:340" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="497:1346" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="528:645" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="672:790" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="817:927" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="954:1072" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1099:1216" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1243:1346" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1369:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1411:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1450:1596" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1721:2171" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="120" selection-start="7212" selection-end="7280" vertical-scroll-proportion="0.0" vertical-offset="2159" max-vertical-offset="4012">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1455" column="50" selection-start="64644" selection-end="64644" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="26860">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/csvHandler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5644" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4372" column="7" selection-start="83492" selection-end="83492" vertical-scroll-proportion="0.0" vertical-offset="74324" max-vertical-offset="104941">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="0" selection-start="1665" selection-end="1665" vertical-scroll-proportion="0.0" vertical-offset="1598" max-vertical-offset="3638">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="95" selection-start="641" selection-end="641" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="969">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="21" selection-start="441" selection-end="441" vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="629">
-          <folding>
-            <marker date="1388819822117" expanded="true" signature="21:2193" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="37:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="170:340" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="497:1346" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="528:645" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="672:790" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="817:927" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="954:1072" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1099:1216" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1243:1346" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1369:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1411:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1450:1596" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1721:2171" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="120" selection-start="7212" selection-end="7280" vertical-scroll-proportion="0.0" vertical-offset="2159" max-vertical-offset="4012">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="53" selection-start="1569" selection-end="1569" vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="544">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/schedule.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="43" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="391" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/schedules.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="15" selection-start="916" selection-end="916" vertical-scroll-proportion="0.0" vertical-offset="561" max-vertical-offset="9894" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/classroom.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="37" selection-start="301" selection-end="310" vertical-scroll-proportion="0.27175844" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/classrooms.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="19" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/classrooms.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="4.923077" vertical-offset="128" max-vertical-offset="1258">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/dhtmlx_tree/imgs/iconUncheckAll.gif">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap-responsive.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1015" column="58" selection-start="19607" selection-end="19607" vertical-scroll-proportion="1.2670455" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/csvHandler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5644" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/schedules.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="15" selection-start="916" selection-end="916" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/schedule.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="43" selection-start="585" selection-end="585" vertical-scroll-proportion="0.22125813" vertical-offset="0" max-vertical-offset="922" />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.IntelliJIdea13/system/extLibs/nodejs-v0.10.22-src/core-modules-sources/lib/events.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="0" selection-start="2741" selection-end="2741" vertical-scroll-proportion="0.7670068" vertical-offset="433" max-vertical-offset="4709" />
+        <state line="12" column="43" selection-start="585" selection-end="585" vertical-scroll-proportion="0.22125813" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/classrooms.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="588">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="875" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="7" selection-start="1649" selection-end="1649" vertical-scroll-proportion="-0.07985481" vertical-offset="996" max-vertical-offset="1547" />
+        <state line="56" column="7" selection-start="1649" selection-end="1649" vertical-scroll-proportion="-0.07985481" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/teachers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.8203267" vertical-offset="452" max-vertical-offset="1054" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.8203267" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/promotions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.8203267" vertical-offset="452" max-vertical-offset="1003" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.8203267" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/partials/courses.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="1.0" vertical-offset="26" max-vertical-offset="1258">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="1.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
+    <entry file="file://$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="120" selection-start="7212" selection-end="7280" vertical-scroll-proportion="0.0" vertical-offset="2159" max-vertical-offset="4012">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4226" column="19" selection-start="80728" selection-end="80728" vertical-scroll-proportion="0.0" vertical-offset="71315" max-vertical-offset="104941">
-          <folding />
+        <state line="97" column="25" selection-start="40412" selection-end="40416" vertical-scroll-proportion="0.33333334">
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/layout.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="9" selection-start="9" selection-end="9" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+        <state line="0" column="9" selection-start="9" selection-end="9" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/partials/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="60" selection-start="2736" selection-end="2736" vertical-scroll-proportion="-27.461538" vertical-offset="0" max-vertical-offset="969">
-          <folding />
+        <state line="39" column="31" selection-start="2505" selection-end="2505" vertical-scroll-proportion="-7.1153846">
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="47" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0" vertical-offset="111" max-vertical-offset="714">
+        <state line="11" column="118" selection-start="534" selection-end="534" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4226" column="19" selection-start="80728" selection-end="80728" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="27" selection-start="364" selection-end="364" vertical-scroll-proportion="-5.8846154">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1475" column="0" selection-start="29424" selection-end="29465" vertical-scroll-proportion="-6.84">
           <folding>
-            <marker date="1388819822117" expanded="true" signature="21:2193" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="37:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="170:340" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="497:1346" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="528:645" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="672:790" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="817:927" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="954:1072" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1099:1216" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1243:1346" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1369:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1411:2171" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1450:1596" placeholder="..." />
-            <marker date="1388819822117" expanded="true" signature="1721:2171" placeholder="..." />
+            <element signature="e#1273#1656#2" expanded="true" />
+            <element signature="e#2803#3010#2" expanded="true" />
+            <element signature="e#3287#3602#2" expanded="true" />
+            <element signature="e#4170#4481#2" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="0" selection-start="2764" selection-end="2764" vertical-scroll-proportion="0.0" vertical-offset="2269" max-vertical-offset="2822">
+        <state line="103" column="45" selection-start="2047" selection-end="2047" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="982" column="40" selection-start="38758" selection-end="38758" vertical-scroll-proportion="-15.175439" vertical-offset="24479" max-vertical-offset="26027">
+        <state line="1071" column="31" selection-start="43338" selection-end="43338" vertical-scroll-proportion="0.8011696">
           <folding />
         </state>
       </provider>
