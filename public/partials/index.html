@@ -42,6 +42,10 @@
                         <div class="dhx_cal_prev_button">&nbsp;</div>
                         <div class="dhx_cal_next_button">&nbsp;</div>
                         <div class="dhx_cal_today_button"></div>
+                        <div class="btn-group options_btn_position">
+                            <button id="reload_data_btn" class="btn btn-success" ng-click="reload_schedulerEventsInStorage();"><i class="icon-refresh"></i> Mettre à jour</button>
+                            <button id="update_data_btn" class="btn btn-info" ng-click="update_schedulerEventsToDB();"><i class="icon-upload"></i>Sauvegarder</button>
+                        </div>
                         <div class="dhx_cal_date"></div>
                         <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
                         <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
