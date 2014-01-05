@@ -161,15 +161,15 @@ exports.import = function(req, res)
                     }},
                     function(callback){ Classroom.findOneAndUpdate({name:classroom}, {name:classroom}, {upsert:true}, function (err, object) {
                         classroomId = object._id;
-                        console.warn("sdcvgdfgfghfdh")
+                        //console.warn("sdcvgdfgfghfdh")
                         callback(null);
 
                     }); },
                     function(callback){ Course.findOneAndUpdate({name:course}, {name:course}, {upsert:true}, function (err, object) {
                         courseId = object._id;
                         //console.warn("classroom: "+classroomId);
-                        console.warn("course fgvfgdfgee : "+courseId);
-                        countTest++;
+                        //console.warn("course fgvfgdfgee : "+courseId);
+                        //countTest++;
                         //setTimeout(function(){callback(null);},3000);
                         callback(null);
                         //if(countTest>=schedulesFromCsv.length)console.warn("fini"+countTest);
@@ -178,11 +178,6 @@ exports.import = function(req, res)
                         promotionId = object._id;
                         callback(null);
                     }); },
-                    function(callback)
-                    {
-                        //setTimeout(function(){console.log("");},3000);
-                        callback(null);
-                    },
                     function(callback){
                         var req = {
                             params:{
@@ -204,7 +199,7 @@ exports.import = function(req, res)
                             //console.warn(data);
                             if (data) {
                             console.warn("classe déjà prise");
-                                //callback(null);
+                                callback(null);
                              }
                              else {
                                 //callback(null);
@@ -213,10 +208,11 @@ exports.import = function(req, res)
                                     //console.warn(data);
                                     if (data) {
                                         console.warn("prof déjà pris");
-                                        //callback(null);
+                                        callback(null);
                                     }
                                     else {
                                         console.warn("prof libre");
+                                        if (teachersIds.length === 0)teachersIds = null;
                                         var temp = new Schedule({
                                             teachers: teachersIds,
                                             classroom: classroomId,
@@ -227,7 +223,7 @@ exports.import = function(req, res)
                                             begin: scheduleFromCsv.begin,
                                             end: scheduleFromCsv.end
                                         });
-                                        temp.save(function(err, data){console.warn("j'ai fait "+data);});
+                                        temp.save(/*function(err, data){console.warn("j'ai fait "+data);}*/);
                                         callback(null);
                                         //setTimeout(function(){console.log("");},3000);
                                         //callback(null);

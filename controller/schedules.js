@@ -282,10 +282,10 @@ exports.isClassroomTakenCSV = function (req, callback) {
     var begin = parseInt(req.params.begin);
     var end = parseInt(req.params.end);
     //console.log("begin : "+begin+" end : "+end);
-    console.log(year +"/"+month+"/"+day);
+    //console.log(year +"/"+month+"/"+day);
     Schedule.find({classroom: id_classroom, date: new Date(year, month, day)}, 'begin end course promotion')
         .exec(function (err, result) {
-            console.log("resuuuult : " + result.length);
+          //  console.log("resuuuult : " + result.length);
             if (!err) {
 
                 if (result !== null && result.length>=1) {
@@ -317,7 +317,7 @@ exports.isClassroomTakenCSV = function (req, callback) {
                             }
                         }
                     }
-                    console.log(slots);
+                    //console.log(slots);
 
                     var diff = end - begin;
                     //console.log("diff : " + diff);
@@ -351,12 +351,12 @@ exports.isClassroomTakenCSV = function (req, callback) {
                             }
                         }
                         if (libre) {
-                            console.warn("CLASSE LIBRE "+id_classroom);
+                         //   console.warn("CLASSE LIBRE "+id_classroom);
                             callback(false);
                             break;
                         }
                         else {
-                            console.warn("CLASSE PAS LIBRE "+id_classroom);
+                         //   console.warn("CLASSE PAS LIBRE "+id_classroom);
                             callback(true);
                             break;
                         }
@@ -365,7 +365,7 @@ exports.isClassroomTakenCSV = function (req, callback) {
                 }
                 //aucun schedule pour ce local à cette date donc libre
                 else {
-                    console.warn("CLASSE LIBRE "+id_classroom);
+                   // console.warn("CLASSE LIBRE "+id_classroom);
                     callback(false);
                 }
             } else {
@@ -478,7 +478,7 @@ exports.isTeacherTakenCSV = function (req, callback) {
     var year = req.params.year;
     var begin = parseInt(req.params.begin);
     var end = parseInt(req.params.end);
-    console.log("PROF DATE : "+year +"/"+month+"/"+day);
+    //console.log("PROF DATE : "+year +"/"+month+"/"+day);
     //console.log(teachersTab[0]);
     //console.log("begin : "+begin+" end : "+end);
     Schedule.find({teachers: teachersTab, date: new Date(year, month, day)}, 'begin end course promotion')
@@ -549,12 +549,12 @@ exports.isTeacherTakenCSV = function (req, callback) {
                             }
                         }
                         if (libre) {
-                            console.warn("PROF LIBRE "+teachersTab);
+                       //     console.warn("PROF LIBRE "+teachersTab);
                             callback(false);
                             break;
                         }
                         else {
-                            console.warn("PROF PAS LIBRE "+teachersTab);
+                     //       console.warn("PROF PAS LIBRE "+teachersTab);
                             callback(true);
                             break;
                         }
@@ -563,7 +563,7 @@ exports.isTeacherTakenCSV = function (req, callback) {
                 }
                 //aucun schedule pour ce local à cette date donc libre
                 else {
-                    console.warn("PROF LIBRE "+teachersTab);
+                   // console.warn("PROF LIBRE "+teachersTab);
                     callback(false);
                 }
             } else {
