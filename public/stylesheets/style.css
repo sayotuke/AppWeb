@@ -60,6 +60,15 @@ a {
     text-align: center;
 }
 
+.schedule_preview_model {
+    padding-top: 20px;
+    background-color: #00B7FF;
+    width: 300px;
+    height: 160px;
+    margin: auto;
+    border: 1px solid black;
+}
+
 .schedule_preview {
     padding-top: 20px;
     background-color: #00B7FF;

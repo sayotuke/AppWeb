@@ -595,7 +595,7 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
 
     };
 }]);
-app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
+app.controller('ScheduleController', ['$scope','$location', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
     'promotionFactory', 'scheduleFactory', function ($scope, $location, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory) {
 
         $scope.init = function () {
@@ -638,7 +638,7 @@ app.controller('ScheduleController', ['$scope', '$http', '$timeout', 'classroomF
                 change: function (hex, opacity) {
                     if (!hex) return;
                     if (opacity) hex += ', ' + opacity;
-                    $('.schedule_preview').css('background-color', hex);
+                    $('.schedule_preview_model').css('background-color', hex);
                 },
                 theme: 'bootstrap'
             });
@@ -1138,7 +1138,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
             //scheduler.config.readonly = true;
             //scheduler.config.readonly_form = true;
             //scheduler.config.wide_form = false;
-            scheduler.init('MASI_scheduler', new Date(),"month");
+            scheduler.init('MASI_scheduler', new Date(),"week");
             scheduler.ignore_week = function (date) {
                 if (date.getDay() == 6 || date.getDay() == 0) //cache samedi et dimanche
                     return true;
@@ -1162,6 +1162,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                     type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
+                scheduler.update_view();
             }
             else
             {
@@ -1188,8 +1189,8 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                     css: "gray_section"
                 });
             }
-            $(' div .gray_section').css("display","none");
-            $(' div .red_section').css("display","none");
+            //$(' div .gray_section').css("display","none");
+            //$(' div .red_section').css("display","none");
 
             app.scheduler_loaded = true;
         }
@@ -1380,12 +1381,21 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
 
         $scope.populate_comboboxes = function () {
             //remplissage des combobox (pour l'option de filtrage)
-            var cbx_groups = jQuery.parseJSON(localStorage.mySavedGroupJSONString);
-            var cbx_teachers = jQuery.parseJSON(localStorage.mySavedTeachersJSONString);
-            var cbx_classrooms = jQuery.parseJSON(localStorage.mySavedClassroomsJSONString);
-            var cbx_courses = jQuery.parseJSON(localStorage.mySavedCoursesJSONString);
+            $scope.cbx_promotions = jQuery.parseJSON(localStorage.mySavedGroupJSONString);
+            $scope.cbx_teachers = jQuery.parseJSON(localStorage.mySavedTeachersJSONString);
+            $scope.cbx_classrooms = jQuery.parseJSON(localStorage.mySavedClassroomsJSONString);
+            $scope.cbx_courses = jQuery.parseJSON(localStorage.mySavedCoursesJSONString);
 
-            $.each(cbx_groups, function (index, value) {
+            $scope.filters = Array(
+                {value: "none", name: "--Filtres--"},
+                {value: "Groups_Select", name: "Groupes"},
+                {value: "Teachers_Select", name: "Professeurs"},
+                {value: "Classrooms_Select", name: "Locaux"},
+                {value: "Courses_Select", name: "Cours"});
+            $scope.filterChosen = "none";
+
+
+            /*$.each(cbx_groups, function (index, value) {
                 $("#Groups_Select_data").append('<option value="' + value.name + '">' + value.name + '</option>');
             });
             $.each(cbx_teachers, function (index, value) {
@@ -1397,7 +1407,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
             });
             $.each(cbx_courses, function (index, value) {
                 $("#Courses_Select_data").append('<option value="' + value.name + '">' + value.name + '</option>');
-            });
+            });*/
             $scope.show_SelectedFilter(document.getElementById("Main_Select"));
         };
 
@@ -1410,21 +1420,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
 
         };
 
-        $scope.filters = Array(
-            {value: "none", name: "--Filtres--"},
-            {value: "Groups_Select", name: "Groupes"},
-            {value: "Teachers_Select", name: "Professeurs"},
-            {value: "Classrooms_Select", name: "Locaux"},
-            {value: "Courses_Select", name: "Cours"});
-        $scope.filterChosen = "none";
 
-        $scope.filters = Array(
-            {value: "none", name: "--Filtres--"},
-            {value: "Groups_Select", name: "Groupes"},
-            {value: "Teachers_Select", name: "Professeurs"},
-            {value: "Classrooms_Select", name: "Locaux"},
-            {value: "Courses_Select", name: "Cours"});
-        $scope.filterChosen = "none";
 
         $scope.show_SelectedFilter = function () {
             var myMaincbx = $scope.filters;
@@ -1440,9 +1436,19 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
         };
 
         $scope.Filter_schedules = function () {
-            var mainBox = document.getElementById("Main_Select").options[document.getElementById("Main_Select").selectedIndex].value;
+            var mainBox = $scope.filterChosen;
+            console.log(mainBox);
             if (mainBox != "none") {
-                var selectedBox = document.getElementById(mainBox + "_data").options[document.getElementById(mainBox + "_data").selectedIndex].value;
+                var selectedBox;
+                if(mainBox == "Groups_Select")
+                    selectedBox = $scope.promotionChosen;
+                else if(mainBox == "Teachers_Select")
+                    selectedBox = $scope.teacherChosen;
+                else if(mainBox == "Classrooms_Select")
+                    selectedBox = $scope.classroomChosen;
+                else if(mainBox == "Courses_Select")
+                    selectedBox = $scope.courseChosen;
+                console.log("select : "+selectedBox);
                 // on vide le scheduler
                 scheduler.clearAll();
                 //on le reremplit avec les données filtrées
@@ -1456,9 +1462,8 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                 //début de la string contenant les event, il faut boucler sur la liste de schedule afin d'en extraire les modèles avant de parser la string
                 var eventsString = "[";
                 for (var itm in JsonArrayFilter) {
-                    // si la date N'EST PAS null, il s'agit un schedule
-                    if (JsonArrayFilter[itm].date != null) {
-                        //console.log(JsonArrayFilter[itm]);
+                    // si la date N'EST PAS égale au timestamp 0, il s'agit un schedule
+                    if (new Date(JsonArrayFilter[itm].date).getTime() != new Date(0).getTime()) {
                         //traitement du nom du professeur avant la condition (obligatoire pour le bon traitement)
                         var teacherName = "";
                         if (JsonArrayFilter[itm].teachers != null) {
@@ -1476,7 +1481,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                             teacherName += "Autonomie";
                         }
 
-                        if (JsonArrayFilter[itm].promotion.name == selectedBox || JsonArrayFilter[itm].classroom.name == selectedBox || JsonArrayFilter[itm].course.name == selectedBox || teacherName == selectedBox) {
+                        if (JsonArrayFilter[itm].promotion.name == selectedBox || JsonArrayFilter[itm].classroom.name == selectedBox || JsonArrayFilter[itm].course.name == selectedBox || teacherName.indexOf(selectedBox) != -1) {
                             eventsString += '{id:"' + JsonArrayFilter[itm]._id;														//récupération de l'ID de l'event
                             //récupération du texte de l'event
                             eventsString += '", text:"' + JsonArrayFilter[itm].course.name + '<br>' + JsonArrayFilter[itm].classroom.name + ' / ' + JsonArrayFilter[itm].promotion.name + '<br>' + teacherName;
@@ -1497,6 +1502,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                     }
                 }
                 eventsString += "]";
+                console.log(eventsString);
                 scheduler.parse(eventsString, "json");
                 //console.log(selectedBox);
             }

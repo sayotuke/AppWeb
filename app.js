@@ -13,9 +13,11 @@ var courses = require("./controller/courses");
 var promotions = require("./controller/promotions");
 var schedules = require("./controller/schedules");
 var csvHandler = require("./controller/csvHandler");
+var users = require("./controller/users");
 var csv = require('csv');
 var fs = require('fs');
 var async = require('async');
+var passport = require('passport');
 var app = express();
 
 // database connection
@@ -34,11 +36,17 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.session({ secret: 'SECRET' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.cookieParser());
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
+app.use(express.basicAuth('user', 'password'));
 
 app.get('/', routes.index);
 //Classrooms
@@ -76,6 +84,7 @@ app.get('/getPromotionTotalHourByCourse/:id_promotion/:id_course', schedules.get
 app.get('/isClassroomTaken/:id_classroom/:id_course/:day/:month/:year/:begin/:end', schedules.isClassroomTaken);
 app.get('/isTeacherTaken/:teachers/:id_course/:day/:month/:year/:begin/:end', schedules.isTeacherTaken);
 
+app.post('/login', users.login);
 
 //TO-DO : gérer les fichiers non csv !!!!!!!!!
 app.post('/uploadFile', csvHandler.import);

@@ -4,31 +4,31 @@
             <div class="span2">
                 <div style="margin-top: 20px; margin-bottom: 20px;">
                     <select id="Main_Select" class="combobox span8" ng-model="filterChosen"
-                            ng-change="show_SelectedFilter();" placeholder="Filtres"
+                            ng-change="show_SelectedFilter();"
                             ng-options="obj.value as obj.name for obj in filters">
                     </select>
                     <span id="Groups_Select">
-                        <select id="Groups_Select_data" class="combobox span7" ng-model="filterChosen"
-                                ng-change="show_SelectedFilter();" placeholder="Filtres"
-                                ng-options="obj.value as obj.name for obj in filters">
+                        <select id="Groups_Select_data" class="combobox span7" ng-model="promotionChosen"
+                                ng-change="show_SelectedFilter();"
+                                ng-options="obj.name as obj.name for obj in cbx_promotions">
                            </select>
                     </span>
                     <span id="Teachers_Select">
-                        <select id="Teachers_Select_data" class="combobox span7" ng-model="filterChosen"
-                                ng-change="show_SelectedFilter();" placeholder="Filtres"
-                                ng-options="obj.value as obj.name for obj in filters">
+                        <select id="Teachers_Select_data" class="combobox span7" ng-model="teacherChosen"
+                                ng-change="show_SelectedFilter();"
+                                ng-options="obj.last_name + ' ' + obj.first_name.charAt(0).toUpperCase() + '.' as obj.first_name + ' '+obj.last_name for obj in cbx_teachers">
                                <option value="Autonomie">Autonomie</option>
                            </select>
                     </span>
                     <span id="Classrooms_Select">
-                        <select id="Classrooms_Select_data" class="combobox span7" ng-model="filterChosen"
-                                ng-change="show_SelectedFilter();" placeholder="Filtres"
-                                ng-options="obj.value as obj.name for obj in filters"></select>
+                        <select id="Classrooms_Select_data" class="combobox span7" ng-model="classroomChosen"
+                                ng-change="show_SelectedFilter();"
+                                ng-options="obj.name as obj.name for obj in cbx_classrooms"></select>
                     </span>
                     <span id="Courses_Select">
-                        <select id="Courses_Select_data" class="combobox span7" ng-model="filterChosen"
-                                ng-change="show_SelectedFilter();" placeholder="Filtres"
-                                ng-options="obj.value as obj.name for obj in filters"></select>
+                        <select id="Courses_Select_data" class="combobox span7" ng-model="courseChosen"
+                                ng-change="show_SelectedFilter();"
+                                ng-options="obj.name as obj.name for obj in cbx_courses"></select>
                     </span>
                     <br>
                     <button class="btn btn-success" ng-click="Filter_schedules();">Filtrer</button>

@@ -1,4 +1,4 @@
-<div class="container" onload="$scope.init()">
+<div class="container" ng-init="init()">
     <h1>Horaires</h1>
     <tabset>
         <tab heading="Créer un modèle d'horaire">
@@ -61,7 +61,7 @@
                         <td class="td-schedule-preview">
                             <div class="well table_schedule_div">
                                 <h4>Aperçu</h4>
-                                <div class="schedule_preview">
+                                <div class="schedule_preview_model">
                                     <p><b>{{ course.name }}</b></p>
                                     <p>
                                     <b><span ng-show="teachersTab.length<=0">Autonomie</span></b>

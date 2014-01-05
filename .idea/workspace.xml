@@ -2,22 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4a13e38-af43-457a-8e18-f508c4804b6d" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/model/user.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/controller/users.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/app.js" afterPath="$PROJECT_DIR$/public/javascripts/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/runConfigurations/app_js.xml" afterPath="$PROJECT_DIR$/.idea/runConfigurations/app_js.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css" afterPath="$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/partials/index.html" afterPath="$PROJECT_DIR$/public/partials/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.jade" afterPath="$PROJECT_DIR$/views/index.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/partials/schedules.html" afterPath="$PROJECT_DIR$/public/partials/schedules.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="AppWeb.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388871093102" ignored="false" />
-    <file path="/app.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388889857910" ignored="false" />
-    <file path="/index.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388881837939" ignored="false" />
-    <file path="/index.jade" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388884189989" ignored="false" />
-    <file path="/schedules.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388883669988" ignored="false" />
-    <file path="/dhtmlxscheduler.css" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388887914355" ignored="false" />
+    <file path="/Dummy.txt" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388890012763" ignored="false" />
+    <file path="/app.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388896573517" ignored="false" />
+    <file path="/index.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388894491529" ignored="false" />
+    <file path="/index.jade" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388891973587" ignored="false" />
+    <file path="/schedules.html" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388895475077" ignored="false" />
+    <file path="/dhtmlxscheduler.css" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388891876496" ignored="false" />
+    <file path="/style.css" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388895509728" ignored="false" />
+    <file path="/User.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388895810292" ignored="false" />
+    <file path="/Users.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388897045467" ignored="false" />
+    <file path="/users.js" changelist="f4a13e38-af43-457a-8e18-f508c4804b6d" time="1388897045941" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,86 +84,47 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.jade" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/index.jade">
+      <file leaf-file-name="user.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="118" selection-start="534" selection-end="534" vertical-scroll-proportion="0.0">
+            <state line="8" column="31" selection-start="169" selection-end="169" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bootstrap.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css">
+      <file leaf-file-name="users.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/users.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4226" column="19" selection-start="80728" selection-end="80728" vertical-scroll-proportion="0.0">
+            <state line="11" column="47" selection-start="469" selection-end="469" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="schedules.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
+      <file leaf-file-name="teachers.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/teachers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="27" selection-start="364" selection-end="364" vertical-scroll-proportion="-5.8846154">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="layout.jade" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/layout.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="9" selection-start="9" selection-end="9" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/partials/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="31" selection-start="2505" selection-end="2505" vertical-scroll-proportion="-7.1153846">
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#6;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="45" selection-start="2047" selection-end="2047" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="35" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
+        <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1071" column="31" selection-start="43338" selection-end="43338" vertical-scroll-proportion="0.8011696">
+            <state line="36" column="109" selection-start="1101" selection-end="1101" vertical-scroll-proportion="0.29038113">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dhtmlxscheduler.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css">
+      <file leaf-file-name="index.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/index.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1475" column="0" selection-start="29424" selection-end="29465" vertical-scroll-proportion="-6.84">
-              <folding>
-                <element signature="e#1273#1656#2" expanded="true" />
-                <element signature="e#2803#3010#2" expanded="true" />
-                <element signature="e#3287#3602#2" expanded="true" />
-                <element signature="e#4170#4481#2" expanded="true" />
-              </folding>
+            <state line="10" column="94" selection-start="435" selection-end="435" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -180,22 +147,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public/partials/teachers.html" />
-        <option value="$PROJECT_DIR$/public/stylesheets/bootstrap.css" />
-        <option value="$PROJECT_DIR$/controller/classrooms.js" />
-        <option value="$PROJECT_DIR$/controller/schedules.js" />
         <option value="$PROJECT_DIR$/controller/csvHandler.js" />
         <option value="$PROJECT_DIR$/model/classroom.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/views/layout.jade" />
         <option value="$PROJECT_DIR$/model/schedule.js" />
         <option value="$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css" />
-        <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
-        <option value="$PROJECT_DIR$/public/partials/index.html" />
-        <option value="$PROJECT_DIR$/public/partials/schedules.html" />
-        <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css" />
+        <option value="$PROJECT_DIR$/views/index.jade" />
+        <option value="$PROJECT_DIR$/public/partials/index.html" />
         <option value="$PROJECT_DIR$/public/javascripts/app.js" />
+        <option value="$PROJECT_DIR$/public/partials/schedules.html" />
+        <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/model/User.js" />
+        <option value="$PROJECT_DIR$/controller/Users.js" />
+        <option value="$PROJECT_DIR$/model/user.js" />
+        <option value="$PROJECT_DIR$/controller/users.js" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
@@ -397,7 +364,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="node_modules" />
+              <option name="myItemId" value="model" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -730,7 +697,11 @@
       <created>1388799571326</created>
       <updated>1388799571326</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="05.01.2014">
+      <created>1388890069095</created>
+      <updated>1388890069095</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -772,6 +743,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32777777" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852387" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -788,7 +760,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32963374" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32741398" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Colour Chooser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -840,7 +811,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="04.01.2014_francesco" />
+    <option name="LAST_COMMIT_MESSAGE" value="05.01.2014" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -859,6 +830,7 @@
     <MESSAGE value="8.12.2013_2" />
     <MESSAGE value="11.12.2013" />
     <MESSAGE value="04.01.2014_francesco" />
+    <MESSAGE value="05.01.2014" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -904,48 +876,23 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/model/schedule.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="43" selection-start="585" selection-end="585" vertical-scroll-proportion="0.22125813" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/classrooms.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="7" selection-start="1649" selection-end="1649" vertical-scroll-proportion="-0.07985481" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/teachers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.8203267" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/promotions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.8203267" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/courses.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="1.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="97" column="25" selection-start="40412" selection-end="40416" vertical-scroll-proportion="0.33333334">
           <folding>
             <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1476" column="17" selection-start="29481" selection-end="29485" vertical-scroll-proportion="0.366171">
+          <folding>
+            <element signature="e#1273#1656#2" expanded="true" />
+            <element signature="e#2803#3010#2" expanded="true" />
+            <element signature="e#3287#3602#2" expanded="true" />
+            <element signature="e#4170#4481#2" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -957,9 +904,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4226" column="19" selection-start="80728" selection-end="80728" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="654" column="24" selection-start="23940" selection-end="23940" vertical-scroll-proportion="0.8674464">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="66" selection-start="3501" selection-end="3501" vertical-scroll-proportion="-7.8461537">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="23" selection-start="885" selection-end="885" vertical-scroll-proportion="0.59891105">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/teacher.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/promotions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/promotion.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="35" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/partials/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="31" selection-start="2505" selection-end="2505" vertical-scroll-proportion="-7.1153846">
+        <state line="18" column="57" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.58285713">
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -973,47 +969,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="118" selection-start="534" selection-end="534" vertical-scroll-proportion="0.0">
+        <state line="10" column="94" selection-start="435" selection-end="435" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/twitter-bootstrap/css/bootstrap.css">
+    <entry file="file://$PROJECT_DIR$/controller/teachers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4226" column="19" selection-start="80728" selection-end="80728" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="35" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/schedules.html">
+    <entry file="file://$PROJECT_DIR$/model/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="27" selection-start="364" selection-end="364" vertical-scroll-proportion="-5.8846154">
+        <state line="8" column="31" selection-start="169" selection-end="169" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/dhtmlx_scheduler/dhtmlxscheduler.css">
+    <entry file="file://$PROJECT_DIR$/controller/users.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1475" column="0" selection-start="29424" selection-end="29465" vertical-scroll-proportion="-6.84">
-          <folding>
-            <element signature="e#1273#1656#2" expanded="true" />
-            <element signature="e#2803#3010#2" expanded="true" />
-            <element signature="e#3287#3602#2" expanded="true" />
-            <element signature="e#4170#4481#2" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="45" selection-start="2047" selection-end="2047" vertical-scroll-proportion="0.0">
+        <state line="11" column="47" selection-start="469" selection-end="469" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/app.js">
+    <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1071" column="31" selection-start="43338" selection-end="43338" vertical-scroll-proportion="0.8011696">
+        <state line="36" column="109" selection-start="1101" selection-end="1101" vertical-scroll-proportion="0.29038113">
           <folding />
         </state>
       </provider>
