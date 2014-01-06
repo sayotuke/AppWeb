@@ -119,7 +119,7 @@ app.factory('scheduleFactory', ['$http', function ($http) {
     };
 
     scheduleFactory.find = function (id) {
-        return $http.get(urlBase + '/' + id);
+        return $http.get('/getSchedule/' + id);
     };
 
     scheduleFactory.getSlotsTaken = function (day, month, year, promotion) {
@@ -154,13 +154,12 @@ app.factory('scheduleFactory', ['$http', function ($http) {
         return $http.post('/addSchedule/', data);
     };
 
-
-    scheduleFactory.edit = function (promotion, newName) {
-        return $http.put('/editPromotion/' + promotion._id + '/' + newName);
+    scheduleFactory.edit = function (id_schedule, day, month, year, begin, end) {
+        return $http.put('/editSchedule/'+id_schedule+'/'+day+'/'+month+'/'+year+'/'+begin+'/'+end);
     };
 
-    scheduleFactory.delete = function (promotion) {
-        return $http.delete('/deletePromotion/' + promotion._id);
+    scheduleFactory.delete = function (id_schedule) {
+        return $http.delete('/deleteSchedule/'+id_schedule);
     };
 
     return scheduleFactory;
@@ -1064,7 +1063,10 @@ app.onEmptyClick = undefined;
 app.onMouseMove = undefined;
 app.onBeforeEventChanged = undefined;
 app.onDblClick = undefined;
+app.onEventDeleted = undefined;
 app.eventsTab = Array();
+app.eventsToDeleteTab = Array();
+app.eventToDelete = {};
 app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
     'promotionFactory', 'scheduleFactory', function ($scope,$route, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory) {
         var heuresDebut = Array("8:45", "9:45", "11:00", "12:00", "13:45", "14:45", "16:00", "17:00");
@@ -1109,6 +1111,8 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                 scheduler.detachEvent(app.onBeforeEventChanged);
             if(app.onDblClick !== undefined)
                 scheduler.detachEvent(app.onDblClick);
+            if(app.onEventDeleted !== undefined)
+                scheduler.detachEvent(app.onEventDeleted);
 
             app.onTemplatesReady = scheduler.attachEvent("onTemplatesReady", function () {
                 //gestion des event drop depuis le tree (drag&drop)
@@ -1323,6 +1327,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                             }
                         }
                     }
+                    if(scheduler.checkInMarkedTimespan(scheduler.getEvent(ev.id), "dhx_time_block"))return false;
                     scheduler.update_view();
                     var eventIndex = -1;
                     for (var index in app.eventsTab){
@@ -1335,11 +1340,52 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                         app.eventsTab[eventIndex] = ev;
                     else
                         app.eventsTab.push(ev);
+                    //console.log(ev);
+                    console.log(app.eventsTab);
+                    console.log("je return true");
                     return true;
                 });
 
                 app.onDblClick = scheduler.attachEvent("onDblClick", function (id, e){
                     return false;
+                });
+
+               /*/ scheduler.attachEvent("onBeforeEventDelete", function(id,e){
+                    app.eventToDelete = e;
+                    console.log("aaa"+e);
+                });*/
+
+                app.onEventDeleted =  scheduler.attachEvent("onEventDeleted", function(id){
+                   /* console.log(id);
+                    console.log("jjdfsf");
+                    scheduler.deleteEvent(app.eventToDelete.id);
+                    //console.log(scheduler.getEvents());
+                    console.log(scheduler.getEvent(app.eventToDelete.id));  */
+                    var found = false;
+                    for(var index in app.eventsTab)
+                    {
+                        if(app.eventsTab[index].id == id)
+                        {
+                            //event provenant de la db qui a été déplacé
+                            if(app.eventsTab[index].idCourse === undefined)
+                            {
+                                app.eventsToDeleteTab.push(app.eventsTab[index]);
+                                app.eventsTab.splice(index,1);
+                                found = true;
+                                break;
+                            }
+                            else
+                            {
+                                app.eventsTab.splice(index,1);
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!found)
+                    {
+                      scheduleFactory.delete(id);
+                    }
                 });
             });
         }
@@ -1663,12 +1709,60 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
             //supression des éléments du tree avant de le reconstruire
             tree.deleteChildItems(1);
             $scope.getJsonData(true);
+            app.eventsTab.length = 0;
+            app.eventsToDeleteTab.length = 0;
+            console.log("appevents apres refresh : "+app.eventsTab);
         };
 
         $scope.update_schedulerEventsToDB = function(){
-            console.log(app.eventsTab);
-            scheduleFactory.addSchedule()
-        }
+            //console.log(app.eventsTab);
+            for(var index in app.eventsTab)
+            {
+                var day = app.eventsTab[index].start_date.getDate();
+                var month = app.eventsTab[index].start_date.getMonth();
+                var year = app.eventsTab[index].start_date.getFullYear();
+                var begin_hours = app.eventsTab[index].start_date.getHours();
+                var begin_minutes = app.eventsTab[index].start_date.getMinutes();
+                var end_hours = app.eventsTab[index].end_date.getHours();
+                var end_minutes = app.eventsTab[index].end_date.getMinutes();
+                if(begin_minutes===0)var begin_time = begin_hours+":00";
+                else var begin_time = begin_hours+":"+begin_minutes;
+                var begin_index = $.inArray(begin_time,heuresDebut);
+                if(end_minutes===0)var end_time = end_hours+":00";
+                else var end_time = end_hours+":"+end_minutes;
+                var end_index = $.inArray(end_time,heuresFin);
+                //console.log(app.eventsTab[index].id);
+                if(app.eventsTab[index].idCourse === undefined){
+                    scheduleFactory.edit(app.eventsTab[index].id, day, month, year, begin_index+1, end_index+1).success(function(data){/*console.log(app.eventsTab[index].id);*/});
+                }
+                else{
+                    var schedule = {
+                        teachers: app.eventsTab[index].idTeachers,
+                        classroom: app.eventsTab[index].idClassroom,
+                        course: app.eventsTab[index].idCourse,
+                        promotion: app.eventsTab[index].idGroup,
+                        date: new Date(year, month, day),
+                        color: app.eventsTab[index].color,
+                        begin: begin_index+1,
+                        end: end_index+1
+                    };
+                    scheduleFactory.add(schedule).success(function(){
+                        console.log("ok");
+                        console.log(index);
+
+                    });
+                    scheduler.deleteEvent(app.eventsTab[index].id);
+                    //app.eventsTab.splice(app.eventsTab[index],1);
+                }
+            }
+            for(var index in app.eventsToDeleteTab)
+            {
+                scheduleFactory.delete(app.eventsToDeleteTab[index].id).success(function(){console.log("delete ok")});
+            }
+            $scope.reload_schedulerEventsInStorage();
+
+            //scheduleFactory.addSchedule()
+        };
 
         $scope.show_SelectedFilter = function () {
             var myMaincbx = $scope.filters;

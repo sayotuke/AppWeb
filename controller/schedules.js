@@ -19,7 +19,7 @@ exports.findAll = function (req, res) {
 };
 
 exports.find = function (req, res) {
-    Schedule.find({}).exec(function (err, result) {
+    Schedule.find({_id: new ObjectId(req.params._id)}).exec(function (err, result) {
         if (!err) {
             res.json(result);
         } else {
@@ -68,9 +68,15 @@ exports.add = function (req, res) {
 
 exports.edit = function (req, res) {
     var id = req.params.id;
-    var name = req.params.name;
+    var day = req.params.day;
+    var month = req.params.month;
+    var year = req.params.year;
+    var begin = req.params.begin;
+    var end = req.params.end;
     Schedule.findOne({_id: new ObjectId(id)}, function (err, doc) {
-        doc.name = name;
+        doc.begin = begin;
+        doc.end = end;
+        doc.date = new Date(year, month, day);
         doc.save();
     });
     res.json("ok");

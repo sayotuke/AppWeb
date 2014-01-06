@@ -4,7 +4,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 var passport = require('passport');
 var PassportLocalStrategy = require('passport-local').Strategy;
 
-exports.login = function(req, res){
+/*exports.login = function(req, res){
     passport.use(
         new LocalStrategy(function(username, password,done){
         Users.findOne({ username : username},function(err,user){
@@ -41,4 +41,4 @@ function userExist(req, res, next) {
             res.redirect("/singup");
         }
     });
-}
+}     */
