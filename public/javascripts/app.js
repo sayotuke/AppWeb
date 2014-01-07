@@ -164,6 +164,28 @@ app.factory('scheduleFactory', ['$http', function ($http) {
 
     return scheduleFactory;
 }]);
+app.factory('usersFactory', ['$http', function($http){
+    var usersFactory = {};
+
+    usersFactory.login = function(){
+        return $http.post('/auth/login')
+    };
+
+    usersFactory.logout = function(){
+        return $http.post('/auth/logout')
+    };
+
+    usersFactory.loginSuccess = function(){
+        return $http.get('/auth/login/success')
+    };
+
+    usersFactory.loginFailure = function(){
+        return $http.get('/auth/login/failure')
+    };
+
+    return usersFactory;
+
+}]);
 app.filter('startFrom', function () {
     return function (input, start) {
         if (input) {
@@ -1041,6 +1063,19 @@ app.controller('CsvController', function ($scope, $http, $timeout) {
         });
     });
 
+    $scope.checkIfFileIsSelected = function () {
+        var fileButton = document.getElementById("myFile");
+        var updateButton = document.getElementById("upload");
+        if (fileButton.value === ""){
+            updateButton.disabled = true;
+            updateButton.className = "btn";
+        }
+        else{
+            updateButton.disabled = false;
+            updateButton.className = "btn btn-success";
+        }
+    }
+
     /*
      var data = $("#myFile").val();
      console.log(data);
@@ -1053,6 +1088,9 @@ app.controller('CsvController', function ($scope, $http, $timeout) {
      };  */
 
 });
+app.controller('UsersController',['$scope', '$http', 'usersFactory', function ($scope, $http, usersFactory){
+
+}]);
 
 //Pour vérifier si le scheduler est déjà chargé pour ne pas le charger une deuxième fois
 app.scheduler_loaded = false;

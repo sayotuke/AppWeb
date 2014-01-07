@@ -108,12 +108,20 @@ a {
     background-color: #13A99C !important;
 }
 
-.options_btn_position{
+.save_btn_position{
     position: relative;
-    left:220px;
+    left:542px;
+    top: 15px !important;
+}
+.refresh_btn_position{
+    position: relative;
+    left:205px;
     top: 15px !important;
 }
 
+.btn_pos{
+    margin: 5px !important;
+}
 
 
 

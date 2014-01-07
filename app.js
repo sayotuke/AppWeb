@@ -9,15 +9,17 @@ var http = require('http');
 var routes = require('./routes');
 var classrooms = require('./controller/classrooms');
 var teachers = require('./controller/teachers');
-var courses = require("./controller/courses");
-var promotions = require("./controller/promotions");
-var schedules = require("./controller/schedules");
-var csvHandler = require("./controller/csvHandler");
-var users = require("./controller/users");
+var courses = require('./controller/courses');
+var promotions = require('./controller/promotions');
+var schedules = require('./controller/schedules');
+var csvHandler = require('./controller/csvHandler');
+var auth = require('../controller/users');
 var csv = require('csv');
 var fs = require('fs');
 var async = require('async');
-//var passport = require('passport');
+var md5 = require('MD5');
+var passport = require('passport');
+var user = require('../model/user');
 var app = express();
 
 // database connection
@@ -36,17 +38,37 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(express.session({ secret: 'SECRET' }));
-//app.use(passport.initialize());
-//app.use(passport.session());
-//app.use(express.cookieParser());
+app.use(express.cookieParser());
+app.use(express.session({ secret: 'zohgzkenfz5r5ge6r54gz6' }));
+
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-//app.use(express.basicAuth('user', 'password'));
+passport.use(user.localStrategy);
+passport.serializeUser(user.serializeUser);
+passport.deserializeUser(user.deserializeUser);
+
+// Default session handling. Won't explain it as there are a lot of resources out there
+app.use(express.session({
+    secret: "aehj9f5d2bj5mm8tsw52g14",
+    cookie: {maxAge: new Date(Date.now() + 3600000)}, // 1 heure
+    maxAge: new Date(Date.now() + 3600000), // 1 heure
+    store: new RedisStore(config.database.redis) // You can not use Redis
+}));
+
+// The important part. Must go AFTER the express session is initialized
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+//authentication
+app.post('/auth/login', auth.login);
+app.post('/auth/logout', auth.logout);
+app.get('/auth/login/success', auth.loginSuccess);
+app.get('/auth/login/failure', auth.loginFailure);
 
 app.get('/', routes.index);
 //Classrooms

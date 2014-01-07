@@ -3,11 +3,12 @@
     <br>
 
     <div>
-        <input type="file" id="myFile" name="myFile"/>
-        <br>
-        <input type="button" id="upload" value="Importer le fichier" class="btn btn-success"/>
+        <h4>Sélectionnez le fichier CSV à importer</h4>
+        <input type="file" onchange="angular.element(this).scope().checkIfFileIsSelected();" id="myFile" name="myFile"/>
+        <button id="upload" disabled class="btn">Importer le fichier</button>
         <br>
     </div>
+    <br>
     <div>
         Rapport :
         <div class="well"></div>
