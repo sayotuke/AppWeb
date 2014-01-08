@@ -10,6 +10,7 @@ block content
                     span.icon-bar
                 a.navbarStyle.brand(href="#/") MASI Scheduler
                 .nav-collapse.collapse(ng-controller="NavBarController")
+                    - if (session.passport.user !== undefined){
                     ul.nav
                         li(ng-class="{ active: isActive('/classrooms')}")
                             a.navbarStyle(href="#/classrooms") Locaux
@@ -23,14 +24,23 @@ block content
                             a.navbarStyle(href="#/schedules") Horaires
                         li(ng-class="{ active: isActive('/csv')}")
                             a.navbarStyle(href="#/csv") Import
+                    -}
                     ul.nav.pull-right
+                        - if (session.passport.user === undefined){
                         li.dropdown
                             a.navbarStyle.dropdown-toggle(href="#", data-toggle="dropdown", style="margin-right: 15px;") Connexion
                                 strong.caret
                             .dropdown-menu(style="padding: 15px; padding-bottom: 0px;")
-                                form(action="/login", method="post")
-                                    input.loginFormInput(type="text", name="username", placeholder="login", size="30")
+                                form(action="/auth/login", method="post" ng-submit="login()")
+                                    input.loginFormInput(type="text", name="name", placeholder="login", size="30")
                                     input.loginFormInput(type="password", name="password", placeholder="password", size="30")
-                                    input.btn.btn-primary(style="clear: left; width: 100%; height: 32px; font-size: 13px;", type="submit", name="commit", value="Connexion")
+                                    input.btn.btn-primary(style="clear: left; width: 100%; height: 32px; font-size: 13px;", type="submit", value="Connexion")
+                        -}
+                        -else{
+                        li
+                            a.navbarStyle(href="#", ng-click="logout()") Déconnexion
+                            form#logout-form(style="display: none", action="/auth/logout", method="post")
+
+                        -}
 
     div(ng-view="")

@@ -1,0 +1,15 @@
+<div class="container row">
+    <div class="span12" style="text-align: center; margin-top: 100px;">
+        <div class="span4 offset4 alert alert-error inline" style="width:250px">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            Login ou password incorrect
+        </div>
+        <form action="/auth/login" method="post" class="span4 offset4">
+            <input class="loginFormInput" type="text" name="name" placeholder="login" size="30" ng-required/>
+            <br>
+            <input class="loginFormInput" type="password" name="password" placeholder="password" size="30" ng-required/>
+            <br>
+            <input class="btn btn-success" type="submit" placeholder="login" size="30" value="Connexion"/>
+        </form>
+    </div>
+</div>

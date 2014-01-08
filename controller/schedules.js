@@ -136,7 +136,7 @@ exports.getScheduleModels = function (req, res) {
 exports.getTeacherTotalHour = function (req, res) {
     var id_teacher = req.params.id_teacher;
     var total = 0;
-    Schedule.find({teachers: id_teacher, date: {'$ne':null}})
+    Schedule.find({teachers: id_teacher, date: {$ne:null}})
         .exec(function (err, result) {
             if (!err) {
                 for(var index in result)
@@ -175,7 +175,7 @@ exports.getPromotionTotalHourByCourse = function (req, res) {
     var id_promotion = req.params.id_promotion;
     var id_course = req.params.id_course;
     var total = 0;
-    Schedule.find({promotion: id_promotion, course: id_course,date: {'$ne':null}})
+    Schedule.find({promotion: id_promotion, course: id_course,date: {$ne:null}})
         .exec(function (err, result) {
             if (!err) {
                 for(var index in result)
@@ -291,7 +291,7 @@ exports.isClassroomTakenCSV = function (req, callback) {
     //console.log(year +"/"+month+"/"+day);
     Schedule.find({classroom: id_classroom, date: new Date(year, month, day)}, 'begin end course promotion')
         .exec(function (err, result) {
-          //  console.log("resuuuult : " + result.length);
+           // console.log("resuuuult : " + result.length);
             if (!err) {
 
                 if (result !== null && result.length>=1) {
@@ -323,7 +323,7 @@ exports.isClassroomTakenCSV = function (req, callback) {
                             }
                         }
                     }
-                    //console.log(slots);
+                   // console.log(slots);
 
                     var diff = end - begin;
                     //console.log("diff : " + diff);
@@ -337,8 +337,6 @@ exports.isClassroomTakenCSV = function (req, callback) {
                             if (slots[j].taken === true) {
                                 //console.log(id_course);
                                 //console.log(slots[j].course);
-                                //On doit passer les deux params en strings sinon il considère qu'ils ne sont pas égaux
-                                //il les prend comme des objects je pense
                                 if (slots[j].course+"" !== id_course+"") {
                                     libre = false;
                                     //console.log('pas libre et j = ' + j);
@@ -395,7 +393,7 @@ exports.isTeacherTaken = function (req, res) {
         res.json(false);
     }
     else{
-    Schedule.find({teachers: teachersTab, date: new Date(year, month, day)}, 'begin end course promotion')
+    Schedule.find({teachers: {$in: teachersTab, $ne:null}, date: new Date(year, month, day)}, 'begin end course promotion')
         .exec(function (err, result) {
             console.log("resuuuult : " + result);
             if (!err) {
@@ -487,9 +485,9 @@ exports.isTeacherTakenCSV = function (req, callback) {
     //console.log("PROF DATE : "+year +"/"+month+"/"+day);
     //console.log(teachersTab[0]);
     //console.log("begin : "+begin+" end : "+end);
-    Schedule.find({teachers: teachersTab, date: new Date(year, month, day)}, 'begin end course promotion')
+    Schedule.find({teachers: {$in: teachersTab, $ne:null}, date: new Date(year, month, day)}, 'begin end course promotion')
         .exec(function (err, result) {
-            //console.log("resuuuult : " + result);
+            console.log("resuuuult : " + result+ "for : "+teachersTab[0]);
             if (!err) {
 
                 if (result !== null && result.length>=1) {
@@ -521,7 +519,7 @@ exports.isTeacherTakenCSV = function (req, callback) {
                             }
                         }
                     }
-                    //console.log(slots);
+                    console.log(slots);
 
                     var diff = end - begin;
                     //console.log("diff : " + diff);
@@ -574,6 +572,90 @@ exports.isTeacherTakenCSV = function (req, callback) {
                 }
             } else {
                 console.log("erreur lors du find : " + err);
+            }
+        });
+};
+
+exports.isPromotionTakenCSV = function (req, callback) {
+    var id_promotion = req.params.id_promotion;
+    var day = req.params.day;
+    var month = req.params.month;
+    var year = req.params.year;
+    var begin = parseInt(req.params.begin);
+    var end = parseInt(req.params.end);
+    //console.log("begin : "+begin+" end : "+end);
+    //console.log(year +"/"+month+"/"+day);
+    Schedule.find({promotion: id_promotion, date: new Date(year, month, day)}, 'begin end')
+        .exec(function (err, result) {
+            // console.log("resuuuult : " + result.length);
+            if (!err) {
+
+                if (result !== null && result.length>=1) {
+                    var slots = Array(
+                        {id: 1, taken: false, course: null},
+                        {id: 2, taken: false, course: null},
+                        {id: 3, taken: false, course: null},
+                        {id: 4, taken: false, course: null},
+                        {id: 5, taken: false, course: null},
+                        {id: 6, taken: false, course: null},
+                        {id: 7, taken: false, course: null},
+                        {id: 8, taken: false, course: null});
+                    for (var index in result) {
+                        if (result[index].begin === result[index].end) {
+                            //console.log("begin result : "+ result[index].begin+"end result "+result[index].end);
+                            slots[result[index].begin - 1].taken = true;
+                        }
+                        else {
+                            var diff = result[index].end - result[index].begin;
+                            //console.log("diiiiiif "+diff);
+                            for (var i = result[index].begin - 1; i <= diff + result[index].begin - 1; i++) {
+                                //console.log("i = " + i);
+                                //console.log("result at index :" + result[index]);
+                                slots[i].taken = true;
+                            }
+                        }
+                    }
+                    // console.log(slots);
+
+                    var diff = end - begin;
+                    //console.log("diff : " + diff);
+                    for (var i = begin - 1; i < slots.length; i++) {
+                        //console.log("i : " + i);
+                        var libre = true;
+                        //console.log("i+1 " + (i + 1));
+                        //console.log("diff+1 " + (diff + i));
+                        for (var j = i; j <= diff + i; j++) {
+                            //console.log(j);
+                            if (slots[j].taken === true) {
+                                //console.log(id_course);
+                                //console.log(slots[j].course);
+                                    libre = false;
+                                    //console.log('pas libre et j = ' + j);
+                                    //console.log("slots[j].course = "+slots[j].course+" et id_course = "+id_course);
+                                    break;
+                            }
+                            }
+
+                        if (libre) {
+                            //   console.warn("CLASSE LIBRE "+id_classroom);
+                            callback(false);
+                            break;
+                        }
+                        else {
+                            //   console.warn("CLASSE PAS LIBRE "+id_classroom);
+                            callback(true);
+                            break;
+                        }
+                    }
+
+                }
+                //aucun schedule pour ce local à cette date donc libre
+                else {
+                    // console.warn("CLASSE LIBRE "+id_classroom);
+                    callback(false);
+                }
+            } else {
+                console.warn("erreur lors du find : " + err);
             }
         });
 };

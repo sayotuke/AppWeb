@@ -5,12 +5,20 @@
     <div>
         <h4>Sélectionnez le fichier CSV à importer</h4>
         <input type="file" onchange="angular.element(this).scope().checkIfFileIsSelected();" id="myFile" name="myFile"/>
+        <br>
+        <span id="error_csv_file"></span>
+        <br>
         <button id="upload" disabled class="btn">Importer le fichier</button>
         <br>
     </div>
     <br>
     <div>
         Rapport :
-        <div class="well"></div>
+        <div class="well" style="max-height: 600px !important; display: block !important; overflow-y: scroll; !important">
+            <span ng-show="conflicts.length>=0" ng-class="{conflicts: conflicts.length>0, no_conflicts: conflicts.length===0}">Nombre de conflits : {{conflicts.length}}.<span>
+            <table style="max-height: 440px !important; display: block;">
+                <tr ng-repeat="conflict in conflicts"><td><p>{{conflict.error}}<p><p>{{conflict.cause}}</p><hr></td></tr>
+            </table>
+        </div>
     </div>
 </div>

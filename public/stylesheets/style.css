@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  padding-top: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -110,12 +110,13 @@ a {
 
 .save_btn_position{
     position: relative;
-    left:542px;
+    right:210px !important;
+    left: auto !important;
     top: 15px !important;
 }
 .refresh_btn_position{
     position: relative;
-    left:205px;
+    left:205px !important;
     top: 15px !important;
 }
 
@@ -185,4 +186,17 @@ a {
 
 .loginFormInput{
     margin-bottom: 15px !important;
+}
+
+
+#error_csv_file{
+    color : red;
+}
+
+.conflicts{color : red;}
+.no_conflicts{color : green;}
+
+.table_filtre{
+    margin-top: 15px;
+    margin-bottom: 20px;
 }

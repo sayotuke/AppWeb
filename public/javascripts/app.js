@@ -164,26 +164,46 @@ app.factory('scheduleFactory', ['$http', function ($http) {
 
     return scheduleFactory;
 }]);
-app.factory('usersFactory', ['$http', function($http){
-    var usersFactory = {};
+app.service('userService', ['$http', function($http){
+    var userService = {};
+    var session ="";
 
-    usersFactory.login = function(){
-        return $http.post('/auth/login')
+    $http.get("/getSession").success(function(data){
+       session = data;
+    });
+
+    userService.login = function(){
+        /*session = {
+            user: "dede"
+        };
+        console.log(session); */
     };
 
-    usersFactory.logout = function(){
-        return $http.post('/auth/logout')
+    userService.logout = function(){
+        session = undefined;
     };
 
-    usersFactory.loginSuccess = function(){
+    userService.isConnected = function()
+    {
+        if(session=="")
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    /*userService.loginSuccess = function(){
         return $http.get('/auth/login/success')
     };
 
-    usersFactory.loginFailure = function(){
+    userService.loginFailure = function(){
         return $http.get('/auth/login/failure')
-    };
+    };*/
 
-    return usersFactory;
+    return userService;
 
 }]);
 app.filter('startFrom', function () {
@@ -232,9 +252,16 @@ app.config(function ($routeProvider) {
             controller: 'CsvController',
             templateUrl: 'partials/csv.html'
         })
+        .when('/badLogin',
+        {
+            controller: 'BadLoginController',
+            templateUrl: 'partials/badLogin.html'
+        })
         .otherwise({redirectTo: '/'});
 });
-app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroomFactory', function ($scope, $http, $timeout, classroomFactory) {
+app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroomFactory','userService','$location', function ($scope, $http, $timeout, classroomFactory, userService,$location) {
+    if(!userService.isConnected())
+        $location.path("/");
     $scope.isCollapsed = false;
     $scope.entryLimit = 10;
 
@@ -328,7 +355,9 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
     };
 
 }]);
-app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFactory', function ($scope, $http, $timeout, teacherFactory) {
+app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFactory','userService','$location', function ($scope, $http, $timeout, teacherFactory,userService,$location) {
+    if(!userService.isConnected())
+        $location.path("/");
     $scope.isCollapsed = false;
     $scope.entryLimit = 10;
 
@@ -430,7 +459,9 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
 
     };
 }]);
-app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactory', function ($scope, $http, $timeout, courseFactory) {
+app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactory','userService','$location', function ($scope, $http, $timeout, courseFactory,userService,$location) {
+    if(!userService.isConnected())
+        $location.path("/");
     $scope.isCollapsed = false;
     $scope.entryLimit = 10;
 
@@ -523,7 +554,9 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
 
     };
 }]);
-app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotionFactory', function ($scope, $http, $timeout, promotionFactory) {
+app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotionFactory','userService','$location', function ($scope, $http, $timeout, promotionFactory,userService,$location) {
+    if(!userService.isConnected())
+        $location.path("/");
     $scope.isCollapsed = false;
     $scope.entryLimit = 10;
 
@@ -617,8 +650,10 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
     };
 }]);
 app.controller('ScheduleController', ['$scope','$location', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
-    'promotionFactory', 'scheduleFactory', function ($scope, $location, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory) {
-
+    'promotionFactory', 'scheduleFactory','userService','$location', function ($scope, $location, $http, $timeout,
+         classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory,userService,$location) {
+        if(!userService.isConnected())
+            $location.path("/");
         $scope.init = function () {
             classroomFactory.findAll().success(function (data, status, headers, config) {
                 $scope.classrooms = data;
@@ -993,8 +1028,9 @@ app.controller('ScheduleController', ['$scope','$location', '$http', '$timeout',
         }
 
     }]);
-app.controller('CsvController', function ($scope, $http, $timeout) {
-
+app.controller('CsvController',['$scope','userService','$location', function ($scope,userService,$location) {
+    if(!userService.isConnected())
+        $location.path("/");
     $.fn.upload = function (remote, data, successFn, progressFn) {
         // if we dont have post data, move it along
         if (typeof data != "object") {
@@ -1044,6 +1080,14 @@ app.controller('CsvController', function ($scope, $http, $timeout) {
                         var json;
                         try {
                             json = JSON.parse(res.responseText);
+                            console.log(json);
+                            $scope.conflicts = {};
+                            $scope.conflicts = json;
+                            console.log("conflits : "+$scope.conflicts);
+                            document.getElementById("myFile").value="";
+                            document.getElementById("upload").disabled = true;
+                            document.getElementById("upload").className = "btn";;
+                            $scope.$apply();
                         } catch (e) {
                             json = res.responseText;
                         }
@@ -1057,7 +1101,10 @@ app.controller('CsvController', function ($scope, $http, $timeout) {
 
     $("#upload").on("click", function () {
         $("#myFile").upload("/uploadFile/", function (success) {
-            console.log("success");
+            //console.log("success : "+ success);
+            //var json = JSON.parse(success);
+            //$scope.conflicts = {};
+            //$scope.conflicts = success;
         }, function (prog, value) {
             $scope.value = value;
         });
@@ -1067,12 +1114,23 @@ app.controller('CsvController', function ($scope, $http, $timeout) {
         var fileButton = document.getElementById("myFile");
         var updateButton = document.getElementById("upload");
         if (fileButton.value === ""){
+            document.getElementById("error_csv_file").innerHTML = "";
             updateButton.disabled = true;
             updateButton.className = "btn";
         }
         else{
-            updateButton.disabled = false;
-            updateButton.className = "btn btn-success";
+            var tab = fileButton.value.split(".");
+            var extension = tab[tab.length-1];
+            if( extension == "csv"){
+                document.getElementById("error_csv_file").innerHTML = "";
+                updateButton.disabled = false;
+                updateButton.className = "btn btn-success";
+            }
+            else {
+                document.getElementById("error_csv_file").innerHTML = "Ce fichier n'est pas un fichier csv !";
+                updateButton.disabled = true;
+                updateButton.className = "btn";
+            }
         }
     }
 
@@ -1086,9 +1144,6 @@ app.controller('CsvController', function ($scope, $http, $timeout) {
      // $scope.courses[$scope.courses.indexOf(course)].name = newName;
      });
      };  */
-
-});
-app.controller('UsersController',['$scope', '$http', 'usersFactory', function ($scope, $http, usersFactory){
 
 }]);
 
@@ -1106,11 +1161,11 @@ app.eventsTab = Array();
 app.eventsToDeleteTab = Array();
 app.eventToDelete = {};
 app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
-    'promotionFactory', 'scheduleFactory', function ($scope,$route, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory) {
+    'promotionFactory', 'scheduleFactory','userService', function ($scope,$route, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory, userService) {
         var heuresDebut = Array("8:45", "9:45", "11:00", "12:00", "13:45", "14:45", "16:00", "17:00");
         var heuresFin = Array("9:45", "10:45", "12:00", "13:00", "14:45", "15:45", "17:00", "18:00");
         var tree = null;
-        //
+        $scope.isConnected = userService.isConnected();
         $scope.init = function () {
             $scope.initializeTree();
             $scope.defineSchedulerAttachedEvents();
@@ -1118,6 +1173,13 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
             $scope.getJsonData(false);
             $scope.populate_comboboxes();
         }
+        $scope.isConnected = userService.isConnected();
+        //console.log("controller rechargé");
+
+        /*$scope.checkConnected = function()
+        {
+            $scope.isConnected = userService.isConnected();
+        } */
 
         $scope.initializeTree = function () {
             tree = new dhtmlXTreeObject('treebox_ClassesTree', '100%', '100%', 0);
@@ -1170,23 +1232,33 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                         var scheduleTeachersTab = scheduleTab[2].split("-");
 
                         var scheduleCourse = scheduleTab[0];
-                        var scheduleGroup = scheduleGroupAndClassroomTab[0].replace(/^\s+|\s+$/g,'');
-                        var scheduleClassroom = scheduleGroupAndClassroomTab[1].replace(/^\s+|\s+$/g,'');
+                        var scheduleGroup = scheduleGroupAndClassroomTab[1].replace(/^\s+|\s+$/g,'');
+                        var scheduleClassroom = scheduleGroupAndClassroomTab[0].replace(/^\s+|\s+$/g,'');
                         var scheduleTeachers = scheduleTab[2];
 
                         var treeTeachersTab = tree.getUserData(tree._dragged[0].id, "teachers").split("-");
 
                         var teacherIsPresent;
                         if (treeTeachersTab.length > scheduleTeachersTab.length){
-                            teacherIsPresent = tree.getUserData(tree._dragged[0].id, "teachers").indexOf(scheduleTeachers)!= 1;
+                            teacherIsPresent = tree.getUserData(tree._dragged[0].id, "teachers").indexOf(scheduleTeachers)!== 1;
                         }
                         else{
-                            teacherIsPresent = scheduleTeachers.indexOf(tree.getUserData(tree._dragged[0].id, "teachers")) != -1;
+                            teacherIsPresent = scheduleTeachers.indexOf(tree.getUserData(tree._dragged[0].id, "teachers")) !== -1;
                         }
 
+                        console.log(tree.getUserData(tree._dragged[0].id, "classroom")+" = "+scheduleClassroom);
+                        console.log(tree.getUserData(tree._dragged[0].id, "course")+" = "+scheduleCourse);
+                        console.log(tree.getUserData(tree._dragged[0].id, "group")+" = "+scheduleGroup);
+
+                        //doublon
+                        if( tree.getUserData(tree._dragged[0].id, "classroom").indexOf(scheduleClassroom) != -1 &&
+                            tree.getUserData(tree._dragged[0].id, "course").indexOf(scheduleCourse) != -1 &&
+                            tree.getUserData(tree._dragged[0].id, "group").indexOf(scheduleGroup) != -1 &&
+                            teacherIsPresent)
+                        {return false;}
                         // si on est dans le même local, avec le même prof, le même cours et un groupe différent -> ok
-                        if (tree.getUserData(tree._dragged[0].id, "classroom").indexOf(scheduleClassroom) != -1){
-                            if (tree.getUserData(tree._dragged[0].id, "course").indexOf(scheduleCourse) != -1 &&
+                        else if (tree.getUserData(tree._dragged[0].id, "classroom").indexOf(scheduleClassroom) !== -1){
+                            if (tree.getUserData(tree._dragged[0].id, "course").indexOf(scheduleCourse) !== -1 &&
                                 tree.getUserData(tree._dragged[0].id, "group").indexOf(scheduleGroup) === -1 &&
                                 teacherIsPresent){
                                 scheduler.getEvent(id).text = tree.getUserData(tree._dragged[0].id, "tip");
@@ -1204,7 +1276,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                         // si on est dans un local différent avec le même prof mais qu'on a le même cours et un groupe différent alors ok
                         //(cours donné par 2 binomes dans 2 locaux différents en meme temps)
                         else if (teacherIsPresent){
-                            if (tree.getUserData(tree._dragged[0].id, "course").indexOf(scheduleCourse) != -1 &&
+                            if (tree.getUserData(tree._dragged[0].id, "course").indexOf(scheduleCourse) !== -1 &&
                                 tree.getUserData(tree._dragged[0].id, "group").indexOf(scheduleGroup) === -1){
                                 scheduler.getEvent(id).text = tree.getUserData(tree._dragged[0].id, "tip");
                                 scheduler.getEvent(id).color = tree.getUserData(tree._dragged[0].id, "color");
@@ -1248,6 +1320,8 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                     }
                     scheduler.update_view();
                     app.eventsTab.push(scheduler.getEvent(id));
+                    //console.log("EVENTS : ");
+                    //console.log(app.eventsTab);
                     return true;
                 });
                 app.onViewChange = scheduler.attachEvent("onViewChange", function (new_mode , new_date){
@@ -1378,9 +1452,6 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                         app.eventsTab[eventIndex] = ev;
                     else
                         app.eventsTab.push(ev);
-                    //console.log(ev);
-                    console.log(app.eventsTab);
-                    console.log("je return true");
                     return true;
                 });
 
@@ -1393,7 +1464,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                     console.log("aaa"+e);
                 });*/
 
-                app.onEventDeleted =  scheduler.attachEvent("onEventDeleted", function(id){
+                app.onEventDeleted = scheduler.attachEvent("onEventDeleted", function(id){
                    /* console.log(id);
                     console.log("jjdfsf");
                     scheduler.deleteEvent(app.eventToDelete.id);
@@ -1402,27 +1473,32 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                     var found = false;
                     for(var index in app.eventsTab)
                     {
+                        //on cherche l'event dans eventsTab
                         if(app.eventsTab[index].id == id)
                         {
-                            //event provenant de la db qui a été déplacé
-                            if(app.eventsTab[index].idCourse === undefined)
+                            //event provenant du tree
+                            if(app.eventsTab[index].idCourse !== undefined)
                             {
-                                app.eventsToDeleteTab.push(app.eventsTab[index]);
                                 app.eventsTab.splice(index,1);
                                 found = true;
                                 break;
                             }
+                            //event provenant de la db
                             else
                             {
+                                app.eventsToDeleteTab.push(app.eventsTab[index].id);
                                 app.eventsTab.splice(index,1);
                                 found = true;
                                 break;
                             }
                         }
                     }
+                    //event de la db qui n'a pas été déplacé (et donc qui n'est pas dans eventstab)
                     if(!found)
                     {
-                      scheduleFactory.delete(id);
+                      console.log("id : "+id);
+                      app.eventsToDeleteTab.push(id);
+                      console.log(app.eventsToDeleteTab);
                     }
                 });
             });
@@ -1440,7 +1516,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
             scheduler.config.drag_create = false;
             scheduler.config.edit_on_create = false;
             scheduler.config.icons_select = ["icon_delete"];
-            //if (!userConnected)scheduler.config.readonly = true;
+            if (!$scope.isConnected)scheduler.config.readonly = true;
             scheduler.init('MASI_scheduler', new Date(),"week");
             scheduler.ignore_week = function (date) {
                 if (date.getDay() == 6 || date.getDay() == 0) //cache samedi et dimanche
@@ -1746,6 +1822,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
             //reload des données
             //supression des éléments du tree avant de le reconstruire
             tree.deleteChildItems(1);
+            scheduler.clearAll();
             $scope.getJsonData(true);
             app.eventsTab.length = 0;
             app.eventsToDeleteTab.length = 0;
@@ -1753,9 +1830,10 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
         };
 
         $scope.update_schedulerEventsToDB = function(){
-            //console.log(app.eventsTab);
+            console.log(app.eventsTab.length);
             for(var index in app.eventsTab)
             {
+                console.log("index : "+index);
                 var day = app.eventsTab[index].start_date.getDate();
                 var month = app.eventsTab[index].start_date.getMonth();
                 var year = app.eventsTab[index].start_date.getFullYear();
@@ -1769,7 +1847,9 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                 if(end_minutes===0)var end_time = end_hours+":00";
                 else var end_time = end_hours+":"+end_minutes;
                 var end_index = $.inArray(end_time,heuresFin);
-                //console.log(app.eventsTab[index].id);
+                console.log("coucou");
+                console.log(app.eventsTab[index]);
+                //un qui est dans la db
                 if(app.eventsTab[index].idCourse === undefined){
                     scheduleFactory.edit(app.eventsTab[index].id, day, month, year, begin_index+1, end_index+1).success(function(data){/*console.log(app.eventsTab[index].id);*/});
                 }
@@ -1786,16 +1866,19 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                     };
                     scheduleFactory.add(schedule).success(function(){
                         console.log("ok");
-                        console.log(index);
-
                     });
-                    scheduler.deleteEvent(app.eventsTab[index].id);
+                    var event = app.eventsTab[index].id;
+                    //scheduler.deleteEvent(event);
                     //app.eventsTab.splice(app.eventsTab[index],1);
                 }
+                console.log("index fin : "+index);
             }
+            console.log("eventsTab length apres : "+app.eventsTab.length);
+            console.log("events to delete");
+            console.log(app.eventsToDeleteTab);
             for(var index in app.eventsToDeleteTab)
             {
-                scheduleFactory.delete(app.eventsToDeleteTab[index].id).success(function(){console.log("delete ok")});
+                scheduleFactory.delete(app.eventsToDeleteTab[index]).success(function(){console.log("delete ok")});
             }
             $scope.reload_schedulerEventsInStorage();
 
@@ -1899,9 +1982,27 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
             });
         });
     }]);
-
-app.controller('NavBarController', function ($scope, $location) {
+app.controller('NavBarController', ['$scope','$location','userService', function ($scope, $location, userService) {
     $scope.isActive = function (viewLocation) {
         return viewLocation === $location.path();
     };
-});
+    $scope.login = function()
+    {
+         userService.login();
+    };
+    $scope.logout = function()
+    {
+       userService.logout();
+       $('#logout-form').submit();
+    };
+}]);
+app.controller('BadLoginController',['$scope','userService','$location','$http', function ($scope,userService,$location,$http) {
+    if(userService.isConnected())
+        $location.path("/");
+    $(function () {
+        // Fix input element click problem
+        $('.dropdown input, .dropdown label').click(function (e) {
+            e.stopPropagation();
+        });
+    });
+}]);

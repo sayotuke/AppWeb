@@ -1,4 +1,5 @@
 /* Your normal user model      ----------------------*/
+var crypto = require('crypto');
 var mongoose = require('mongoose'),
     ObjectId = mongoose.Schema.Types.ObjectId,
     PassportLocalStrategy = require('passport-local').Strategy;
@@ -13,7 +14,7 @@ schema = new mongoose.Schema({
 
 // This is your main login logic
 schema.statics.localStrategy = new PassportLocalStrategy({
-        usernameField: 'user',
+        usernameField: 'name',
         passwordField: 'password'
     },
 
@@ -21,7 +22,7 @@ schema.statics.localStrategy = new PassportLocalStrategy({
     function (username, password, done){
         var User = require('./user');
         User.findOne({name: username}, function(err, user){
-            if (err) { return done(err); }
+            if (err) {return done(err); }
 
             if (!user){
                 return done(null, false, { message: 'User not found.'} );
@@ -41,7 +42,11 @@ schema.statics.localStrategy = new PassportLocalStrategy({
 );
 
 schema.methods.validPassword = function(password){
-    if (this.password == password){
+    var hashedPassword = crypto.createHash("sha1")
+        .update(password)
+        .digest("hex");
+    console.log(hashedPassword);
+    if (this.password == hashedPassword){
         return true;
     }
 

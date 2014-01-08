@@ -22,6 +22,9 @@ exports.import = function(req, res)
     var csvFileName = req.files.myFile.path;
     //console.log(req.files.myFile.path);
     var schedulesFromCsv = Array();
+    var conflicts = Array();
+    var begins = Array("8:45","9:45","11:00","12:00","13:45","14:45","16:00","17:00");
+    var ends = Array("9:45","10:45","12:00","13:00","14:45","15:45","17:00","18:00");
     csv()
         .from.stream(fs.createReadStream(csvFileName))
         .transform( function(row){
@@ -71,11 +74,12 @@ exports.import = function(req, res)
              }   */
         })
         .on('end', function(count){
+            //return false;
           //  console.log('Number of lines: '+count);
           //  console.log(schedulesFromCsv[3]);
             countTest = 0;
             tab = Array();
-
+            var countLines = 0;
            async.eachSeries(schedulesFromCsv,function(scheduleFromCsv, callback)
             {
                 //setTimeout(function(){console.log("");},3000);
@@ -83,7 +87,7 @@ exports.import = function(req, res)
                 var course = scheduleFromCsv.course;
                 var teachers = scheduleFromCsv.teachers;
                 var promotion = scheduleFromCsv.promotion;
-
+                countLines++;
                 var classroomId, courseId, promotionId;
 
                 var teachersTab = teachers.split("|");
@@ -104,7 +108,8 @@ exports.import = function(req, res)
                     }
                 }*/
                 async.series([
-                    function(callback){ if (teachersTab[0]!=="") {
+                    function(callback){ if (teachersTab[0]!="") {
+
                        // console.warn("LENGHT : "+teachersTab.length);
                         //var teachersIDsClone = teachersTab.slice(0);
                         if(teachersTab.length==2)
@@ -195,46 +200,109 @@ exports.import = function(req, res)
                         //callback(null);
                        // console.warn(req);
                         //setTimeout(function(){console.log("");},3000);
-                        schedules.isClassroomTakenCSV(req, function (data) {
-                            //console.warn(data);
-                            if (data) {
-                            console.warn("classe déjà prise");
+                        schedules.isPromotionTakenCSV(req, function(data)
+                        {
+                            if(data)
+                            {
+                                if(teachersTab.length>0 && teachersTab[0]!= "")
+                                {
+                                    conflicts.push({error: "Impossible d'insérer la ligne "+countLines+" [Cours : "+course+"; Local : "+classroom
+                                        +"; Professeurs : "+teachersTab
+                                        +"; Groupe : "+promotion+"; Date : "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year
+                                        +"; Début : "+begins[scheduleFromCsv.begin-1]+"; Fin : "+ends[scheduleFromCsv.end-1]+"]",cause:
+                                        "Cause : Le groupe "+promotion+" est déjà pris entre "+begins[scheduleFromCsv.begin-1]+" et "+ends[scheduleFromCsv.end-1]
+                                        +" le "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year});
+                                }
+                                else
+                                {
+                                    conflicts.push({error: "Impossible d'insérer la ligne "+countLines+" [Cours : "+course+"; Local : "+classroom
+                                        +"; Professeur : Autonomie"
+                                        +"; Groupe : "+promotion+"; Date : "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year
+                                        +"; Début : "+begins[scheduleFromCsv.begin-1]+"; Fin : "+ends[scheduleFromCsv.end-1]+"]",cause:
+                                        "Cause : Le groupe "+promotion+" est déjà pris entre "+begins[scheduleFromCsv.begin-1]+" et "+ends[scheduleFromCsv.end-1]
+                                        +" le "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year});
+                                }
                                 callback(null);
-                             }
-                             else {
-                                //callback(null);
-                             console.warn("classe libre");
-                                schedules.isTeacherTakenCSV(req, function(data){
+                            }
+                            else
+                            {
+                                schedules.isClassroomTakenCSV(req, function (data) {
                                     //console.warn(data);
                                     if (data) {
-                                        console.warn("prof déjà pris");
+                                        if(teachersTab.length>0 && teachersTab[0]!= "")
+                                        {
+                                            conflicts.push({error: "Impossible d'insérer la ligne "+countLines+" [Cours : "+course+"; Local : "+classroom
+                                                +"; Professeurs : "+teachersTab
+                                                +"; Groupe : "+promotion+"; Date : "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year
+                                                +"; Début : "+begins[scheduleFromCsv.begin-1]+"; Fin : "+ends[scheduleFromCsv.end-1]+"]",cause:
+                                                "Cause : Le local "+classroom+" est déjà pris entre "+begins[scheduleFromCsv.begin-1]+" et "+ends[scheduleFromCsv.end-1]
+                                                +" le "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year});
+                                        }
+                                        else
+                                        {
+                                            conflicts.push({error: "Impossible d'insérer la ligne "+countLines+" [Cours : "+course+"; Local : "+classroom
+                                                +"; Professeur : Autonomie"
+                                                +"; Groupe : "+promotion+"; Date : "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year
+                                                +"; Début : "+begins[scheduleFromCsv.begin-1]+"; Fin : "+ends[scheduleFromCsv.end-1]+"]",cause:
+                                                "Cause : Le local "+classroom+" est déjà pris entre "+begins[scheduleFromCsv.begin-1]+" et "+ends[scheduleFromCsv.end-1]
+                                                +" le "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year});
+                                        }
                                         callback(null);
                                     }
                                     else {
-                                        console.warn("prof libre");
-                                        if (teachersIds.length === 0)teachersIds = null;
-                                        var temp = new Schedule({
-                                            teachers: teachersIds,
-                                            classroom: classroomId,
-                                            course: courseId,
-                                            promotion: promotionId,
-                                            color: "#19c749",
-                                            date: new Date(scheduleFromCsv.year, scheduleFromCsv.month-1, scheduleFromCsv.day),
-                                            begin: scheduleFromCsv.begin,
-                                            end: scheduleFromCsv.end
-                                        });
-                                        temp.save(/*function(err, data){console.warn("j'ai fait "+data);}*/);
-                                        callback(null);
-                                        //setTimeout(function(){console.log("");},3000);
                                         //callback(null);
+                                        schedules.isTeacherTakenCSV(req, function(data){
+                                            //console.warn(data);
+                                            if (data) {
+                                                if(teachersTab.length===2 && teachersTab[0]!= "")
+                                                {
+                                                    conflicts.push({error: "Impossible d'insérer la ligne "+countLines+" [Cours : "+course+"; Local : "+classroom
+                                                        +"; Professeurs : "+teachersTab
+                                                        +"; Groupe : "+promotion+"; Date : "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year
+                                                        +"; Début : "+begins[scheduleFromCsv.begin-1]+"; Fin : "+ends[scheduleFromCsv.end-1]+"]",cause:
+                                                        "Cause : Les professeurs "+teachersTab+" sont déjà pris entre "+begins[scheduleFromCsv.begin-1]+" et "+ends[scheduleFromCsv.end-1]
+                                                        +" le "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year});
+                                                }
+                                                else if(teachersTab.length ===1 && teachersTab[0]!= "")
+                                                {
+                                                    conflicts.push({error: "Impossible d'insérer la ligne "+countLines+" [Cours : "+course+"; Local : "+classroom
+                                                        +"; Professeur : "+teachersTab
+                                                        +"; Groupe : "+promotion+"; Date : "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year
+                                                        +"; Début : "+begins[scheduleFromCsv.begin-1]+"; Fin : "+ends[scheduleFromCsv.end-1]+"]",cause:
+                                                        "Cause : Le professeur "+teachersTab+" est déjà pris entre "+begins[scheduleFromCsv.begin-1]+" et "+ends[scheduleFromCsv.end-1]
+                                                        +" le "+scheduleFromCsv.day+"/"+scheduleFromCsv.month+"/"+scheduleFromCsv.year});
+                                                }
+
+                                                callback(null);
+                                            }
+                                            else {
+                                                console.warn("prof libre");
+                                                if (teachersIds.length === 0)teachersIds = null;
+                                                var temp = new Schedule({
+                                                    teachers: teachersIds,
+                                                    classroom: classroomId,
+                                                    course: courseId,
+                                                    promotion: promotionId,
+                                                    color: "#19c749",
+                                                    date: new Date(scheduleFromCsv.year, scheduleFromCsv.month-1, scheduleFromCsv.day),
+                                                    begin: scheduleFromCsv.begin,
+                                                    end: scheduleFromCsv.end
+                                                });
+                                                temp.save(/*function(err, data){console.warn("j'ai fait "+data);}*/);
+                                                callback(null);
+                                                //setTimeout(function(){console.log("");},3000);
+                                                //callback(null);
+                                            }
+                                        });
+
                                     }
+
+
+
                                 });
-
-                             }
-
-
-
+                            }
                         });
+
 
                     }
                    /* function(callback){
@@ -246,7 +314,7 @@ exports.import = function(req, res)
                         console.warn("tour vraiment fini");
                         callback(null);
                     }*/
-                ],function(){console.warn("et un tour de fini, 1!");callback(null);});
+                ],function(){;callback(null);});
                 //callback(null);
 
 
@@ -258,7 +326,8 @@ exports.import = function(req, res)
 
                 //callback();
 
-            });
+            }, function(){console.warn(conflicts);
+               res.json(conflicts);});
            /* Classroom.find({name: "AHAH"}).limit(1).exec(function(err, result) {
                 if (!err) {
                     console.warn("voici result : "+result);
@@ -319,5 +388,5 @@ exports.import = function(req, res)
         .on('error', function(error){
             console.log(error.message);
         });
-    res.json("ok");
+
 }

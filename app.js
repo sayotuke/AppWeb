@@ -13,14 +13,16 @@ var courses = require('./controller/courses');
 var promotions = require('./controller/promotions');
 var schedules = require('./controller/schedules');
 var csvHandler = require('./controller/csvHandler');
-var auth = require('../controller/users');
+var user = require('./model/user');
+var auth = require('./controller/users');
 var csv = require('csv');
 var fs = require('fs');
 var async = require('async');
-var md5 = require('MD5');
 var passport = require('passport');
-var user = require('../model/user');
+var crypto = require('crypto');
+
 var app = express();
+
 
 // database connection
 var mongoose = require('mongoose');
@@ -31,22 +33,29 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.favicon());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.cookieParser());
 app.use(express.bodyParser());
+app.use(express.session({ secret: 'zohgzkenfz5r5ge6r54gz6' }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(function(req,res,next){
+    res.locals.session = req.session;
+    next();
+});
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.cookieParser());
-app.use(express.session({ secret: 'zohgzkenfz5r5ge6r54gz6' }));
+
+
 
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-
 passport.use(user.localStrategy);
 passport.serializeUser(user.serializeUser);
 passport.deserializeUser(user.deserializeUser);
@@ -55,13 +64,11 @@ passport.deserializeUser(user.deserializeUser);
 app.use(express.session({
     secret: "aehj9f5d2bj5mm8tsw52g14",
     cookie: {maxAge: new Date(Date.now() + 3600000)}, // 1 heure
-    maxAge: new Date(Date.now() + 3600000), // 1 heure
-    store: new RedisStore(config.database.redis) // You can not use Redis
+    maxAge: new Date(Date.now() + 3600000) // 1 heure
+    //store: new RedisStore(config.database.redis) // You can not use Redis
 }));
 
-// The important part. Must go AFTER the express session is initialized
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 
 //authentication
@@ -69,6 +76,7 @@ app.post('/auth/login', auth.login);
 app.post('/auth/logout', auth.logout);
 app.get('/auth/login/success', auth.loginSuccess);
 app.get('/auth/login/failure', auth.loginFailure);
+app.get('/getSession', auth.getSession);
 
 app.get('/', routes.index);
 //Classrooms
