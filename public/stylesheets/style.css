@@ -125,24 +125,18 @@ a {
 
 .save_btn_position{
     position: relative;
-    right:210px !important;
-    left: auto !important;
-    top: 15px !important;
+    right:210px ;
+    left: auto ;
+    top: 15px ;
 }
 .refresh_btn_position{
     position: relative;
-    left:205px !important;
-    top: 15px !important;
+    left:205px ;
+    top: 15px ;
 }
 
 .btn_pos{
     margin: 5px !important;
-}
-
-
-
-.dhx_time_block.dhx_time_block_reset.dhx_marked_timespan.red_section, .dhx_time_block.dhx_time_block_reset.dhx_marked_timespan.gray_section{
-    margin-left: 0px !important;
 }
 
 .dhx_body{
@@ -175,12 +169,14 @@ a {
 .red_section{
     background-color: red !important;
     opacity:0.5 !important;
+    margin-left: 0px !important;
 }
 
 .gray_section{
     background-color: gray !important;
     opacity:0.5 !important;
     min-height: 0px !important;
+    margin-left: 0px !important;
 }
 
 .dhx_event_resize.dhx_footer{
