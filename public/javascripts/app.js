@@ -162,6 +162,16 @@ app.factory('scheduleFactory', ['$http', function ($http) {
         return $http.delete('/deleteSchedule/'+id_schedule);
     };
 
+    scheduleFactory.getSchedulesOfDate = function(date)
+    {
+       return $http.get('/getSchedulesOfDate/'+date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear());
+    };
+
+    scheduleFactory.getScheduleModelsOfPromotion = function(promotion)
+    {
+        return $http.get('/getScheduleModelsOfPromotion/'+promotion._id);
+    };
+
     return scheduleFactory;
 }]);
 app.service('userService', ['$http', function($http){
@@ -265,6 +275,8 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
     $scope.isCollapsed = false;
     $scope.entryLimit = 10;
 
+    //$scope.search = undefined;
+
     $scope.noOfPages = 1;
     $scope.currentPage = 1;
     $scope.classroomsFiltered = new Array();
@@ -300,7 +312,7 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
     $scope.findAll = function () {
         classroomFactory.findAll().success(function (data, status, headers, config) {
             $scope.classrooms = data;
-            if ($scope.classrooms)$scope.noOfPages = Math.ceil($scope.classrooms.length / $scope.entryLimit);
+            if ($scope.classrooms)$scope.itemsToShow = $scope.classrooms.length;
         });
     };
     $scope.delete = function (classroom) {
@@ -308,7 +320,7 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
             $scope.classrooms.splice($scope.classrooms.indexOf(classroom), 1);
             if ((($scope.classrooms.length) % $scope.entryLimit) === 0) {
                 $scope.currentPage--;
-                $scope.noOfPages = Math.ceil($scope.classrooms.length / $scope.entryLimit);
+                $scope.itemsToShow = $scope.classrooms.length;
             }
         });
     }
@@ -345,7 +357,7 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
 
     $scope.filter = function () {
         $timeout(function () { //wait for 'filtered' to be changed
-            $scope.noOfPages = Math.ceil($scope.classroomsFiltered.length / $scope.entryLimit);
+            $scope.itemsToShow = $scope.classrooms.length;
             $scope.setPage = function (pageNo) {
                 $scope.currentPage = pageNo;
             };
@@ -397,7 +409,11 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
     $scope.findAll = function () {
         teacherFactory.findAll().success(function (data, status, headers, config) {
             $scope.teachers = data;
-            if ($scope.teachers)$scope.noOfPages = Math.ceil($scope.teachers.length / $scope.entryLimit);
+            if ($scope.teachers)$scope.itemsToShow = $scope.teachers.length;
+            for(var index in $scope.teachers)
+            {
+                $scope.teachers[index].last_and_first_name = $scope.teachers[index].last_name+" "+$scope.teachers[index].first_name;
+            }
         });
     };
     $scope.delete = function (teacher) {
@@ -405,7 +421,7 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
             $scope.teachers.splice($scope.teachers.indexOf(teacher), 1);
             if ((($scope.teachers.length) % $scope.entryLimit) === 0) {
                 $scope.currentPage--;
-                $scope.noOfPages = Math.ceil($scope.teachers.length / $scope.entryLimit);
+                $scope.itemsToShow = $scope.teachers.length;
             }
         });
     }
@@ -450,7 +466,7 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
 
     $scope.filter = function () {
         $timeout(function () { //wait for 'filtered' to be changed
-            $scope.noOfPages = Math.ceil($scope.teachersFiltered.length / $scope.entryLimit);
+            $scope.itemsToShow = $scope.teachers.length;
             $scope.setPage = function (pageNo) {
                 $scope.currentPage = pageNo;
             };
@@ -500,7 +516,7 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
     $scope.findAll = function () {
         courseFactory.findAll().success(function (data, status, headers, config) {
             $scope.courses = data;
-            if ($scope.courses)$scope.noOfPages = Math.ceil($scope.courses.length / $scope.entryLimit);
+            if ($scope.courses)$scope.itemsToShow = $scope.courses.length;
         });
     };
     $scope.delete = function (course) {
@@ -508,7 +524,7 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
             $scope.courses.splice($scope.courses.indexOf(course), 1);
             if ((($scope.courses.length) % $scope.entryLimit) === 0) {
                 $scope.currentPage--;
-                $scope.noOfPages = Math.ceil($scope.courses.length / $scope.entryLimit);
+                $scope.itemsToShow  = $scope.courses.length;
             }
         });
     }
@@ -545,7 +561,7 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
 
     $scope.filter = function () {
         $timeout(function () { //wait for 'filtered' to be changed
-            $scope.noOfPages = Math.ceil($scope.coursesFiltered.length / $scope.entryLimit);
+            $scope.itemsToShow = $scope.coursesFiltered.length;
             $scope.setPage = function (pageNo) {
                 $scope.currentPage = pageNo;
             };
@@ -595,7 +611,7 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
     $scope.findAll = function () {
         promotionFactory.findAll().success(function (data, status, headers, config) {
             $scope.promotions = data;
-            if ($scope.promotions)$scope.noOfPages = Math.ceil($scope.promotions.length / $scope.entryLimit);
+            if ($scope.promotions)$scope.itemsToShow = $scope.promotions.length;
         });
     };
     $scope.delete = function (promotion) {
@@ -603,7 +619,7 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
             $scope.promotions.splice($scope.promotions.indexOf(promotion), 1);
             if ((($scope.promotions.length) % $scope.entryLimit) === 0) {
                 $scope.currentPage--;
-                $scope.noOfPages = Math.ceil($scope.promotions.length / $scope.entryLimit);
+                $scope.itemsToShow = $scope.promotions.length;
             }
         });
     }
@@ -640,7 +656,7 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
 
     $scope.filter = function () {
         $timeout(function () { //wait for 'filtered' to be changed
-            $scope.noOfPages = Math.ceil($scope.promotionsFiltered.length / $scope.entryLimit);
+            $scope.itemsToShow = $scope.promotions.length;
             $scope.setPage = function (pageNo) {
                 $scope.currentPage = pageNo;
             };
@@ -1021,11 +1037,48 @@ app.controller('ScheduleController', ['$scope','$location', '$http', '$timeout',
             }
         };
 
+        $scope.loadSchedules = function()
+        {
+            scheduleFactory.getSchedulesOfDate($scope.dt).success(function (data, status, headers, config) {
+                console.log(data);
+                $scope.schedulesLoaded = data;
+            });
+        }
+
+        $scope.heuresDebut = Array("8:45", "9:45", "11:00", "12:00", "13:45", "14:45", "16:00", "17:00");
+        $scope.heuresFin = Array("9:45", "10:45", "12:00", "13:00", "14:45", "15:45", "17:00", "18:00");
+
+        $scope.delete = function(schedule)
+        {
+            scheduleFactory.delete(schedule._id).success(function()
+            {
+                $scope.schedulesLoaded.splice($scope.schedulesLoaded.indexOf(schedule),1);
+            });
+        };
+
+
+        $scope.load_schedule_models = function(promotion)
+        {
+            scheduleFactory.getScheduleModelsOfPromotion(promotion).success(function(data){
+                console.log(data);
+                $scope.scheduleModelsLoaded=data;
+            });
+        };
+
+        $scope.delete_model = function(schedule)
+        {
+            scheduleFactory.delete(schedule._id).success(function()
+            {
+                $scope.scheduleModelsLoaded.splice($scope.scheduleModelsLoaded.indexOf(schedule),1);
+            });
+        };
+
+
         $scope.test = function () {
             scheduleFactory.findAll().success(function (data) {
                 $scope.test = data;
             })
-        }
+        };
 
     }]);
 app.controller('CsvController',['$scope','userService','$location', function ($scope,userService,$location) {
@@ -1381,18 +1434,18 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
 
                 app.onBeforeEventChanged = scheduler.attachEvent("onBeforeEventChanged", function(ev, e, flag, ev_old){
                     var presentEvents = scheduler.getEvents(ev.start_date, ev.end_date);
-                    //console.log(d);
+                    console.log(ev);
                     var teacherName = "";
                     for (var presEv in presentEvents) {
                         if (presEv < (presentEvents.length) - 1) {
-
+                            if(presentEvents[presEv]==ev)continue;
                             var scheduleTab = presentEvents[presEv].text.split("<br>");
                             var scheduleGroupAndClassroomTab = scheduleTab[1].split("/");
                             var scheduleTeachersTab = scheduleTab[2].split("-");
 
                             var scheduleCourse = scheduleTab[0];
-                            var scheduleGroup = scheduleGroupAndClassroomTab[0].replace(/^\s+|\s+$/g,'');
-                            var scheduleClassroom = scheduleGroupAndClassroomTab[1].replace(/^\s+|\s+$/g,'');
+                            var scheduleGroup = scheduleGroupAndClassroomTab[1].replace(/^\s+|\s+$/g,'');
+                            var scheduleClassroom = scheduleGroupAndClassroomTab[0].replace(/^\s+|\s+$/g,'');
                             var scheduleTeachers = scheduleTab[2];
 
                             var evTab = ev.text.split("<br>");
@@ -1400,8 +1453,8 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                             var evTeachersTab = evTab[2].split("-");
 
                             var evCourse = evTab[0];
-                            var evGroup = evGroupAndClassroomTab[0].replace(/^\s+|\s+$/g,'');
-                            var evClassroom = evGroupAndClassroomTab[1].replace(/^\s+|\s+$/g,'');
+                            var evGroup = evGroupAndClassroomTab[1].replace(/^\s+|\s+$/g,'');
+                            var evClassroom = evGroupAndClassroomTab[0].replace(/^\s+|\s+$/g,'');
                             var evTeachers = evTab[2];
 
                             var teacherIsPresent;
@@ -1411,6 +1464,13 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                             else{
                                 teacherIsPresent = scheduleTeachers.indexOf(evTeachers) != -1;
                             }
+
+                            //doublon
+                            if( evClassroom.indexOf(scheduleClassroom) != -1 &&
+                                evCourse.indexOf(scheduleCourse) != -1 &&
+                                evGroup.indexOf(scheduleGroup) != -1 &&
+                                teacherIsPresent)
+                            {return false;}
 
                             // si on est dans le même local, avec le même prof, le même cours et un groupe différent -> ok
                             if (evClassroom.indexOf(scheduleClassroom) != -1){
@@ -1526,25 +1586,25 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                 app.morningAndNightHours = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	// de 0h a 8h45	& de 18h a 24h
-                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 app.lunchTime = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [13 * 60, 13 * 60 + 45],			// de 13h a 13h45
-                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                     css: "red_section"
                 });
                 app.pauseTime = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [10*60+45,11*60,15*60+45,16*60],			// de 10h45 a 11h et 15h45 a 16h
-                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 app.weekends = scheduler.addMarkedTimespan({
                     days: [0, 6],                       // samedi et dimanche
                     zones: "fullday",       			// toute la journée
-                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 scheduler.update_view();
@@ -1559,25 +1619,25 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                 app.morningAndNightHours = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	// de 0h a 8h45	& de 18h a 24h
-                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 app.lunchTime = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [13 * 60, 13 * 60 + 45],			// de 13h a 13h45
-                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                     css: "red_section"
                 });
                 app.pauseTime = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [10*60+45,11*60,15*60+45,16*60],			// de 10h45 a 11h et 15h45 a 16h
-                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 app.weekends = scheduler.addMarkedTimespan({
                     days: [0, 6],                       // samedi et dimanche
                     zones: "fullday",       			// toute la journée
-                    type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
             }

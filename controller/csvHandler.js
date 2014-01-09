@@ -15,6 +15,17 @@ var async = require('async');
 Attention pour l'instant la couleur n'est pas précisée dans le csv, on met une couleur par défaut pour l'instant
  */
 
+function stringToColour(str) {
+
+    // str to hash
+    for (var i = 0, hash = 0; i < str.length; hash = str.charCodeAt(i++) + ((hash << 5) - hash));
+
+    // int/hash to hex
+    for (var i = 0, colour = "#"; i < 3; colour += ("00" + ((hash >> i++ * 8) & 0xFF).toString(16)).slice(-2));
+
+    return colour;
+}
+
 exports.import = function(req, res)
 {
     //console.log(req.files.myFile.path);
@@ -38,7 +49,7 @@ exports.import = function(req, res)
             //console.log(temp);
             temp[0] = temp[0].substr(2);
             scheduleFromCsv.day = temp[0].substr(-2);
-            scheduleFromCsv.month = temp[0].substr(5,2);
+            scheduleFromCsv.month = temp[0].substr(4,2);
             scheduleFromCsv.year = temp[0].substr(0,4);
             //  console.log("day : "+day);
             //  console.log("month : "+month);
@@ -283,7 +294,7 @@ exports.import = function(req, res)
                                                     classroom: classroomId,
                                                     course: courseId,
                                                     promotion: promotionId,
-                                                    color: "#19c749",
+                                                    color: stringToColour(course),
                                                     date: new Date(scheduleFromCsv.year, scheduleFromCsv.month-1, scheduleFromCsv.day),
                                                     begin: scheduleFromCsv.begin,
                                                     end: scheduleFromCsv.end

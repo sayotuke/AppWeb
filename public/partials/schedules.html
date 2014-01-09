@@ -1,231 +1,366 @@
 <div class="container" ng-init="init()">
-    <h1>Horaires</h1>
-    <tabset>
-        <tab heading="Créer un modèle d'horaire">
-            <div class="form-inline">
-                <table class="table_schedule">
-                    <tr>
-                        <td>
-                            <div class="well table_schedule_div">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            Cours
-                                        </td>
-                                        <td>
-                                            <select ng-model="course"
-                                                    ng-options="course as course.name for course in courses" required></select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Professeur(s)
-                                        </td>
-                                        <td class="input-append">
-                                            <select ng-model="teacher"
-                                                    ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft" required></select>
-                                            <button class="btn btn-success" ng-click="appendTeacher()">+</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Classe
-                                        </td>
-                                        <td>
-                                            <select ng-model="classroom"
-                                                    ng-options="classroom as classroom.name for classroom in classrooms" required></select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Groupe
-                                        </td>
-                                        <td>
-                                            <select ng-model="promotion"
-                                                    ng-options="promotion as promotion.name for promotion in promotions" required></select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-minicolors">
-                                            Couleur
-                                        </td>
-                                        <td>
-                                            <i id="wheel_model_schedule" class="form-control" data-control="wheel"
-                                               value="#ff99ee"></i>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </td>
+<h1>Horaires</h1>
+<tabset>
+<tab heading="Créer un modèle d'horaire">
+    <div class="form-inline">
+        <table class="table_schedule">
+            <tr>
+                <td>
+                    <div class="well table_schedule_div">
+                        <table>
+                            <tr>
+                                <td>
+                                    Cours
+                                </td>
+                                <td>
+                                    <select ng-model="course"
+                                            ng-options="course as course.name for course in courses" required></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Professeur(s)
+                                </td>
+                                <td class="input-append">
+                                    <select ng-model="teacher"
+                                            ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft"
+                                            required></select>
+                                    <button class="btn btn-success" ng-click="appendTeacher()">+</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Classe
+                                </td>
+                                <td>
+                                    <select ng-model="classroom"
+                                            ng-options="classroom as classroom.name for classroom in classrooms"
+                                            required></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Groupe
+                                </td>
+                                <td>
+                                    <select ng-model="promotion"
+                                            ng-options="promotion as promotion.name for promotion in promotions"
+                                            required></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-minicolors">
+                                    Couleur
+                                </td>
+                                <td>
+                                    <i id="wheel_model_schedule" class="form-control" data-control="wheel"
+                                       value="#ff99ee"></i>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
 
-                        <td class="td-schedule-preview">
-                            <div class="well table_schedule_div">
-                                <h4>Aperçu</h4>
-                                <div class="schedule_preview_model">
-                                    <p><b>{{ course.name }}</b></p>
-                                    <p>
-                                    <b><span ng-show="teachersTab.length<=0">Autonomie</span></b>
-                                    <ul style="list-style: none">
-                                        <li ng-repeat="teacherAdded in teachersTab"><p><b>{{ teacherAdded.last_name.toUpperCase() }} {{ teacherAdded.first_name.charAt(0).toUpperCase()+"." }} </b>
-                                            <i class="icon-remove" ng-click="cancelTeacher(teacherAdded)">
-                                            </i>
-                                            </p>
+                <td class="td-schedule-preview">
+                    <div class="well table_schedule_div">
+                        <h4>Aperçu</h4>
+
+                        <div class="schedule_preview_model">
+                            <p><b>{{ course.name }}</b></p>
+
+                            <p>
+                                <b><span ng-show="teachersTab.length<=0">Autonomie</span></b>
+                            <ul style="list-style: none">
+                                <li ng-repeat="teacherAdded in teachersTab"><p><b>{{
+                                    teacherAdded.last_name.toUpperCase() }} {{
+                                    teacherAdded.first_name.charAt(0).toUpperCase()+"." }} </b>
+                                    <i class="icon-remove" ng-click="cancelTeacher(teacherAdded)">
+                                    </i>
+                                </p>
+                                </li>
+                            </ul>
+                            </p>
+                            <p><b>{{ classroom.name }} - {{ promotion.name }}</b></p>
+                        </div>
+                        <br>
+                        <button class="btn btn-success" ng-click="addScheduleModel()">Ajouter</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</tab>
+<tab heading="Supprimer un modèle d'horaire">
+    <div class="form-inline">
+        <table class="table_suppress_schedule">
+            <tr>
+                <td>
+                    <div class="well table_left_suppress_schedule_div">
+                                <div>
+                                    <h4>Sélectionnez un groupe</h4>
+                                        <select ng-model="promotion"
+                                                ng-options="promotion as promotion.name for promotion in promotions"
+                                                ng-change="load_schedule_models(promotion)">
+                                        </select>
+                                </div>
+                    </div>
+                </td>
+
+                <td class="td-schedule-preview">
+                    <div class="well table_suppress_schedule_div">
+                        <table class="table table-hover">
+                            <thead>
+                            <th>Cours</th>
+                            <th>Local</th>
+                            <th>Professeurs</th>
+                            <th>Groupe</th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="scheduleModelLoaded in scheduleModelsLoaded">
+                                <td>
+                                    {{scheduleModelLoaded.course.name}}
+                                </td>
+                                <td>
+                                    {{scheduleModelLoaded.classroom.name}}
+                                </td>
+                                <td>
+                                    <span ng-repeat="teacher in scheduleModelLoaded.teachers">{{
+                                    teacher.last_name }} {{
+                                    teacher.first_name.charAt(0).toUpperCase()+"." }} </span>
+                                </td>
+                                <td>
+                                    {{scheduleModelLoaded.promotion.name}}
+                                </td>
+                                <td>
+                                    <i ng-click="delete_model(scheduleModelLoaded)" class="icon-trash"></i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</tab>
+<tab heading="Créer un horaire">
+    <div class="form-inline">
+        <table class="table_schedule">
+            <tr>
+                <td>
+                    <div class="well table_schedule_div">
+                        <table>
+                            <tr>
+                                <td>
+                                    Cours
+                                </td>
+                                <td>
+                                    <select ng-model="course"
+                                            ng-options="course as course.name for course in courses"
+                                            ng-change="checkCourseHours(); checkPromotionHours();" required></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Professeur(s)
+                                </td>
+                                <td class="input-append">
+                                    <select ng-model="teacher"
+                                            ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft"
+                                            required></select>
+                                    <button class="btn btn-success" ng-click="appendTeacher()">+</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Classe
+                                </td>
+                                <td>
+                                    <select ng-model="classroom"
+                                            ng-options="classroom as classroom.name for classroom in classrooms"
+                                            required></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Groupe
+                                </td>
+                                <td>
+                                    <select ng-model="promotion"
+                                            ng-options="promotion as promotion.name for promotion in promotions"
+                                            ng-change="checkSlotsTaken(); checkPromotionHours();" required></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Jour
+                                </td>
+                                <td>
+                                    <div class="form-horizontal">
+                                        <input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="opened"
+                                               min="minDate"
+                                               max="'2050-06-22'" datepicker-options="dateOptions"
+                                               date-disabled="disabled(date, mode)"
+                                               ng-required="true" close-text="Close"
+                                               ng-change="checkSlotsTaken()"/>
+                                        <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Plages horaires
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li ng-model="slot" ng-repeat="slot in slots" class="schedule_time_slots"
+                                            ng-class="{'schedule_slot_taken': slot.taken, 'schedule_slot_not_taken': !slot.taken}">
+                                            {{slot.id}}
                                         </li>
                                     </ul>
-                                    </p>
-                                    <p><b>{{ classroom.name }} - {{ promotion.name }}</b></p>
-                                </div>
-                                <br>
-                                <button class="btn btn-success" ng-click="addScheduleModel()">Ajouter</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </tab>
-        <tab heading="Créer un horaire">
-            <div class="form-inline">
-                <table class="table_schedule">
-                    <tr>
-                        <td>
-                            <div class="well table_schedule_div">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            Cours
-                                        </td>
-                                        <td>
-                                            <select ng-model="course"
-                                                    ng-options="course as course.name for course in courses"
-                                                    ng-change="checkCourseHours(); checkPromotionHours();" required></select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Professeur(s)
-                                        </td>
-                                        <td class="input-append">
-                                            <select ng-model="teacher"
-                                                    ng-options="teacher as teacher.first_name+' '+teacher.last_name for teacher in teachersLeft" required></select>
-                                            <button class="btn btn-success" ng-click="appendTeacher()">+</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Classe
-                                        </td>
-                                        <td>
-                                            <select ng-model="classroom"
-                                                    ng-options="classroom as classroom.name for classroom in classrooms" required></select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Groupe
-                                        </td>
-                                        <td>
-                                            <select ng-model="promotion"
-                                                    ng-options="promotion as promotion.name for promotion in promotions"
-                                                    ng-change="checkSlotsTaken(); checkPromotionHours();" required></select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Jour
-                                        </td>
-                                        <td>
-                                            <div class="form-horizontal">
-                                                <input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="opened"
-                                                       min="minDate"
-                                                       max="'2050-06-22'" datepicker-options="dateOptions"
-                                                       date-disabled="disabled(date, mode)"
-                                                       ng-required="true" close-text="Close"
-                                                        ng-change="checkSlotsTaken()"/>
-                                                <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Plages horaires
-                                        </td>
-                                        <td>
-                                            <ul>
-                                                <li ng-model="slot" ng-repeat="slot in slots" class="schedule_time_slots"
-                                                    ng-class="{'schedule_slot_taken': slot.taken, 'schedule_slot_not_taken': !slot.taken}">{{slot.id}}</li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Début
-                                        </td>
-                                        <td>
-                                            <select ng-model="begin"
-                                                    ng-options="slot as slot.name for slot in slots | filter:{taken: 'false'}"
-                                                    ng-change="checkPossibleSlots()" required>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Fin
-                                        </td>
-                                        <td>
-                                            <select ng-model="end"
-                                                    ng-options="slot as slot.name for slot in possibleSlots" required>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-minicolors">
-                                            Couleur
-                                        </td>
-                                        <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Début
+                                </td>
+                                <td>
+                                    <select ng-model="begin"
+                                            ng-options="slot as slot.name for slot in slots | filter:{taken: 'false'}"
+                                            ng-change="checkPossibleSlots()" required>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Fin
+                                </td>
+                                <td>
+                                    <select ng-model="end"
+                                            ng-options="slot as slot.name for slot in possibleSlots" required>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-minicolors">
+                                    Couleur
+                                </td>
+                                <td>
                                             <span id="wheel_schedule" class="form-control" data-control="wheel"
                                                   value="#ff99ee"></span>
-                                        </td>
-                                    </tr>
-                                </table>
+                                </td>
+                            </tr>
+                        </table>
 
-                            </div>
-                        </td>
-                        <td class="td-schedule-preview">
-                            <div class="well table_schedule_div">
-                                <h4>Aperçu</h4>
-                                <div class="schedule_preview">
-                                    <p><b>{{ course.name }}</b></p>
-                                    <p>
-                                    <b><span ng-show="teachersTab.length<=0">Autonomie</span></b>
-                                    <ul style="list-style: none">
-                                        <li ng-repeat="teacherAdded in teachersTab"><p><b>{{ teacherAdded.last_name.toUpperCase() }} {{ teacherAdded.first_name.charAt(0).toUpperCase()+"." }} </b>
-                                            <i class="icon-remove" ng-click="cancelTeacher(teacherAdded)">
-                                            </i>
-                                        </p>
-                                        </li>
-                                    </ul>
-                                    </p>
-                                    <p><b>{{ classroom.name }} - {{ promotion.name }}</b></p>
+                    </div>
+                </td>
+                <td class="td-schedule-preview">
+                    <div class="well table_schedule_div">
+                        <h4>Aperçu</h4>
+
+                        <div class="schedule_preview">
+                            <p><b>{{ course.name }}</b></p>
+
+                            <p>
+                                <b><span ng-show="teachersTab.length<=0">Autonomie</span></b>
+                            <ul style="list-style: none">
+                                <li ng-repeat="teacherAdded in teachersTab"><p><b>{{
+                                    teacherAdded.last_name.toUpperCase() }} {{
+                                    teacherAdded.first_name.charAt(0).toUpperCase()+"." }} </b>
+                                    <i class="icon-remove" ng-click="cancelTeacher(teacherAdded)">
+                                    </i>
+                                </p>
+                                </li>
+                            </ul>
+                            </p>
+                            <p><b>{{ classroom.name }} - {{ promotion.name }}</b></p>
+                        </div>
+                        <br>
+                        <button class="btn btn-success" ng-click="addSchedule()">Ajouter</button>
+                    </div>
+                </td>
+                <td>
+                    <div class="well div_nb_hours">
+                        <p><b>Total</b></p>
+
+                        <p ng-model="hour" ng-repeat="hour in teacherHours">{{hour}} h</p>
+
+                        <p><b>Par cours</b></p>
+
+                        <p ng-model="hourByCourse" ng-repeat="hourByCourse in teacherHoursByCourse">{{hourByCourse}}
+                            h</p>
+
+                        <p ng-show="promotionHours">{{promotionHours}} h</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+</tab>
+<tab heading="Supprimer un horaire">
+    <div class="form-inline">
+        <table class="table_suppress_schedule">
+            <tr>
+                <td>
+                    <div class="well table_left_suppress_schedule_div">
+                        <table>
+                            <td>
+                                <div class="form-horizontal">
+                                    <h4>Sélectionnez un jour</h4>
+                                    <input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="opened"
+                                           min="minDate"
+                                           max="'2050-06-22'" datepicker-options="dateOptions"
+                                           date-disabled="disabled(date, mode)"
+                                           ng-required="true" close-text="Close"
+                                           ng-change="loadSchedules()"/>
+                                    <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
                                 </div>
-                                <br>
-                                <button class="btn btn-success" ng-click="addSchedule()">Ajouter</button>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="well div_nb_hours">
-                                <p><b>Total</b></p>
-                                <p ng-model="hour" ng-repeat="hour in teacherHours">{{hour}} h</p>
-                                <p><b>Par cours</b></p>
-                                <p ng-model="hourByCourse" ng-repeat="hourByCourse in teacherHoursByCourse">{{hourByCourse}} h</p>
-                                <p ng-show="promotionHours">{{promotionHours}} h</p>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-            </div>
-        </tab>
-    </tabset>
-<button ng-click="test()">TEST</button>
-{{test}};
+                            </td>
+                        </table>
+                    </div>
+                </td>
+
+                <td class="td-schedule-preview">
+                    <div class="well table_suppress_schedule_div">
+                        <table class="table table-hover">
+                            <thead>
+                            <th>Cours</th>
+                            <th>Local</th>
+                            <th>Professeurs</th>
+                            <th>Groupe</th>
+                            <th></th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="scheduleLoaded in schedulesLoaded | orderBy: scheduleLoaded.begin">
+                                <td>
+                                    {{scheduleLoaded.course.name}}
+                                </td>
+                                <td>
+                                    {{scheduleLoaded.classroom.name}}
+                                </td>
+                                <td>
+                                    <span ng-repeat="teacher in scheduleLoaded.teachers">{{
+                                    teacher.last_name }} {{
+                                    teacher.first_name.charAt(0).toUpperCase()+"." }} </span>
+                                </td>
+                                <td>
+                                    {{scheduleLoaded.promotion.name}}
+                                </td>
+                                <td>
+                                    {{heuresDebut[scheduleLoaded.begin-1]}} - {{heuresFin[scheduleLoaded.end-1]}}
+                                </td>
+                                <td>
+                                    <i ng-click="delete(scheduleLoaded)" class="icon-trash"></i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</tab>
+</tabset>
 </div>

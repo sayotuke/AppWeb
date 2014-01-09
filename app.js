@@ -116,6 +116,8 @@ app.get('/getTeacherTotalHourByCourse/:id_teacher/:id_course', schedules.getTeac
 app.get('/getPromotionTotalHourByCourse/:id_promotion/:id_course', schedules.getPromotionTotalHourByCourse);
 app.get('/isClassroomTaken/:id_classroom/:id_course/:day/:month/:year/:begin/:end', schedules.isClassroomTaken);
 app.get('/isTeacherTaken/:teachers/:id_course/:day/:month/:year/:begin/:end', schedules.isTeacherTaken);
+app.get('/getSchedulesOfDate/:day/:month/:year', schedules.getSchedulesOfDate);
+app.get('/getScheduleModelsOfPromotion/:id_promotion',schedules.getScheduleModelsOfPromotion);
 
 //app.post('/login', users.login);
 

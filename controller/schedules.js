@@ -660,5 +660,42 @@ exports.isPromotionTakenCSV = function (req, callback) {
         });
 };
 
+exports.getSchedulesOfDate = function (req, res) {
+    var day = req.params.day;
+    var month = req.params.month;
+    var year = req.params.year;
+    Schedule.find({date: new Date(year, month, day)})
+        .populate('classroom')
+        .populate('teachers')
+        .populate('course')
+        .populate('promotion')
+        .exec(function (err, result) {
+        if (!err) {
+            res.json(result);
+        } else {
+            console.log("erreur lors du find : " + err);
+            res.send("erreur");
+        }
+    });
+};
+
+exports.getScheduleModelsOfPromotion = function (req, res) {
+    Schedule.find({promotion: req.params.id_promotion, begin:null})
+        .populate('classroom')
+        .populate('teachers')
+        .populate('course')
+        .populate('promotion')
+        .exec(function (err, result) {
+            if (!err) {
+                res.json(result);
+            } else {
+                console.log("erreur lors du find : " + err);
+                res.send("erreur");
+            }
+        });
+};
+
+
+
 
 
