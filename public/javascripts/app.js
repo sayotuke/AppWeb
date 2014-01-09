@@ -1270,6 +1270,9 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
             app.onTemplatesReady = scheduler.attachEvent("onTemplatesReady", function () {
                 //gestion des event drop depuis le tree (drag&drop)
                 app.onExternalDragIn = scheduler.attachEvent("onExternalDragIn", function (id, source, e) {
+
+                    if(scheduler.checkInMarkedTimespan(scheduler.getEvent(id), "pause_section"))return false;
+
                     if (tree.getUserData(tree._dragged[0].id, "tip") == undefined) {
                         return false;
                     }
@@ -1410,11 +1413,6 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                 var marked_date = null;
                 var event_step = 120;
                 app.onEmptyClick = scheduler.attachEvent("onEmptyClick", function (date, native_event) {
-                    //scheduler.unmarkTimespan(marked);
-                    //marked = null;
-
-                    //var fixed_date = fix_date(date);
-                    //scheduler.addEventNow(fixed_date, scheduler.date.add(fixed_date, event_step, "minute"));
                     return false;
                 });
 
@@ -1433,6 +1431,7 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                 });
 
                 app.onBeforeEventChanged = scheduler.attachEvent("onBeforeEventChanged", function(ev, e, flag, ev_old){
+                    if(scheduler.checkInMarkedTimespan(scheduler.getEvent(ev.id), "pause_section"))return false;
                     var presentEvents = scheduler.getEvents(ev.start_date, ev.end_date);
                     console.log(ev);
                     var teacherName = "";
@@ -1499,7 +1498,6 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                             }
                         }
                     }
-                    if(scheduler.checkInMarkedTimespan(scheduler.getEvent(ev.id), "dhx_time_block"))return false;
                     scheduler.update_view();
                     var eventIndex = -1;
                     for (var index in app.eventsTab){
@@ -1586,25 +1584,25 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                 app.morningAndNightHours = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	// de 0h a 8h45	& de 18h a 24h
-                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 app.lunchTime = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [13 * 60, 13 * 60 + 45],			// de 13h a 13h45
-                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
                     css: "red_section"
                 });
                 app.pauseTime = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [10*60+45,11*60,15*60+45,16*60],			// de 10h45 a 11h et 15h45 a 16h
-                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 app.weekends = scheduler.addMarkedTimespan({
                     days: [0, 6],                       // samedi et dimanche
                     zones: "fullday",       			// toute la journée
-                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 scheduler.update_view();
@@ -1617,27 +1615,27 @@ app.controller('FrontOfficeController', ['$scope','$route', '$http', '$timeout',
                 scheduler.deleteMarkedTimespan(app.weekends);
                 //scheduler.updateView();
                 app.morningAndNightHours = scheduler.addMarkedTimespan({
-                    days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
-                    zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	// de 0h a 8h45	& de 18h a 24h
-                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    days: [1, 2, 3, 4, 5],                              // de lundi a vendredi
+                    zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	    // de 0h a 8h45	& de 18h a 24h
+                    type: "pause_section", 			                    // empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 app.lunchTime = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [13 * 60, 13 * 60 + 45],			// de 13h a 13h45
-                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
                     css: "red_section"
                 });
                 app.pauseTime = scheduler.addMarkedTimespan({
                     days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
                     zones: [10*60+45,11*60,15*60+45,16*60],			// de 10h45 a 11h et 15h45 a 16h
-                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 app.weekends = scheduler.addMarkedTimespan({
                     days: [0, 6],                       // samedi et dimanche
                     zones: "fullday",       			// toute la journée
-                    //type: "dhx_time_block", 			// empèche d'entrer des event pour cette zone
+                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
             }
