@@ -1,3 +1,6 @@
+/*
+ Schéma d'un groupe
+ */
 var mongoose = require('mongoose');
 PromotionSchema = new mongoose.Schema({
     name: String

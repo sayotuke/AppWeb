@@ -1,7 +1,13 @@
+/*
+  Controller des horaires
+ */
 var mongoose = require('mongoose');
 var schedule = require('../model/schedule');
 var ObjectId = require('mongoose').Types.ObjectId;
 
+/*
+Retourne tous les horaires de la DB
+ */
 exports.findAll = function (req, res) {
     Schedule.find({})
         .populate('classroom')
@@ -18,6 +24,9 @@ exports.findAll = function (req, res) {
         });
 };
 
+/*
+Retourne un horaire avec un id précis
+ */
 exports.find = function (req, res) {
     Schedule.find({_id: new ObjectId(req.params._id)}).exec(function (err, result) {
         if (!err) {
@@ -29,6 +38,9 @@ exports.find = function (req, res) {
     });
 };
 
+/*
+ Ajout d'un horaire dans la DB
+ */
 exports.add = function (req, res) {
     var teachers = req.body.teachers;
     var classroom = req.body.classroom;
@@ -38,6 +50,7 @@ exports.add = function (req, res) {
     if (req.body.data !== null)var date = new Date(req.body.date);
     var begin = req.body.begin;
     var end = req.body.end;
+    //Ajout d'un horaire
     if (date !== null) {
         var temp = new Schedule({
             teachers: teachers,
@@ -50,6 +63,7 @@ exports.add = function (req, res) {
             end: end
         });
     }
+    //Ajout d'un modèle d'horaire
     else {
             var temp = new Schedule({
             teachers: teachers,
@@ -66,6 +80,9 @@ exports.add = function (req, res) {
     res.json(temp);
 };
 
+/*
+Edition d'un horaire dans la DB
+ */
 exports.edit = function (req, res) {
     var id = req.params.id;
     var day = req.params.day;
@@ -82,6 +99,9 @@ exports.edit = function (req, res) {
     res.json("ok");
 };
 
+/*
+Suppression d'un horaire dans la DB
+ */
 exports.delete = function (req, res) {
     var id = req.params.id;
     Schedule.find({_id: new ObjectId(id)}).remove(function (err) {
@@ -95,6 +115,9 @@ exports.delete = function (req, res) {
     });
 };
 
+/*
+Retourne les tranches d'heurs déjà prises par un groupe
+ */
 exports.getSlotsTaken = function (req, res) {
     var day = req.params.day;
     var month = req.params.month;
@@ -116,6 +139,9 @@ exports.getSlotsTaken = function (req, res) {
         });
 };
 
+/*
+Retourne tous les modèles d'horaire
+ */
 exports.getScheduleModels = function (req, res) {
     Schedule.find({date: null})
         .populate('classroom')
@@ -133,6 +159,9 @@ exports.getScheduleModels = function (req, res) {
         });
 };
 
+/*
+Retour le total d'heure d'un professeur
+ */
 exports.getTeacherTotalHour = function (req, res) {
     var id_teacher = req.params.id_teacher;
     var total = 0;
@@ -143,7 +172,6 @@ exports.getTeacherTotalHour = function (req, res) {
                 {
                     total+=(result[index].end - result[index].begin)+1;
                 }
-                console.log(total);
                 res.json(total);
             } else {
                 console.log("erreur getTeachersTotalHour : " + err);
@@ -152,6 +180,9 @@ exports.getTeacherTotalHour = function (req, res) {
         });
 };
 
+/*
+Retourne le total d'heure d'un professeur par rapport à un cours
+ */
 exports.getTeacherTotalHourByCourse = function (req, res) {
     var id_teacher = req.params.id_teacher;
     var id_course = req.params.id_course;
@@ -171,6 +202,9 @@ exports.getTeacherTotalHourByCourse = function (req, res) {
         });
 };
 
+/*
+Retourne le total d'heure d'un groupe par rapport à un cours
+ */
 exports.getPromotionTotalHourByCourse = function (req, res) {
     var id_promotion = req.params.id_promotion;
     var id_course = req.params.id_course;
@@ -190,6 +224,9 @@ exports.getPromotionTotalHourByCourse = function (req, res) {
         });
 };
 
+/*
+Retourne true si le local est déjà pris, false si le local est libre
+ */
 exports.isClassroomTaken = function (req, res) {
     var id_classroom = req.params.id_classroom;
     var id_course = req.params.id_course;
@@ -198,13 +235,11 @@ exports.isClassroomTaken = function (req, res) {
     var year = req.params.year;
     var begin = parseInt(req.params.begin);
     var end = parseInt(req.params.end);
-    console.log("begin : "+begin+" end : "+end);
     Schedule.find({classroom: id_classroom, date: new Date(year, month, day)}, 'begin end course')
         .exec(function (err, result) {
-            console.log("resuuuult : " + result);
             if (!err) {
-
                 if (result !== null && result.length>=1) {
+                    //Ensemble des tranches horaires d'une journée, on va remplir les tranches horaires en fonction du résultat de la DB
                     var slots = Array(
                         {id: 1, taken: false, course: null},
                         {id: 2, taken: false, course: null},
@@ -216,52 +251,38 @@ exports.isClassroomTaken = function (req, res) {
                         {id: 8, taken: false, course: null});
                     for (var index in result) {
                         if (result[index].begin === result[index].end) {
-                            console.log("begin result : "+ result[index].begin+"end result "+result[index].end);
                             slots[result[index].begin - 1].taken = true;
                             slots[result[index].begin - 1].course = result[index].course;
                         }
                         else {
                             var diff = result[index].end - result[index].begin;
-                            console.log("diiiiiif "+diff);
                             for (var i = result[index].begin - 1; i <= diff + result[index].begin - 1; i++) {
-                                console.log("i = " + i);
-                                console.log("result at index :" + result[index]);
                                 slots[i].taken = true;
                                 slots[i].course = result[index].course;
                             }
                         }
                     }
-                    console.log(slots);
-
                     var diff = end - begin;
-                    console.log("diff : " + diff);
+                    /*
+                    On parcourt l'ensemble des tranches horaires depuis la tranche de début de l'horaire qu'on essaye d'insérer
+                    jusque à sa tranche de fin, si on trouve la moindre tranche prise, on renvoie false
+                     */
                     for (var i = begin - 1; i < slots.length; i++) {
-                        console.log("i : " + i);
                         var libre = true;
-                        console.log("i+1 " + (i + 1));
-                        console.log("diff+1 " + (diff + i));
                         for (var j = i; j <= diff + i; j++) {
-                            console.log(j);
+                            //Tranche prise, pas libre
                             if (slots[j].taken === true) {
-                                console.log(id_course);
-                                console.log(slots[j].course);
-                                //On doit passer les deux params en strings sinon il considère qu'ils ne sont pas égaux
-                                //il les prend comme des objets je pense
                                 if (slots[j].course+"" !== id_course+"") {
                                     libre = false;
-                                    console.log('pas libre et j = ' + j);
-                                    console.log("slots[j].course = "+slots[j].course+" et id_course = "+id_course);
                                     break;
                                 }
                             }
                         }
                         if (libre) {
-                            console.log("LIBRE");
                             res.json(false);
                             break;
                         }
                         else {
-                            console.log("PAS LIBRE");
                             res.json(true);
                             break;
                         }
@@ -278,6 +299,9 @@ exports.isClassroomTaken = function (req, res) {
         });
 };
 
+/*
+Retourne true si le local est pris, false si il est libre
+ */
 exports.isClassroomTakenCSV = function (req, callback) {
     var id_classroom = req.params.id_classroom;
     var id_course = req.params.id_course;
@@ -287,14 +311,12 @@ exports.isClassroomTakenCSV = function (req, callback) {
     var year = req.params.year;
     var begin = parseInt(req.params.begin);
     var end = parseInt(req.params.end);
-    //console.log("begin : "+begin+" end : "+end);
-    //console.log(year +"/"+month+"/"+day);
     Schedule.find({classroom: id_classroom, date: new Date(year, month, day)}, 'begin end course promotion')
         .exec(function (err, result) {
-           // console.log("resuuuult : " + result.length);
             if (!err) {
 
                 if (result !== null && result.length>=1) {
+                    //Ensemble des tranches horaires d'une journée, on va remplir les tranches horaires en fonction du résultat de la DB
                     var slots = Array(
                         {id: 1, taken: false, course: null, promotion: null},
                         {id: 2, taken: false, course: null, promotion: null},
@@ -306,41 +328,31 @@ exports.isClassroomTakenCSV = function (req, callback) {
                         {id: 8, taken: false, course: null, promotion: null});
                     for (var index in result) {
                         if (result[index].begin === result[index].end) {
-                            //console.log("begin result : "+ result[index].begin+"end result "+result[index].end);
                             slots[result[index].begin - 1].taken = true;
                             slots[result[index].begin - 1].course = result[index].course;
                             slots[result[index].begin - 1].promotion = result[index].promotion;
                         }
                         else {
                             var diff = result[index].end - result[index].begin;
-                            //console.log("diiiiiif "+diff);
                             for (var i = result[index].begin - 1; i <= diff + result[index].begin - 1; i++) {
-                                //console.log("i = " + i);
-                                //console.log("result at index :" + result[index]);
                                 slots[i].taken = true;
                                 slots[i].course = result[index].course;
                                 slots[i].promotion = result[index].promotion;
                             }
                         }
                     }
-                   // console.log(slots);
 
                     var diff = end - begin;
-                    //console.log("diff : " + diff);
+                    /*
+                     On parcourt l'ensemble des tranches horaires depuis la tranche de début de l'horaire qu'on essaye d'insérer
+                     jusque à sa tranche de fin, si on trouve la moindre tranche prise, on renvoie false
+                     */
                     for (var i = begin - 1; i < slots.length; i++) {
-                        //console.log("i : " + i);
                         var libre = true;
-                        //console.log("i+1 " + (i + 1));
-                        //console.log("diff+1 " + (diff + i));
                         for (var j = i; j <= diff + i; j++) {
-                            //console.log(j);
                             if (slots[j].taken === true) {
-                                //console.log(id_course);
-                                //console.log(slots[j].course);
                                 if (slots[j].course+"" !== id_course+"") {
                                     libre = false;
-                                    //console.log('pas libre et j = ' + j);
-                                    //console.log("slots[j].course = "+slots[j].course+" et id_course = "+id_course);
                                     break;
                                 }
                                 else
@@ -355,12 +367,10 @@ exports.isClassroomTakenCSV = function (req, callback) {
                             }
                         }
                         if (libre) {
-                         //   console.warn("CLASSE LIBRE "+id_classroom);
                             callback(false);
                             break;
                         }
                         else {
-                         //   console.warn("CLASSE PAS LIBRE "+id_classroom);
                             callback(true);
                             break;
                         }
@@ -369,7 +379,6 @@ exports.isClassroomTakenCSV = function (req, callback) {
                 }
                 //aucun schedule pour ce local à cette date donc libre
                 else {
-                   // console.warn("CLASSE LIBRE "+id_classroom);
                     callback(false);
                 }
             } else {
@@ -378,7 +387,9 @@ exports.isClassroomTakenCSV = function (req, callback) {
         });
 };
 
-
+/*
+Retourne true si un professeur est déjà pris, false si un professeur est libre
+ */
 exports.isTeacherTaken = function (req, res) {
     var teachers = req.params.teachers;
     var teachersTab = teachers.split(",");
@@ -388,16 +399,14 @@ exports.isTeacherTaken = function (req, res) {
     var year = req.params.year;
     var begin = parseInt(req.params.begin);
     var end = parseInt(req.params.end);
-    console.log("begin : "+begin+" end : "+end);
     if(teachers!==null || teachers.lenght===0){
         res.json(false);
     }
     else{
     Schedule.find({teachers: {$in: teachersTab, $ne:null}, date: new Date(year, month, day)}, 'begin end course promotion')
         .exec(function (err, result) {
-            console.log("resuuuult : " + result);
             if (!err) {
-
+                //Ensemble des tranches horaires d'une journée, on va remplir les tranches horaires en fonction du résultat de la DB
                 if (result !== null && result.length>=1) {
                     var slots = Array(
                         {id: 1, taken: false, course: null},
@@ -410,35 +419,27 @@ exports.isTeacherTaken = function (req, res) {
                         {id: 8, taken: false, course: null});
                     for (var index in result) {
                         if (result[index].begin === result[index].end) {
-                            console.log("begin result : "+ result[index].begin+"end result "+result[index].end);
                             slots[result[index].begin - 1].taken = true;
                             slots[result[index].begin - 1].course = result[index].course;
                         }
                         else {
                             var diff = result[index].end - result[index].begin;
-                            console.log("diiiiiif "+diff);
                             for (var i = result[index].begin - 1; i <= diff + result[index].begin - 1; i++) {
-                                console.log("i = " + i);
-                                console.log("result at index :" + result[index]);
                                 slots[i].taken = true;
                                 slots[i].course = result[index].course;
                             }
                         }
                     }
-                    console.log(slots);
 
                     var diff = end - begin;
-                    console.log("diff : " + diff);
+                    /*
+                     On parcourt l'ensemble des tranches horaires depuis la tranche de début de l'horaire qu'on essaye d'insérer
+                     jusque à sa tranche de fin, si on trouve la moindre tranche prise, on renvoie false
+                     */
                     for (var i = begin - 1; i < slots.length; i++) {
-                        console.log("i : " + i);
                         var libre = true;
-                        console.log("i+1 " + (i + 1));
-                        console.log("diff+1 " + (diff + i));
                         for (var j = i; j <= diff + i; j++) {
-                            console.log(j);
                             if (slots[j].taken === true) {
-                                console.log(id_course);
-                                console.log(slots[j].course);
                                 //On doit passer les deux params en strings sinon il considère qu'ils ne sont pas égaux
                                 //il les prend comme des objets je pense
                                 if (slots[j].course+"" !== id_course+"") {
@@ -450,19 +451,17 @@ exports.isTeacherTaken = function (req, res) {
                             }
                         }
                         if (libre) {
-                            console.log("LIBRE");
                             res.json(false);
                             break;
                         }
                         else {
-                            console.log("PAS LIBRE");
                             res.json(true);
                             break;
                         }
                     }
 
                 }
-                //aucun schedule pour ce prof à cette date donc libre
+                //aucun schedule pour ce professeur à cette date donc libre
                 else {
                     res.json(false);
                 }
@@ -473,6 +472,9 @@ exports.isTeacherTaken = function (req, res) {
     }
 };
 
+/*
+Retourne true si un professeur est déjà pris, false si il est libre
+ */
 exports.isTeacherTakenCSV = function (req, callback) {
     var teachersTab = req.params.teachers;
     var id_course = req.params.id_course;
@@ -482,14 +484,10 @@ exports.isTeacherTakenCSV = function (req, callback) {
     var year = req.params.year;
     var begin = parseInt(req.params.begin);
     var end = parseInt(req.params.end);
-    //console.log("PROF DATE : "+year +"/"+month+"/"+day);
-    //console.log(teachersTab[0]);
-    //console.log("begin : "+begin+" end : "+end);
     Schedule.find({teachers: {$in: teachersTab, $ne:null}, date: new Date(year, month, day)}, 'begin end course promotion')
         .exec(function (err, result) {
-            console.log("resuuuult : " + result+ "for : "+teachersTab[0]);
             if (!err) {
-
+                //Ensemble des tranches horaires d'une journée, on va remplir les tranches horaires en fonction du résultat de la DB
                 if (result !== null && result.length>=1) {
                     var slots = Array(
                         {id: 1, taken: false, course: null, promotion: null},
@@ -502,17 +500,13 @@ exports.isTeacherTakenCSV = function (req, callback) {
                         {id: 8, taken: false, course: null, promotion: null});
                     for (var index in result) {
                         if (result[index].begin === result[index].end) {
-                            //console.log("begin result : "+ result[index].begin+"end result "+result[index].end);
                             slots[result[index].begin - 1].taken = true;
                             slots[result[index].begin - 1].course = result[index].course;
                             slots[result[index].begin - 1].promotion = result[index].promotion;
                         }
                         else {
                             var diff = result[index].end - result[index].begin;
-                            //console.log("diiiiiif "+diff);
                             for (var i = result[index].begin - 1; i <= diff + result[index].begin - 1; i++) {
-                                //console.log("i = " + i);
-                                //console.log("result at index :" + result[index]);
                                 slots[i].taken = true;
                                 slots[i].course = result[index].course;
                                 slots[i].promotion = result[index].promotion;
@@ -522,23 +516,17 @@ exports.isTeacherTakenCSV = function (req, callback) {
                     console.log(slots);
 
                     var diff = end - begin;
-                    //console.log("diff : " + diff);
+                    /*
+                     On parcourt l'ensemble des tranches horaires depuis la tranche de début de l'horaire qu'on essaye d'insérer
+                     jusque à sa tranche de fin, si on trouve la moindre tranche prise, on renvoie false
+                     */
                     for (var i = begin - 1; i < slots.length; i++) {
-                        //console.log("i : " + i);
                         var libre = true;
-                        //console.log("i+1 " + (i + 1));
-                        //console.log("diff+1 " + (diff + i));
                         for (var j = i; j <= diff + i; j++) {
                             //console.log(j);
                             if (slots[j].taken === true) {
-                                //console.log(id_course);
-                                //console.log(slots[j].course);
-                                //On doit passer les deux params en strings sinon il considère qu'ils ne sont pas égaux
-                                //il les prend comme des objets je pense
                                 if (slots[j].course+"" !== id_course+"") {
                                     libre = false;
-                                    //console.log('pas libre et j = ' + j);
-                                    //console.log("slots[j].course = "+slots[j].course+" et id_course = "+id_course);
                                     break;
                                 }
                                 else
@@ -553,12 +541,10 @@ exports.isTeacherTakenCSV = function (req, callback) {
                             }
                         }
                         if (libre) {
-                       //     console.warn("PROF LIBRE "+teachersTab);
                             callback(false);
                             break;
                         }
                         else {
-                     //       console.warn("PROF PAS LIBRE "+teachersTab);
                             callback(true);
                             break;
                         }
@@ -567,7 +553,6 @@ exports.isTeacherTakenCSV = function (req, callback) {
                 }
                 //aucun schedule pour ce local à cette date donc libre
                 else {
-                   // console.warn("PROF LIBRE "+teachersTab);
                     callback(false);
                 }
             } else {
@@ -583,13 +568,10 @@ exports.isPromotionTakenCSV = function (req, callback) {
     var year = req.params.year;
     var begin = parseInt(req.params.begin);
     var end = parseInt(req.params.end);
-    //console.log("begin : "+begin+" end : "+end);
-    //console.log(year +"/"+month+"/"+day);
     Schedule.find({promotion: id_promotion, date: new Date(year, month, day)}, 'begin end')
         .exec(function (err, result) {
-            // console.log("resuuuult : " + result.length);
             if (!err) {
-
+                //Ensemble des tranches horaires d'une journée, on va remplir les tranches horaires en fonction du résultat de la DB
                 if (result !== null && result.length>=1) {
                     var slots = Array(
                         {id: 1, taken: false, course: null},
@@ -602,47 +584,35 @@ exports.isPromotionTakenCSV = function (req, callback) {
                         {id: 8, taken: false, course: null});
                     for (var index in result) {
                         if (result[index].begin === result[index].end) {
-                            //console.log("begin result : "+ result[index].begin+"end result "+result[index].end);
                             slots[result[index].begin - 1].taken = true;
                         }
                         else {
                             var diff = result[index].end - result[index].begin;
-                            //console.log("diiiiiif "+diff);
                             for (var i = result[index].begin - 1; i <= diff + result[index].begin - 1; i++) {
-                                //console.log("i = " + i);
-                                //console.log("result at index :" + result[index]);
                                 slots[i].taken = true;
                             }
                         }
                     }
-                    // console.log(slots);
 
                     var diff = end - begin;
-                    //console.log("diff : " + diff);
+                    /*
+                     On parcourt l'ensemble des tranches horaires depuis la tranche de début de l'horaire qu'on essaye d'insérer
+                     jusque à sa tranche de fin, si on trouve la moindre tranche prise, on renvoie false
+                     */
                     for (var i = begin - 1; i < slots.length; i++) {
-                        //console.log("i : " + i);
                         var libre = true;
-                        //console.log("i+1 " + (i + 1));
-                        //console.log("diff+1 " + (diff + i));
                         for (var j = i; j <= diff + i; j++) {
-                            //console.log(j);
                             if (slots[j].taken === true) {
-                                //console.log(id_course);
-                                //console.log(slots[j].course);
                                     libre = false;
-                                    //console.log('pas libre et j = ' + j);
-                                    //console.log("slots[j].course = "+slots[j].course+" et id_course = "+id_course);
                                     break;
                             }
                             }
 
                         if (libre) {
-                            //   console.warn("CLASSE LIBRE "+id_classroom);
                             callback(false);
                             break;
                         }
                         else {
-                            //   console.warn("CLASSE PAS LIBRE "+id_classroom);
                             callback(true);
                             break;
                         }
@@ -651,7 +621,6 @@ exports.isPromotionTakenCSV = function (req, callback) {
                 }
                 //aucun schedule pour ce local à cette date donc libre
                 else {
-                    // console.warn("CLASSE LIBRE "+id_classroom);
                     callback(false);
                 }
             } else {
@@ -660,6 +629,9 @@ exports.isPromotionTakenCSV = function (req, callback) {
         });
 };
 
+/*
+Retourne l'ensemble des horaires pour une date précise
+ */
 exports.getSchedulesOfDate = function (req, res) {
     var day = req.params.day;
     var month = req.params.month;
@@ -679,6 +651,9 @@ exports.getSchedulesOfDate = function (req, res) {
     });
 };
 
+/*
+Retourne l'ensemble des modèles d'horaire pour un groupe bien précis
+ */
 exports.getScheduleModelsOfPromotion = function (req, res) {
     Schedule.find({promotion: req.params.id_promotion, begin:null})
         .populate('classroom')
@@ -695,6 +670,9 @@ exports.getScheduleModelsOfPromotion = function (req, res) {
         });
 };
 
+/*
+Retourne true si un groupe est lié à au moins un horaire, sinon false
+ */
 exports.isPromotionLinked = function (req, res) {
     Schedule.findOne({promotion: req.params.id_promotion})
         .exec(function (err, result) {
@@ -711,6 +689,9 @@ exports.isPromotionLinked = function (req, res) {
         });
 };
 
+/*
+Retourne true si un local est lié à au moins un horaire, sinon false
+ */
 exports.isClassroomLinked = function (req, res) {
     Schedule.findOne({classroom: req.params.id_classroom})
         .exec(function (err, result) {
@@ -727,6 +708,9 @@ exports.isClassroomLinked = function (req, res) {
         });
 };
 
+/*
+Retourne true si un cours est lié à au moins un horaire, sinon false
+ */
 exports.isCourseLinked = function (req, res) {
     Schedule.findOne({course: req.params.id_course})
         .exec(function (err, result) {
@@ -743,6 +727,9 @@ exports.isCourseLinked = function (req, res) {
         });
 };
 
+/*
+Retourne true si un professeur est lié à au moins un horaire, sinon false
+ */
 exports.isTeacherLinked = function (req, res) {
     Schedule.findOne({teachers: {$in: req.params.id_teacher}})
         .exec(function (err, result) {

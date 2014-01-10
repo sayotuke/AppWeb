@@ -1,7 +1,13 @@
+/*
+Controller des professeurs
+ */
 var mongoose = require('mongoose');
 var teacher = require('../model/teacher');
 var ObjectId = require('mongoose').Types.ObjectId;
 
+/*
+Retourne tous les professeurs présents dans la DB
+ */
 exports.findAll = function(req, res){
     Teacher.find({}).exec(function(err, result) {
         if (!err) {
@@ -13,17 +19,9 @@ exports.findAll = function(req, res){
     });
 };
 
-exports.find = function(req, res){
-    Teacher.find({}).exec(function(err, result) {
-        if (!err) {
-            res.json(result);
-        } else {
-            console.log("erreur lors du find : "+err);
-            res.send("erreur");
-        };
-    });
-};
-
+/*
+Ajoute un professeur dans la DB
+ */
 exports.add = function(req, res){
     var last_name = req.body.last_name;
     var first_name = req.body.first_name;
@@ -32,6 +30,9 @@ exports.add = function(req, res){
     res.json(temp);
 };
 
+/*
+Edition d'un professeur dans la DB
+ */
 exports.edit = function(req, res){
     var id = req.params.id;
     var last_name =req.params.last_name;
@@ -44,6 +45,9 @@ exports.edit = function(req, res){
     res.json("ok");
 };
 
+/*
+Suppression d'un professeur dans la DB
+ */
 exports.delete = function(req, res){
     var id = req.params.id;
     Teacher.find({_id: new ObjectId(id)}).remove(function(err) {

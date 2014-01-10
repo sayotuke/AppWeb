@@ -1,4 +1,6 @@
-/* Your normal user model      ----------------------*/
+/*
+ Schéma d'un utilisateur
+ */
 var crypto = require('crypto');
 var mongoose = require('mongoose'),
     ObjectId = mongoose.Schema.Types.ObjectId,
@@ -9,10 +11,7 @@ schema = new mongoose.Schema({
     password: {type:String, required: true }
 });
 
-/* Auth properties      ---------------------------*/
-/* (passport)           ---------------------------*/
-
-// This is your main login logic
+// On récupère le login et le password
 schema.statics.localStrategy = new PassportLocalStrategy({
         usernameField: 'name',
         passwordField: 'password'
@@ -31,8 +30,7 @@ schema.statics.localStrategy = new PassportLocalStrategy({
                 return done(null, false, { message: 'Incorrect password.'} );
             }
 
-            // I'm specifying the fields that I want to save into the user's session
-            // *I don't want to save the password in the session
+            //on sauve uniquement le nom et l'id de l'user en session
             return done(null, {
                 id: user._id,
                 name: user.name
@@ -41,11 +39,15 @@ schema.statics.localStrategy = new PassportLocalStrategy({
     }
 );
 
+/*
+Validation du password, le password est stocké sous form d'un hash sha-1 du password original
+ */
 schema.methods.validPassword = function(password){
+    //On hash le password reçu par le formulaire
     var hashedPassword = crypto.createHash("sha1")
         .update(password)
         .digest("hex");
-    console.log(hashedPassword);
+    //On compare les hashs
     if (this.password == hashedPassword){
         return true;
     }
@@ -64,15 +66,3 @@ schema.statics.deserializeUser = function(obj, done){
 model = mongoose.model('user', schema);
 
 module.exports = model;
-
-/*
-var mongoose = require('mongoose');
-
-var UserSchema = new mongoose.Schema({
-    username: String,
-    salt: String,
-    hash: String
-});
-
-var User = mongoose.model('User', UserSchema);
-*/

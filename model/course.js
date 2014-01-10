@@ -1,3 +1,6 @@
+/*
+ Schéma d'un cours
+ */
 var mongoose = require('mongoose');
 CourseSchema = new mongoose.Schema({
     name: String

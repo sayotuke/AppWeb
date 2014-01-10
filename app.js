@@ -24,7 +24,7 @@ var crypto = require('crypto');
 var app = express();
 
 
-// database connection
+// Connexion à la DB
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/calendar');
 
@@ -60,12 +60,11 @@ passport.use(user.localStrategy);
 passport.serializeUser(user.serializeUser);
 passport.deserializeUser(user.deserializeUser);
 
-// Default session handling. Won't explain it as there are a lot of resources out there
+//Paramètre d'une session
 app.use(express.session({
     secret: "aehj9f5d2bj5mm8tsw52g14",
     cookie: {maxAge: new Date(Date.now() + 3600000)}, // 1 heure
     maxAge: new Date(Date.now() + 3600000) // 1 heure
-    //store: new RedisStore(config.database.redis) // You can not use Redis
 }));
 
 
@@ -123,9 +122,7 @@ app.get('/isTeacherLinked/:id_teacher',schedules.isTeacherLinked);
 app.get('/isCourseLinked/:id_course',schedules.isCourseLinked);
 app.get('/isPromotionLinked/:id_promotion',schedules.isPromotionLinked);
 
-//app.post('/login', users.login);
-
-//TO-DO : gérer les fichiers non csv !!!!!!!!!
+//CSV handler
 app.post('/uploadFile', csvHandler.import);
 
 http.createServer(app).listen(app.get('port'), function(){
