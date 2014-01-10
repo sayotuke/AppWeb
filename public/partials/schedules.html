@@ -58,6 +58,11 @@
                                 </td>
                             </tr>
                         </table>
+                        <div style="margin-top:100px;margin-left:50px;">
+                            <div style="width:300px">
+                                <alert ng-repeat="alert_model in alerts_model" type="alert_model.type" close="closeAlertModel($index)">{{alert_model.msg}}</alert>
+                            </div>
+                        </div>
                     </div>
                 </td>
 
@@ -88,6 +93,7 @@
                 </td>
             </tr>
         </table>
+
     </div>
 </tab>
 <tab heading="Supprimer un modèle d'horaire">

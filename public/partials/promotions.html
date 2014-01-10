@@ -65,5 +65,6 @@
             </tbody>
         </table>
         <pagination boundary-links="true" page="currentPage" max-size="maxSize" total-items="itemsToShow"></pagination>
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
 </div>

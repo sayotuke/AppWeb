@@ -695,6 +695,73 @@ exports.getScheduleModelsOfPromotion = function (req, res) {
         });
 };
 
+exports.isPromotionLinked = function (req, res) {
+    Schedule.findOne({promotion: req.params.id_promotion})
+        .exec(function (err, result) {
+            if (!err) {
+                if(result)
+                {
+                    return res.json(true);
+                }
+                else res.json(false);
+            } else {
+                console.log("erreur lors du find : " + err);
+                res.send("erreur");
+            }
+        });
+};
+
+exports.isClassroomLinked = function (req, res) {
+    Schedule.findOne({classroom: req.params.id_classroom})
+        .exec(function (err, result) {
+            if (!err) {
+                if(result)
+                {
+                    return res.json(true);
+                }
+                else res.json(false);
+            } else {
+                console.log("erreur lors du find : " + err);
+                res.send("erreur");
+            }
+        });
+};
+
+exports.isCourseLinked = function (req, res) {
+    Schedule.findOne({course: req.params.id_course})
+        .exec(function (err, result) {
+            if (!err) {
+                if(result)
+                {
+                    return res.json(true);
+                }
+                else res.json(false);
+            } else {
+                console.log("erreur lors du find : " + err);
+                res.send("erreur");
+            }
+        });
+};
+
+exports.isTeacherLinked = function (req, res) {
+    Schedule.findOne({teachers: {$in: req.params.id_teacher}})
+        .exec(function (err, result) {
+            if (!err) {
+                if(result)
+                {
+                    return res.json(true);
+                }
+                else res.json(false);
+            } else {
+                console.log("erreur lors du find : " + err);
+                res.send("erreur");
+            }
+        });
+};
+
+
+
+
 
 
 

@@ -118,6 +118,10 @@ app.get('/isClassroomTaken/:id_classroom/:id_course/:day/:month/:year/:begin/:en
 app.get('/isTeacherTaken/:teachers/:id_course/:day/:month/:year/:begin/:end', schedules.isTeacherTaken);
 app.get('/getSchedulesOfDate/:day/:month/:year', schedules.getSchedulesOfDate);
 app.get('/getScheduleModelsOfPromotion/:id_promotion',schedules.getScheduleModelsOfPromotion);
+app.get('/isClassroomLinked/:id_classroom',schedules.isClassroomLinked);
+app.get('/isTeacherLinked/:id_teacher',schedules.isTeacherLinked);
+app.get('/isCourseLinked/:id_course',schedules.isCourseLinked);
+app.get('/isPromotionLinked/:id_promotion',schedules.isPromotionLinked);
 
 //app.post('/login', users.login);
 

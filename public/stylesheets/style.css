@@ -15,23 +15,23 @@ a {
 }
 
 .table_schedule_div{
-   height: 320px;
+   height: 400px;
    width: 370px;
 }
 
 .table_suppress_schedule_div{
-    height: 320px;
+    height: 400px;
     width: 680px;
 }
 
 .table_left_suppress_schedule_div
 {
-    height: 320px;
+    height: 400px;
     width: 270px;
 }
 
 .div_nb_hours{
-    height: 320px;
+    height: 400px;
     width: 170px;
 }
 
