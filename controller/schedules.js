@@ -731,7 +731,7 @@ exports.isCourseLinked = function (req, res) {
 Retourne true si un professeur est lié à au moins un horaire, sinon false
  */
 exports.isTeacherLinked = function (req, res) {
-    Schedule.findOne({teachers: {$in: req.params.id_teacher}})
+    Schedule.findOne({teachers: req.params.id_teacher})
         .exec(function (err, result) {
             if (!err) {
                 if(result)
