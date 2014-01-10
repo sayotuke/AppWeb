@@ -1312,6 +1312,24 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
         var heuresDebut = Array("8:45", "9:45", "11:00", "12:00", "13:45", "14:45", "16:00", "17:00");
         var heuresFin = Array("9:45", "10:45", "12:00", "13:00", "14:45", "15:45", "17:00", "18:00");
         var tree = null;
+
+        $scope.download_ical = function()
+        {
+            var icsMSG = scheduler.toICal();
+            icsMSG = icsMSG.replace(/<br>/gi, "");
+            console.log(icsMSG);
+            //escape pour garder l'indentation dans le fichier sinon illisible par les parser ical
+            var uri = 'data:text/calendar;charset=utf-8,' + escape(icsMSG);
+
+            var downloadLink = document.createElement("a");
+            downloadLink.href = uri;
+            downloadLink.download = "schedule.ical";
+
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+        }
         $scope.isConnected = userService.isConnected();
         $scope.init = function () {
             $scope.initializeTree();
@@ -1319,6 +1337,7 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
             $scope.configureAndInitializeScheduler();
             $scope.getJsonData(false);
             $scope.populate_comboboxes();
+
         }
         $scope.isConnected = userService.isConnected();
         //console.log("controller rechargé");
