@@ -1,3 +1,6 @@
+/*
+ Schéma d'un horaire
+ */
 var mongoose = require('mongoose');
 var promotion = require('../model/promotion');
 var course = require('../model/course');

@@ -1,7 +1,13 @@
+/*
+Controller des locaux
+ */
 var mongoose = require('mongoose');
 var classroom = require('../model/classroom');
 var ObjectId = require('mongoose').Types.ObjectId;
 
+/*
+Retourne tous les locaux présents dans la DB
+ */
 exports.findAll = function(req, res){
         Classroom.find({}).exec(function(err, result) {
             if (!err) {
@@ -13,19 +19,18 @@ exports.findAll = function(req, res){
         });
 };
 
+/*
+Retourne un local présent dans la DB avec un nom donné en paramètre
+ */
 exports.findByName = function(name){
-    console.log("voici name : "+name);
     Classroom.findOne({name: name}).exec(function(err, result) {
         if (!err) {
-            console.log("voici result : "+result);
             if(result!==null)
             {
-                console.log("classroom déjà là");
                 return result._id;
             }
             else
             {
-                console.log("je vais save");
                 temp = new Classroom({name: name});
                 temp.save();
             }
@@ -37,6 +42,9 @@ exports.findByName = function(name){
 
 };
 
+/*
+Ajoute un local dans la DB
+ */
 exports.add = function(req, res){
     var name = req.body.name;
     var temp = new Classroom({name: name});
@@ -44,6 +52,11 @@ exports.add = function(req, res){
     res.json(temp);
 };
 
+
+
+/*
+Edition d'un local dans la DB
+ */
 exports.edit = function(req, res){
     var id = req.params.id;
     var name =req.params.name;
@@ -54,6 +67,9 @@ exports.edit = function(req, res){
     res.json("ok");
 };
 
+/*
+Suppression d'un local dans la DB
+ */
 exports.delete = function(req, res){
     var id = req.params.id;
     Classroom.find({_id: new ObjectId(id)}).remove(function(err) {
