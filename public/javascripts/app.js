@@ -6,6 +6,9 @@ var app = angular.module('calendarApp', ['ui.bootstrap'])
             }
         };
     });
+/*
+Factory des classrooms, effectue les requêtes vers le serveur
+ */
 app.factory('classroomFactory', ['$http', function ($http) {
 
     var classroomFactory = {};
@@ -32,6 +35,9 @@ app.factory('classroomFactory', ['$http', function ($http) {
 
     return classroomFactory;
 }]);
+/*
+ Factory des classrooms, effectue les requêtes vers le serveur
+ */
 app.factory('teacherFactory', ['$http', function ($http) {
 
     var teacherFactory = {};
@@ -58,6 +64,9 @@ app.factory('teacherFactory', ['$http', function ($http) {
 
     return teacherFactory;
 }]);
+/*
+ Factory des course, effectue les requêtes vers le serveur
+ */
 app.factory('courseFactory', ['$http', function ($http) {
 
     var courseFactory = {};
@@ -84,6 +93,9 @@ app.factory('courseFactory', ['$http', function ($http) {
 
     return courseFactory;
 }]);
+/*
+ Factory des groupes, effectue les requêtes vers le serveur
+ */
 app.factory('promotionFactory', ['$http', function ($http) {
 
     var promotionFactory = {};
@@ -110,6 +122,9 @@ app.factory('promotionFactory', ['$http', function ($http) {
 
     return promotionFactory;
 }]);
+/*
+ Factory des horaires, effectue les requêtes vers le serveur
+ */
 app.factory('scheduleFactory', ['$http', function ($http) {
 
     var scheduleFactory = {};
@@ -122,30 +137,51 @@ app.factory('scheduleFactory', ['$http', function ($http) {
         return $http.get('/getSchedule/' + id);
     };
 
+    /*
+    Renvoie les tranches horaires occupées par un groupe pour un jour donné
+     */
     scheduleFactory.getSlotsTaken = function (day, month, year, promotion) {
         return $http.get('getSlotsTaken/' + day + '/' + month + '/' + year + '/' + promotion._id);
     };
 
+    /*
+    Renvoie tous les modèles d'horaires
+     */
     scheduleFactory.getScheduleModels = function () {
         return $http.get('getSchedulesModels/');
     };
 
+    /*
+    Renvoie le total d'heures d'un professeur
+     */
     scheduleFactory.getTeacherTotalHour = function (teacher) {
         return $http.get('getTeacherTotalHour/' + teacher._id);
     };
 
+    /*
+     Renvoie le total d'heure d'un professeur par rapport à un cours
+     */
     scheduleFactory.getTeacherTotalHourByCourse = function (teacher, course) {
         return $http.get('getTeacherTotalHourByCourse/' + teacher._id + '/' + course._id);
     };
 
+    /*
+    Renvoie le total d'heures d'un groupe par rapport à un cours
+     */
     scheduleFactory.getPromotionTotalHourByCourse = function (promotion, course) {
         return $http.get('getPromotionTotalHourByCourse/' + promotion._id + '/' + course._id);
     };
 
+    /*
+    Renvoie true si le local est déjà pris, sinon false
+     */
     scheduleFactory.isClassroomTaken = function (classroom, course, day, month, year, begin, end) {
         return $http.get('isClassroomTaken/' + classroom._id + '/' + course._id + '/' + day + '/' + month + '/' + year + '/' + begin + '/' + end);
     };
 
+    /*
+    Renvoie true si le professeur est déjà pris, sinon false
+     */
     scheduleFactory.isTeacherTaken = function (teachers, course, day, month, year, begin, end) {
         return $http.get('isTeacherTaken/' + teachers + '/' + course._id + '/' + day + '/' + month + '/' + year + '/' + begin + '/' + end);
     };
@@ -162,47 +198,69 @@ app.factory('scheduleFactory', ['$http', function ($http) {
         return $http.delete('/deleteSchedule/' + id_schedule);
     };
 
+    /*
+    Renvoie les horaires à une date donnée
+     */
     scheduleFactory.getSchedulesOfDate = function (date) {
         return $http.get('/getSchedulesOfDate/' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear());
     };
 
+    /*
+    Renvoie les modèles d'horaires d'un groupe
+     */
     scheduleFactory.getScheduleModelsOfPromotion = function (promotion) {
         return $http.get('/getScheduleModelsOfPromotion/' + promotion._id);
     };
 
+    /*
+    Renvoie true si le local est lié à au moins un horaire, sinon false
+     */
     scheduleFactory.isClassroomLinked = function (classroom) {
         return $http.get('/isClassroomLinked/' + classroom._id);
     };
 
+    /*
+     Renvoie true si le groupe est lié à au moins un horaire, sinon false
+     */
     scheduleFactory.isPromotionLinked = function (promotion) {
         return $http.get('/isPromotionLinked/' + promotion._id);
     };
 
+    /*
+     Renvoie true si le professeur est lié à au moins un horaire, sinon false
+     */
     scheduleFactory.isTeacherLinked = function (teacher) {
         return $http.get('/isTeacherLinked/' + teacher._id);
     };
 
+    /*
+     Renvoie true si le cours est lié à au moins un horaire, sinon false
+     */
     scheduleFactory.isCourseLinked = function (course) {
         return $http.get('/isCourseLinked/' + course._id);
     };
 
     return scheduleFactory;
 }]);
+/*Service qui nous permet de gérer la session côté client*/
 app.service('userService', ['$http', function ($http) {
     var userService = {};
     var session = "";
 
+    /*
+    Demande la session au serveur
+     */
     $http.get("/getSession").success(function (data) {
         session = data;
     });
-
-    userService.login = function () {
-    };
 
     userService.logout = function () {
         session = undefined;
     };
 
+    /*
+      Renvoie true si un user est connecté, sinon false
+     */
     userService.isConnected = function () {
         if (session == "") {
             return false;
@@ -212,17 +270,10 @@ app.service('userService', ['$http', function ($http) {
         }
     }
 
-    /*userService.loginSuccess = function(){
-     return $http.get('/auth/login/success')
-     };
-
-     userService.loginFailure = function(){
-     return $http.get('/auth/login/failure')
-     };*/
-
     return userService;
 
 }]);
+/*Filtre utilisé pour la pagination */
 app.filter('startFrom', function () {
     return function (input, start) {
         if (input) {
@@ -232,6 +283,9 @@ app.filter('startFrom', function () {
         return [];
     }
 });
+/*
+Route sur les partials en fonction de l'url en leur assignant un controller et un template
+ */
 app.config(function ($routeProvider) {
     $routeProvider
         .when('/',
@@ -276,14 +330,16 @@ app.config(function ($routeProvider) {
         })
         .otherwise({redirectTo: '/'});
 });
+/*
+Controller des locaux
+ */
 app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroomFactory', 'userService', '$location',
     'scheduleFactory', function ($scope, $http, $timeout, classroomFactory, userService, $location, scheduleFactory) {
+        //Si l'utilisateur n'est pas connecté, on le renvoie à l'index
         if (!userService.isConnected())
             $location.path("/");
         $scope.isCollapsed = false;
         $scope.entryLimit = 10;
-
-        //$scope.search = undefined;
 
         $scope.noOfPages = 1;
         $scope.currentPage = 1;
@@ -302,7 +358,7 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
 
         $scope.init = function () {
             $scope.findAll();
-        }
+        };
 
         $scope.collapse = function () {
             $scope.isCollapsed = !$scope.isCollapsed;
@@ -311,8 +367,11 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
                 $scope.data = {};
                 $('#addButton').text("Annuler");
             }
-        }
+        };
 
+        /*
+        Ajoute un local
+         */
         $scope.add = function () {
             if ($scope.data.name !== undefined) {
                 classroomFactory.add($scope.data).success(function (data, status, headers, config) {
@@ -323,14 +382,24 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
                 $scope.data = {};
             }
         };
+
+        /*
+        Va chercher tous les locaux
+         */
         $scope.findAll = function () {
             classroomFactory.findAll().success(function (data, status, headers, config) {
                 $scope.classrooms = data;
                 if ($scope.classrooms)$scope.itemsToShow = $scope.classrooms.length;
             });
         };
+
+        /*
+        Supprime un local
+         */
         $scope.delete = function (classroom) {
+            //On vérifie sle local n'est pas lié à un horaire
             scheduleFactory.isClassroomLinked(classroom).success(function (data) {
+                //Le local n'est pas lié, on peut le supprimer
                 if (data == "false") {
                     classroomFactory.delete(classroom).success(function (data, status, headers, config) {
                         $scope.classrooms.splice($scope.classrooms.indexOf(classroom), 1);
@@ -340,13 +409,17 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
                         }
                     });
                 }
+                //Le local est lié à au moins un horaire, on ne peut pas le supprimer
                 else {
                     $scope.alerts.length = 0;
                     $scope.alerts.push({type: 'error', msg: "Le local que vous essayez de supprimer est utilisé dans un ou plusieurs horaires, veuillez d'abord supprimer ces horaires"});
                 }
             });
 
-        }
+        };
+        /*
+        Passe en mode édition
+         */
         $scope.edit = function (classroom) {
             $("#span" + classroom._id).hide();
             $("#editButton" + classroom._id).hide();
@@ -354,7 +427,10 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
             $("#saveButton" + classroom._id).show();
             $("#cancelButton" + classroom._id).show();
             $("#text" + classroom._id).val(classroom.name).show();
-        }
+        };
+        /*
+        Sauvegarde une édition
+         */
         $scope.edit_save = function (classroom) {
             var newName = $("#text" + classroom._id).val();
             if (newName != "") {
@@ -368,7 +444,10 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
                 $("#cancelButton" + classroom._id).hide();
                 $("#text" + classroom._id).hide();
             }
-        }
+        };
+        /*
+        Annule une édition
+         */
         $scope.cancel = function (classroom) {
             $("#span" + classroom._id).show();
             $("#editButton" + classroom._id).show();
@@ -376,8 +455,11 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
             $("#saveButton" + classroom._id).hide();
             $("#cancelButton" + classroom._id).hide();
             $("#text" + classroom._id).hide();
-        }
+        };
 
+        /*
+        Adapte la pagination en fonction du nombre de résultats du filtre
+         */
         $scope.filter = function () {
             $timeout(function () { //wait for 'filtered' to be changed
                 $scope.itemsToShow = $scope.classrooms.length;
@@ -390,8 +472,12 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
         };
 
     }]);
+/*
+Controller des professeurs
+ */
 app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFactory', 'userService', '$location', 'scheduleFactory',
     function ($scope, $http, $timeout, teacherFactory, userService, $location, scheduleFactory) {
+        //Si l'utilisateur n'est pas connecté, on le renvoie à l'index
         if (!userService.isConnected())
             $location.path("/");
         $scope.isCollapsed = false;
@@ -415,7 +501,7 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
 
         $scope.init = function () {
             $scope.findAll();
-        }
+        };
 
         $scope.collapse = function () {
             $scope.isCollapsed = !$scope.isCollapsed;
@@ -424,8 +510,10 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
                 $scope.data = {};
                 $('#addButton').text("Annuler");
             }
-        }
-
+        };
+        /*
+        Ajout d'un professeur
+         */
         $scope.add = function () {
             if ($scope.data.last_name !== undefined && $scope.data.first_name !== undefined) {
                 teacherFactory.add($scope.data).success(function (data, status, headers, config) {
@@ -436,6 +524,9 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
                 $scope.data = {};
             }
         };
+        /*
+        Va chercher tous les professeurs
+         */
         $scope.findAll = function () {
             teacherFactory.findAll().success(function (data, status, headers, config) {
                 $scope.teachers = data;
@@ -445,8 +536,13 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
                 }
             });
         };
+        /*
+        Supprime un professeur
+         */
         $scope.delete = function (teacher) {
+            //On vérifie sur le professeur n'est pas lié à au moins un horaire
             scheduleFactory.isTeacherLinked(teacher).success(function (data) {
+                //Le professeur n'est pas lié, on peut le supprimer
                 if (data == "false") {
                     teacherFactory.delete(teacher).success(function (data, status, headers, config) {
                         $scope.teachers.splice($scope.teachers.indexOf(teacher), 1);
@@ -456,13 +552,17 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
                         }
                     });
                 }
+                //Le professeur est lié à au moins un horaire, on ne peut pas le supprimer
                 else {
                     $scope.alerts.length = 0;
                     $scope.alerts.push({type: 'error', msg: "Le professeur que vous essayez de supprimer est utilisé dans un ou plusieurs horaires, veuillez d'abord supprimer ces horaires"});
                 }
             });
 
-        }
+        };
+        /*
+        On passe en mode édition
+         */
         $scope.edit = function (teacher) {
             $("#span_last_name" + teacher._id).hide();
             $("#span_first_name" + teacher._id).hide();
@@ -472,7 +572,10 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
             $("#cancelButton" + teacher._id).show();
             $("#text_last_name" + teacher._id).val(teacher.last_name).show();
             $("#text_first_name" + teacher._id).val(teacher.first_name).show();
-        }
+        };
+        /*
+        On sauve une édition
+         */
         $scope.edit_save = function (teacher) {
             var new_last_name = $("#text_last_name" + teacher._id).val();
             var new_first_name = $("#text_first_name" + teacher._id).val();
@@ -490,7 +593,10 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
                 $("#text_last_name" + teacher._id).hide();
                 $("#text_first_name" + teacher._id).hide();
             }
-        }
+        };
+        /*
+        On annule une édition
+         */
         $scope.cancel = function (teacher) {
             $("#span_last_name" + teacher._id).show();
             $("#span_first_name" + teacher._id).show();
@@ -500,8 +606,10 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
             $("#cancelButton" + teacher._id).hide();
             $("#text_last_name" + teacher._id).hide();
             $("#text_first_name" + teacher._id).hide();
-        }
-
+        };
+        /*
+         Adapte la pagination en fonction du nombre de résultats du filtre
+         */
         $scope.filter = function () {
             $timeout(function () { //wait for 'filtered' to be changed
                 $scope.itemsToShow = $scope.teachers.length;
@@ -513,8 +621,12 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
 
         };
     }]);
+/*
+Controller des cours
+ */
 app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactory', 'userService', '$location', 'scheduleFactory',
     function ($scope, $http, $timeout, courseFactory, userService, $location, scheduleFactory) {
+        //Si l'utilisateur n'est pas connecté, on le renvoie à l'index
         if (!userService.isConnected())
             $location.path("/");
         $scope.isCollapsed = false;
@@ -538,7 +650,7 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
 
         $scope.init = function () {
             $scope.findAll();
-        }
+        };
 
         $scope.collapse = function () {
             $scope.isCollapsed = !$scope.isCollapsed;
@@ -547,8 +659,11 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
                 $scope.data = {};
                 $('#addButton').text("Annuler");
             }
-        }
+        };
 
+        /*
+        Ajoute un cours
+         */
         $scope.add = function () {
             if ($scope.data.name !== undefined) {
                 courseFactory.add($scope.data).success(function (data, status, headers, config) {
@@ -559,14 +674,22 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
                 $scope.data = {};
             }
         };
+        /*
+        Va chercher tous les cours
+         */
         $scope.findAll = function () {
             courseFactory.findAll().success(function (data, status, headers, config) {
                 $scope.courses = data;
                 if ($scope.courses)$scope.itemsToShow = $scope.courses.length;
             });
         };
+        /*
+        Supprime un cours
+         */
         $scope.delete = function (course) {
+            //On vérifie si un cours n'est pas lié à au moins un horaire
             scheduleFactory.isCourseLinked(course).success(function (data) {
+                //Le cours n'est pas lié, on peut le supprimer
                 if (data == "false") {
                     courseFactory.delete(course).success(function (data, status, headers, config) {
                         $scope.courses.splice($scope.courses.indexOf(course), 1);
@@ -576,13 +699,17 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
                         }
                     });
                 }
+                //Le cours est lié, on ne peut pas le supprimer
                 else {
                     $scope.alerts.length = 0;
                     $scope.alerts.push({type: 'error', msg: "Le cours que vous essayez de supprimer est utilisé dans un ou plusieurs horaires, veuillez d'abord supprimer ces horaires"});
                 }
             });
 
-        }
+        };
+        /*
+        Passe en mode édition
+         */
         $scope.edit = function (course) {
             $("#span" + course._id).hide();
             $("#editButton" + course._id).hide();
@@ -590,7 +717,10 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
             $("#saveButton" + course._id).show();
             $("#cancelButton" + course._id).show();
             $("#text" + course._id).val(course.name).show();
-        }
+        };
+        /*
+        Sauve une édition
+         */
         $scope.edit_save = function (course) {
             var newName = $("#text" + course._id).val();
             if (newName != "") {
@@ -604,7 +734,10 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
                 $("#cancelButton" + course._id).hide();
                 $("#text" + course._id).hide();
             }
-        }
+        };
+        /*
+        Annule une édition
+         */
         $scope.cancel = function (course) {
             $("#span" + course._id).show();
             $("#editButton" + course._id).show();
@@ -612,8 +745,11 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
             $("#saveButton" + course._id).hide();
             $("#cancelButton" + course._id).hide();
             $("#text" + course._id).hide();
-        }
+        };
 
+        /*
+         Adapte la pagination en fonction du nombre de résultats du filtre
+         */
         $scope.filter = function () {
             $timeout(function () { //wait for 'filtered' to be changed
                 $scope.itemsToShow = $scope.coursesFiltered.length;
@@ -625,8 +761,12 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
 
         };
     }]);
+/*
+Controller des groupes
+ */
 app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotionFactory', 'userService', '$location', 'scheduleFactory',
     function ($scope, $http, $timeout, promotionFactory, userService, $location, scheduleFactory) {
+        //Si l'utilisateur n'est pas connecté, on le renvoie à l'index
         if (!userService.isConnected())
             $location.path("/");
         $scope.isCollapsed = false;
@@ -649,7 +789,7 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
 
         $scope.init = function () {
             $scope.findAll();
-        }
+        };
 
         $scope.collapse = function () {
             $scope.isCollapsed = !$scope.isCollapsed;
@@ -658,8 +798,11 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
                 $scope.data = {};
                 $('#addButton').text("Annuler");
             }
-        }
+        };
 
+        /*
+        Ajoute un groupe
+         */
         $scope.add = function () {
             if ($scope.data.name !== undefined) {
                 promotionFactory.add($scope.data).success(function (data, status, headers, config) {
@@ -670,14 +813,22 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
                 $scope.data = {};
             }
         };
+        /*
+        Va chercher tous les groupes
+         */
         $scope.findAll = function () {
             promotionFactory.findAll().success(function (data, status, headers, config) {
                 $scope.promotions = data;
                 if ($scope.promotions)$scope.itemsToShow = $scope.promotions.length;
             });
         };
+        /*
+        Supprime un cours
+         */
         $scope.delete = function (promotion) {
+            //Vérifie si le groupe est lié à au moins un horaire
             scheduleFactory.isPromotionLinked(promotion).success(function (data) {
+                //Le cours n'est pas lié à un horaire, on peut le supprimer
                 if (data == "false") {
                     promotionFactory.delete(promotion).success(function (data, status, headers, config) {
                         $scope.promotions.splice($scope.promotions.indexOf(promotion), 1);
@@ -687,13 +838,17 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
                         }
                     });
                 }
+                //Le cours est lié à au moins un horaire, on ne peut pas le supprimer
                 else {
                     $scope.alerts.length = 0;
                     $scope.alerts.push({type: 'error', msg: "Le groupe que vous essayez de supprimer est utilisé dans un ou plusieurs horaires, veuillez d'abord supprimer ces horaires"});
                 }
             });
 
-        }
+        };
+        /*
+        Passe en mode édition
+         */
         $scope.edit = function (promotion) {
             $("#span" + promotion._id).hide();
             $("#editButton" + promotion._id).hide();
@@ -701,7 +856,10 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
             $("#saveButton" + promotion._id).show();
             $("#cancelButton" + promotion._id).show();
             $("#text" + promotion._id).val(promotion.name).show();
-        }
+        };
+        /*
+        Sauve une édition
+         */
         $scope.edit_save = function (promotion) {
             var newName = $("#text" + promotion._id).val();
             if (newName != "") {
@@ -715,7 +873,10 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
                 $("#cancelButton" + promotion._id).hide();
                 $("#text" + promotion._id).hide();
             }
-        }
+        };
+        /*
+        Annule une édition
+         */
         $scope.cancel = function (promotion) {
             $("#span" + promotion._id).show();
             $("#editButton" + promotion._id).show();
@@ -723,8 +884,11 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
             $("#saveButton" + promotion._id).hide();
             $("#cancelButton" + promotion._id).hide();
             $("#text" + promotion._id).hide();
-        }
+        };
 
+        /*
+        Adapate la pagination en fonction du filtre
+         */
         $scope.filter = function () {
             $timeout(function () { //wait for 'filtered' to be changed
                 $scope.itemsToShow = $scope.promotions.length;
@@ -736,8 +900,12 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
 
         };
     }]);
+/*
+Controller des horaires
+ */
 app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
     'promotionFactory', 'scheduleFactory', 'userService', '$location', function ($scope, $location, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory, userService, $location) {
+        //Si l'utilisateur n'est pas connecté, on le renvoie à l'index
         if (!userService.isConnected())
             $location.path("/");
         $scope.init = function () {
@@ -773,7 +941,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
             $scope.alerts_model.splice(index, 1);
         };
 
-
+        /*
+        Initialisation de minicolors.js
+         */
         $scope.loadColors = function () {
             $("#wheel_model_schedule").minicolors({
                 control: $(this).attr('data-control') || 'wheel',
@@ -819,7 +989,7 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
             $scope.dt = null;
         };
 
-        // Disable weekend selection
+        // Enlève le selction de weekend dans le datepicker
         $scope.disabled = function (date, mode) {
             return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
         };
@@ -829,6 +999,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
         };
         $scope.toggleMin();
 
+        /*
+        Ouvre le datePicker
+         */
         $scope.open = function () {
             $timeout(function () {
                 $scope.opened = true;
@@ -842,6 +1015,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
 
         $scope.format = "yyyy/MM/dd";
 
+        /*
+        Vérifie quelles sont les tranches horaires prises par le groupe
+         */
         $scope.checkSlotsTaken = function () {
             $scope.slots = Array(
                 {id: 1, taken: false, name: "8:45 - 9:45"},
@@ -874,6 +1050,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
 
         $scope.teachersTab = Array();
 
+        /*
+        Rajoute le professeur dans l'aperçu et dans les professeurs qui seront insérés
+         */
         $scope.appendTeacher = function () {
             var teacher = $scope.teacher;
             if ($scope.teacher !== undefined && $scope.teacher !== "" && $scope.teachersTab.length < 2) {
@@ -893,6 +1072,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
             }
         };
 
+        /*
+        Enlève le professeur de l'aperçu et des professeurs qui seront insérés
+         */
         $scope.cancelTeacher = function (teacherAdded) {
             $scope.teachersLeft.push(teacherAdded);
             $scope.teacherHoursByCourse.splice($scope.teachersTab.indexOf(teacherAdded), 1);
@@ -901,6 +1083,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
 
         };
 
+        /*
+        Va chercher les totaux d'heures du cours pour le professeur pour ce cours
+         */
         $scope.checkCourseHours = function () {
             $scope.teacherHoursByCourse.length = 0;
             if ($scope.teachersTab.length > 0 && $scope.course !== undefined && $scope.course !== "") {
@@ -921,6 +1106,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
             }
         };
 
+        /*
+        Va chercher le total d'heures du groupes par rapport au cours
+         */
         $scope.checkPromotionHours = function () {
             $scope.promotionHours = Array();
             if ($scope.course !== undefined && $scope.course !== "" && !$.isEmptyObject($scope.course)
@@ -942,6 +1130,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
             }
         };
 
+        /*
+        Ajoute un modèle d'horaire
+         */
         $scope.addScheduleModel = function () {
             if ($scope.classroom !== undefined && $scope.classroom !== "" && !$.isEmptyObject($scope.classroom)
                 && $scope.course !== undefined && $scope.course !== "" && !$.isEmptyObject($scope.course)
@@ -980,6 +1171,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
             }
         };
 
+        /*
+        Ajoute un horaire
+         */
         $scope.addSchedule = function () {
             if ($scope.classroom !== undefined && $scope.classroom !== "" && !$.isEmptyObject($scope.classroom)
                 && $scope.course !== undefined && $scope.course !== "" && !$.isEmptyObject($scope.course)
@@ -1005,6 +1199,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
                     begin: $scope.begin.id,
                     end: $scope.end.id
                 };
+                /*
+                Vérification des conflits
+                 */
                 scheduleFactory.isClassroomTaken($scope.classroom, $scope.course, $scope.dt.getDate(),
                         $scope.dt.getMonth(), $scope.dt.getFullYear(), $scope.begin.id, $scope.end.id)
                     .success(function (data) {
@@ -1054,6 +1251,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
             }
         };
 
+        /*
+        Récupèrer les données dans la DB et les mettre dans le localStorage
+         */
         $scope.getJsonData = function (isFromUser) {
             var myGroupJsonString;
             var myTeachersJsonString;
@@ -1123,6 +1323,9 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
             }
         };
 
+        /*
+        Va chercher les horaires par rapport à une date
+         */
         $scope.loadSchedules = function () {
             scheduleFactory.getSchedulesOfDate($scope.dt).success(function (data, status, headers, config) {
                 $scope.schedulesLoaded = data;
@@ -1132,36 +1335,44 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
         $scope.heuresDebut = Array("8:45", "9:45", "11:00", "12:00", "13:45", "14:45", "16:00", "17:00");
         $scope.heuresFin = Array("9:45", "10:45", "12:00", "13:00", "14:45", "15:45", "17:00", "18:00");
 
+        /*
+        Supprime un horaire
+         */
         $scope.delete = function (schedule) {
             scheduleFactory.delete(schedule._id).success(function () {
                 $scope.schedulesLoaded.splice($scope.schedulesLoaded.indexOf(schedule), 1);
             });
         };
 
-
+        /*
+         Va chercher les modèles horaires par rapport à une date
+         */
         $scope.load_schedule_models = function (promotion) {
             scheduleFactory.getScheduleModelsOfPromotion(promotion).success(function (data) {
                 $scope.scheduleModelsLoaded = data;
             });
         };
 
+        /*
+        Supprime une modèle d'horaire
+         */
         $scope.delete_model = function (schedule) {
             scheduleFactory.delete(schedule._id).success(function () {
                 $scope.scheduleModelsLoaded.splice($scope.scheduleModelsLoaded.indexOf(schedule), 1);
             });
         };
 
-
-        $scope.test = function () {
-            scheduleFactory.findAll().success(function (data) {
-                $scope.test = data;
-            })
-        };
-
     }]);
+/*
+Controller de l'import CSV
+ */
 app.controller('CsvController', ['$scope', 'userService', '$location', function ($scope, userService, $location) {
+    //Si l'utilisateur n'est pas connecté, on le renvoie à l'undex
     if (!userService.isConnected())
         $location.path("/");
+    /*
+    Fonction pour uploader le fichier au serveur
+     */
     $.fn.upload = function (remote, data, successFn, progressFn) {
         // if we dont have post data, move it along
         if (typeof data != "object") {
@@ -1231,14 +1442,14 @@ app.controller('CsvController', ['$scope', 'userService', '$location', function 
 
     $("#upload").on("click", function () {
         $("#myFile").upload("/uploadFile/", function (success) {
-            //var json = JSON.parse(success);
-            //$scope.conflicts = {};
-            //$scope.conflicts = success;
         }, function (prog, value) {
             $scope.value = value;
         });
     });
 
+    /*
+    Vérification si il y a bien un fichier, et si il est au format csv
+     */
     $scope.checkIfFileIsSelected = function () {
         var fileButton = document.getElementById("myFile");
         var updateButton = document.getElementById("upload");
@@ -2167,18 +2378,21 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
             });
         });
     }]);
+/*
+Controller du formulaire de login de la barre de navigation
+ */
 app.controller('NavBarController', ['$scope', '$location', 'userService', function ($scope, $location, userService) {
     $scope.isActive = function (viewLocation) {
         return viewLocation === $location.path();
-    };
-    $scope.login = function () {
-        userService.login();
     };
     $scope.logout = function () {
         userService.logout();
         $('#logout-form').submit();
     };
 }]);
+/*
+Controller de la page qui s'affiche en cas de mauvais login
+ */
 app.controller('BadLoginController', ['$scope', 'userService', '$location', '$http', function ($scope, userService, $location, $http) {
     if (userService.isConnected())
         $location.path("/");
