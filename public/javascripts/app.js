@@ -197,10 +197,6 @@ app.service('userService', ['$http', function ($http) {
     });
 
     userService.login = function () {
-        /*session = {
-         user: "dede"
-         };
-         console.log(session); */
     };
 
     userService.logout = function () {
@@ -345,7 +341,6 @@ app.controller('ClassroomController', ['$scope', '$http', '$timeout', 'classroom
                     });
                 }
                 else {
-                    console.log("classroom lié");
                     $scope.alerts.length = 0;
                     $scope.alerts.push({type: 'error', msg: "Le local que vous essayez de supprimer est utilisé dans un ou plusieurs horaires, veuillez d'abord supprimer ces horaires"});
                 }
@@ -462,7 +457,6 @@ app.controller('TeacherController', ['$scope', '$http', '$timeout', 'teacherFact
                     });
                 }
                 else {
-                    console.log("teacher lié");
                     $scope.alerts.length = 0;
                     $scope.alerts.push({type: 'error', msg: "Le professeur que vous essayez de supprimer est utilisé dans un ou plusieurs horaires, veuillez d'abord supprimer ces horaires"});
                 }
@@ -573,7 +567,6 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
         };
         $scope.delete = function (course) {
             scheduleFactory.isCourseLinked(course).success(function (data) {
-                console.log(data);
                 if (data == "false") {
                     courseFactory.delete(course).success(function (data, status, headers, config) {
                         $scope.courses.splice($scope.courses.indexOf(course), 1);
@@ -584,7 +577,6 @@ app.controller('CourseController', ['$scope', '$http', '$timeout', 'courseFactor
                     });
                 }
                 else {
-                    console.log("course lié");
                     $scope.alerts.length = 0;
                     $scope.alerts.push({type: 'error', msg: "Le cours que vous essayez de supprimer est utilisé dans un ou plusieurs horaires, veuillez d'abord supprimer ces horaires"});
                 }
@@ -696,7 +688,6 @@ app.controller("PromotionController", ['$scope', '$http', '$timeout', 'promotion
                     });
                 }
                 else {
-                    console.log("promotion liée");
                     $scope.alerts.length = 0;
                     $scope.alerts.push({type: 'error', msg: "Le groupe que vous essayez de supprimer est utilisé dans un ou plusieurs horaires, veuillez d'abord supprimer ces horaires"});
                 }
@@ -862,7 +853,6 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
                 {id: 7, taken: false, name: "16:00 - 17:00"},
                 {id: 8, taken: false, name: "17:00 - 18:00"});
             if ($scope.promotion !== undefined && $scope.promotion !== "")
-                console.log($scope.dt);
             scheduleFactory.getSlotsTaken($scope.dt.getDate(), $scope.dt.getMonth(), $scope.dt.getFullYear(), $scope.promotion)
                 .success(function (data) {
                     for (var index in $scope.slots) {
@@ -971,7 +961,6 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
                     begin: null,
                     end: null
                 };
-                console.log(schedule);
                 scheduleFactory.add(schedule).success(function (data, status, headers, config) {
                     $scope.result = data;
                     $scope.getJsonData(true);
@@ -1079,7 +1068,6 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
                     promotionFactory.findAll().success(function (data, status, headers, config) {
                         //$scope.promotions = data;
                         myGroupJsonString = JSON.stringify(data);
-                        console.log("data : " + JSON.stringify(data));
                         localStorage.mySavedGroupJSONString = myGroupJsonString;
                     });
                     teacherFactory.findAll().success(function (data, status, headers, config) {
@@ -1108,7 +1096,6 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
                         promotionFactory.findAll().success(function (data, status, headers, config) {
                             //$scope.promotions = data;
                             myGroupJsonString = JSON.stringify(data);
-                            //console.log("data : " + JSON.stringify(data));
                             localStorage.mySavedGroupJSONString = myGroupJsonString;
                         });
                         teacherFactory.findAll().success(function (data, status, headers, config) {
@@ -1138,7 +1125,6 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
 
         $scope.loadSchedules = function () {
             scheduleFactory.getSchedulesOfDate($scope.dt).success(function (data, status, headers, config) {
-                console.log(data);
                 $scope.schedulesLoaded = data;
             });
         }
@@ -1155,7 +1141,6 @@ app.controller('ScheduleController', ['$scope', '$location', '$http', '$timeout'
 
         $scope.load_schedule_models = function (promotion) {
             scheduleFactory.getScheduleModelsOfPromotion(promotion).success(function (data) {
-                console.log(data);
                 $scope.scheduleModelsLoaded = data;
             });
         };
@@ -1226,10 +1211,8 @@ app.controller('CsvController', ['$scope', 'userService', '$location', function 
                         var json;
                         try {
                             json = JSON.parse(res.responseText);
-                            console.log(json);
                             $scope.conflicts = {};
                             $scope.conflicts = json;
-                            console.log("conflits : " + $scope.conflicts);
                             document.getElementById("myFile").value = "";
                             document.getElementById("upload").disabled = true;
                             document.getElementById("upload").className = "btn";
@@ -1248,7 +1231,6 @@ app.controller('CsvController', ['$scope', 'userService', '$location', function 
 
     $("#upload").on("click", function () {
         $("#myFile").upload("/uploadFile/", function (success) {
-            //console.log("success : "+ success);
             //var json = JSON.parse(success);
             //$scope.conflicts = {};
             //$scope.conflicts = success;
@@ -1280,18 +1262,6 @@ app.controller('CsvController', ['$scope', 'userService', '$location', function 
             }
         }
     }
-
-    /*
-     var data = $("#myFile").val();
-     console.log(data);
-
-     $scope.upload = function(){
-     console.log(data);
-     $http.post('/uploadFile/', data).success(function(data, status, headers, config) {
-     // $scope.courses[$scope.courses.indexOf(course)].name = newName;
-     });
-     };  */
-
 }]);
 
 //Pour vérifier si le scheduler est déjà chargé pour ne pas le charger une deuxième fois
@@ -1309,15 +1279,27 @@ app.eventsToDeleteTab = Array();
 app.eventToDelete = {};
 app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout', 'classroomFactory', 'teacherFactory', 'courseFactory',
     'promotionFactory', 'scheduleFactory', 'userService', function ($scope, $route, $http, $timeout, classroomFactory, teacherFactory, courseFactory, promotionFactory, scheduleFactory, userService) {
+        /*
+        * initalisation de valeurs nécessaire au fonctionnement du tree
+        * heuresDebut et heuresFin permettent de faire le lien entre les tranches d'heures de la DB et l'heure affichée
+        * dans les events
+        */
         var heuresDebut = Array("8:45", "9:45", "11:00", "12:00", "13:45", "14:45", "16:00", "17:00");
         var heuresFin = Array("9:45", "10:45", "12:00", "13:00", "14:45", "15:45", "17:00", "18:00");
         var tree = null;
 
+        /*
+        * vérifie si l'user est connecté
+        */
+        $scope.isConnected = userService.isConnected();
+
+        /*
+        * Permet d'importer le scheduler au format iCal
+        */
         $scope.download_ical = function()
         {
             var icsMSG = scheduler.toICal();
             icsMSG = icsMSG.replace(/<br>/gi, "");
-            console.log(icsMSG);
             //escape pour garder l'indentation dans le fichier sinon illisible par les parser ical
             var uri = 'data:text/calendar;charset=utf-8,' + escape(icsMSG);
 
@@ -1330,7 +1312,11 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
             document.body.removeChild(downloadLink);
 
         }
-        $scope.isConnected = userService.isConnected();
+
+        /*
+        * la fonction init est appellée lors du chargement de la page contenant le scheduler
+        * elle s'occuper d'appeller toutes les méthodes nécessaires à l'initialisation de celui ci.
+        */
         $scope.init = function () {
             $scope.initializeTree();
             $scope.defineSchedulerAttachedEvents();
@@ -1339,17 +1325,14 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
             $scope.populate_comboboxes();
 
         }
-        $scope.isConnected = userService.isConnected();
-        //console.log("controller rechargé");
 
-        /*$scope.checkConnected = function()
-         {
-         $scope.isConnected = userService.isConnected();
-         } */
-
+        /*
+        * La fonction initializeTree configure et initialise le tree
+        * le tree est accessible en mode admin et permet de créer des events
+        * depuis des modèles en drag&drop
+        */
         $scope.initializeTree = function () {
             tree = new dhtmlXTreeObject('treebox_ClassesTree', '100%', '100%', 0);
-            //tree.enableAutoTooltips(true);
             tree.enableDragAndDrop(true);
             tree.attachEvent("onDrag", function () {
                 return false;
@@ -1362,7 +1345,14 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
             ]});
         }
 
+        /*
+        * Définis les events qui sont attachés au scheduler
+        */
         $scope.defineSchedulerAttachedEvents = function () {
+            /*
+            * Vérifie si l'event est déjà attaché, si oui, le détache
+            * (cas ou on refresh la page)
+            */
             if (app.onTemplatesReady !== undefined)
                 scheduler.detachEvent(app.onTemplatesReady);
             if (app.onExternalDragIn !== undefined)
@@ -1380,18 +1370,35 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
             if (app.onEventDeleted !== undefined)
                 scheduler.detachEvent(app.onEventDeleted);
 
+            /*
+            * attache les events quand le template est pret
+            */
             app.onTemplatesReady = scheduler.attachEvent("onTemplatesReady", function () {
-                //gestion des event drop depuis le tree (drag&drop)
+                /* gestion des event drop depuis le tree (drag&drop) */
                 app.onExternalDragIn = scheduler.attachEvent("onExternalDragIn", function (id, source, e) {
-
+                    /*
+                    * si on drag un event depuis le tree dans le scheduler et que la zone ciblée est sur une pause
+                    * on annule l'ajout au scheduler en retournant false
+                    */
                     if (scheduler.checkInMarkedTimespan(scheduler.getEvent(id), "pause_section"))return false;
-
+                    /*
+                    * si l'attribut "tip" de l'event en provenance du tree est inexistant, c'est qu'il ne s'agit pas d'un modèle de cours
+                    * dans ce cas on retourne false également et on annule l'ajout de l'event
+                    * dans le cas contraire on gère l'ajout de l'event
+                    */
                     if (tree.getUserData(tree._dragged[0].id, "tip") == undefined) {
                         return false;
                     }
                     else {
+                        /*
+                        * récupère la liste des évents présent à l'endroit ou on veut ajouter le nouvel event afin
+                        * de vérifier les collisions
+                        */
                         var presentEvents = scheduler.getEvents(scheduler.getEvent(id).start_date, scheduler.getEvent(id).end_date);
-                        //console.log(d);
+                        /*
+                        * pour chaque event dans la liste, on formate la string pour la comparer avec celle de l'event qu'on veut
+                        * ajouter au même endroit
+                        */
                         var teacherName = "";
                         for (var presEv in presentEvents) {
                             if (presEv < (presentEvents.length) - 1) {
@@ -1415,18 +1422,14 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                                     teacherIsPresent = scheduleTeachers.indexOf(tree.getUserData(tree._dragged[0].id, "teachers")) !== -1;
                                 }
 
-                                console.log(tree.getUserData(tree._dragged[0].id, "classroom") + " = " + scheduleClassroom);
-                                console.log(tree.getUserData(tree._dragged[0].id, "course") + " = " + scheduleCourse);
-                                console.log(tree.getUserData(tree._dragged[0].id, "group") + " = " + scheduleGroup);
-
-                                //doublon
+                                /* vérifie si l'event a ajouter entre en collision avec un event déjà présent */
                                 if (tree.getUserData(tree._dragged[0].id, "classroom").indexOf(scheduleClassroom) != -1 &&
                                     tree.getUserData(tree._dragged[0].id, "course").indexOf(scheduleCourse) != -1 &&
                                     tree.getUserData(tree._dragged[0].id, "group").indexOf(scheduleGroup) != -1 &&
                                     teacherIsPresent) {
                                     return false;
                                 }
-                                // si on est dans le même local, avec le même prof, le même cours et un groupe différent -> ok
+                                /* si on est dans le même local, avec le même prof, le même cours et un groupe différent -> ok */
                                 else if (tree.getUserData(tree._dragged[0].id, "classroom").indexOf(scheduleClassroom) !== -1) {
                                     if (tree.getUserData(tree._dragged[0].id, "course").indexOf(scheduleCourse) !== -1 &&
                                         tree.getUserData(tree._dragged[0].id, "group").indexOf(scheduleGroup) === -1 &&
@@ -1443,8 +1446,10 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                                     }
                                     else return false;
                                 }
-                                // si on est dans un local différent avec le même prof mais qu'on a le même cours et un groupe différent alors ok
-                                //(cours donné par 2 binomes dans 2 locaux différents en meme temps)
+                                /*
+                                * si on est dans un local différent avec le même prof mais qu'on a le même cours et un groupe différent alors ok
+                                *(cours donné par 2 binomes dans 2 locaux différents en meme temps)
+                                */
                                 else if (teacherIsPresent) {
                                     if (tree.getUserData(tree._dragged[0].id, "course").indexOf(scheduleCourse) !== -1 &&
                                         tree.getUserData(tree._dragged[0].id, "group").indexOf(scheduleGroup) === -1) {
@@ -1461,7 +1466,7 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                                     else return false;
                                 }
                                 else {
-                                    // si on est dans un local différent avec un prof différent et que le groupe est différent -> OK
+                                    /* si on est dans un local différent avec un prof différent et que le groupe est différent -> OK */
                                     if (tree.getUserData(tree._dragged[0].id, "group").indexOf(scheduleGroup) === -1) {
                                         scheduler.getEvent(id).text = tree.getUserData(tree._dragged[0].id, "tip");
                                         scheduler.getEvent(id).color = tree.getUserData(tree._dragged[0].id, "color");
@@ -1485,15 +1490,19 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                                 scheduler.getEvent(id).idCourse = tree.getUserData(tree._dragged[0].id, "_idCourse");
                                 scheduler.getEvent(id).idClassroom = tree.getUserData(tree._dragged[0].id, "_idClassroom");
                                 scheduler.getEvent(id).idTeachers = tree.getUserData(tree._dragged[0].id, "_idTeachers");
+                                continue;
                             }
                         }
                     }
+                    /*
+                    * dans le cas ou l'event est bien ajouté, on update la view du scheduler puis on ajoute l'event a une liste d'events
+                    * cette liste d'events sera envoyée dans la db lorsque l'user cliquera sur "sauvegarder" (voir event bouton sauvegarde)
+                    */
                     scheduler.update_view();
                     app.eventsTab.push(scheduler.getEvent(id));
-                    //console.log("EVENTS : ");
-                    //console.log(app.eventsTab);
                     return true;
                 });
+                /* permet de cacher les zones de pause lorsqu'on est sur la vue du mois */
                 app.onViewChange = scheduler.attachEvent("onViewChange", function (new_mode, new_date) {
                     if (new_mode === "month") {
                         $(' div .gray_section').css("display", "none");
@@ -1501,7 +1510,7 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                     }
                 });
 
-                //gestion du surlignage de la tranche horaire survolée par la souris
+                /* gestion du surlignage de la tranche horaire survolée par la souris */
                 var fix_date = function (date) {  // arrondis 17:48:56 en 17:30:00 par exemple
                     date = new Date(date);
                     if (date.getMinutes() < 15) {
@@ -1526,10 +1535,16 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                 var marked = null;
                 var marked_date = null;
                 var event_step = 120;
+
+                /*
+                * empèche la création d'even en cliquant sur le scheduler
+                * dans ce cas ci, il s'agit d'empècher la création d'event lorsqu'on clique sur une zone vide
+                */
                 app.onEmptyClick = scheduler.attachEvent("onEmptyClick", function (date, native_event) {
                     return false;
                 });
 
+                /* gère le surlignage de la zone survolée par la souris dans le scheduler */
                 app.onmousemove = scheduler.attachEvent("onMouseMove", function (event_id, native_event) {
                     var date = scheduler.getActionData(native_event).date;
                     var fixed_date = fix_date(date);
@@ -1544,11 +1559,22 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                     }
                 });
 
+                /*
+                * Cet event fonctionne de la même manière que onExternalDragIn sauf qu'elle gère le déplacement d'events
+                * que l'event ait été ajouté récement depuis le tree ou qu'il provienne directement de la db, on vérifie les
+                * collisions possible, et on l'ajoute a une liste qui sera envoyée à la db si on clique sur sauvegarder
+                */
                 app.onBeforeEventChanged = scheduler.attachEvent("onBeforeEventChanged", function (ev, e, flag, ev_old) {
+                    // si on drag un event depuis le scheduler (pour le déplacer) dans le scheduler et que la zone ciblée est sur une pause
+                    // on annule le déplacement en retournant false
                     if (scheduler.checkInMarkedTimespan(scheduler.getEvent(ev.id), "pause_section"))return false;
+
+                    // récupère la liste des évents présent à l'endroit ou on veut ajouter le nouvel event afin
+                    // de vérifier les collisions
                     var presentEvents = scheduler.getEvents(ev.start_date, ev.end_date);
-                    console.log(ev);
-                    var teacherName = "";
+
+                    // pour chaque event dans la liste, on formate la string pour la comparer avec celle de l'event qu'on veut
+                    // déplacer au même endroit
                     for (var presEv in presentEvents) {
                         if (presEv < (presentEvents.length) - 1) {
                             if (presentEvents[presEv] == ev)continue;
@@ -1578,7 +1604,7 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                                 teacherIsPresent = scheduleTeachers.indexOf(evTeachers) != -1;
                             }
 
-                            //doublon
+                            /* vérifie si l'event qu'on déplace est identique (collision) à un event déjà présent */
                             if (evClassroom.indexOf(scheduleClassroom) != -1 &&
                                 evCourse.indexOf(scheduleCourse) != -1 &&
                                 evGroup.indexOf(scheduleGroup) != -1 &&
@@ -1586,6 +1612,7 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                                 return false;
                             }
 
+                            /* vérifie si l'event qu'on déplace entre en collision avec un event déjà présent */
                             // si on est dans le même local, avec le même prof, le même cours et un groupe différent -> ok
                             if (evClassroom.indexOf(scheduleClassroom) != -1) {
                                 if (evCourse.indexOf(scheduleCourse) != -1 &&
@@ -1613,8 +1640,14 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                             }
                         }
                     }
+                    // dans le cas ou l'event est bien déplacé, on update la view du scheduler puis on ajoute l'event a une liste d'events
+                    // cette liste d'events sera envoyée dans la db lorsque l'user cliquera sur "sauvegarder" (voir event bouton sauvegarde)
                     scheduler.update_view();
                     var eventIndex = -1;
+
+                    // cette boucle set a vérifier si l'event se trouvait déjà dans la liste des events a sauvegarder
+                    // dans le cas ou on trouve l'event dans cette liste (via son ID) on le modifie dans la liste
+                    // si on ne le trouve pas, on l'ajoute a la liste
                     for (var index in app.eventsTab) {
                         if (app.eventsTab[index].id === ev.id) {
                             eventIndex = index;
@@ -1628,24 +1661,19 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                     return true;
                 });
 
+                /* désactive la création d'even lorsqu'on double clique sur le scheduler   */
                 app.onDblClick = scheduler.attachEvent("onDblClick", function (id, e) {
                     return false;
                 });
 
-                /*/ scheduler.attachEvent("onBeforeEventDelete", function(id,e){
-                 app.eventToDelete = e;
-                 console.log("aaa"+e);
-                 });*/
-
+                /* gère la supression d'events */
                 app.onEventDeleted = scheduler.attachEvent("onEventDeleted", function (id) {
-                    /* console.log(id);
-                     console.log("jjdfsf");
-                     scheduler.deleteEvent(app.eventToDelete.id);
-                     //console.log(scheduler.getEvents());
-                     console.log(scheduler.getEvent(app.eventToDelete.id));  */
                     var found = false;
                     for (var index in app.eventsTab) {
-                        //on cherche l'event dans eventsTab
+                        /*
+                        * on cherche l'event dans eventsTab afin de vérifier si il s'agit d'un nouvel event
+                        * ou si il provient de la base de données
+                        */
                         if (app.eventsTab[index].id == id) {
                             //event provenant du tree
                             if (app.eventsTab[index].idCourse !== undefined) {
@@ -1664,60 +1692,67 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                     }
                     //event de la db qui n'a pas été déplacé (et donc qui n'est pas dans eventstab)
                     if (!found) {
-                        console.log("id : " + id);
                         app.eventsToDeleteTab.push(id);
-                        console.log(app.eventsToDeleteTab);
                     }
                 });
             });
         }
 
+        /*
+        * configuration du scheduler afin qu'il corresponde à ce que l'on veut
+        */
         $scope.configureAndInitializeScheduler = function () {
             //paremètres simples
-            scheduler.config.first_hour = 8;
-            scheduler.config.last_hour = 19;
-            scheduler.config.time_step = 15;
-            scheduler.config.event_duration = 120;
-            scheduler.config.details_on_create = false;
-            scheduler.config.left_border = true;
-            scheduler.config.dblclick_create = false;
-            scheduler.config.drag_create = false;
-            scheduler.config.edit_on_create = false;
-            scheduler.config.icons_select = ["icon_delete"];
-            if (!$scope.isConnected)scheduler.config.readonly = true;
-            scheduler.init('MASI_scheduler', new Date(), "week");
+            scheduler.config.first_hour = 8;                                // heur de début du scheduer
+            scheduler.config.last_hour = 19;                                // heure de fin du scheduler (19h pour éviter ambiguité avec affichage)
+            scheduler.config.time_step = 15;                                // pas de 15min pour le déplacement et le resizing des events
+            scheduler.config.event_duration = 120;                          // durée par défaut d'un nouvel event en minutes
+            scheduler.config.details_on_create = false;                     // n'affiche pas les détails lors de la création
+            scheduler.config.left_border = true;                            // affiche les bords gauches du calendrier
+            scheduler.config.dblclick_create = false;                       // empèche la création d'event en double cliquant
+            scheduler.config.drag_create = false;                           // empèche la création d'event en "tirant" une zone sur le scheduler
+            scheduler.config.edit_on_create = false;                        // n'entre pas en mode édition lors de la création d'un event
+            scheduler.config.icons_select = ["icon_delete"];                // n'affiche que l'icone de suppresion (et pas d'edition) dans le menu d'un event
+            if (!$scope.isConnected)scheduler.config.readonly = true;       // le scheduler passe en readonly si on n'est pas en mode admin (connecté)
+            scheduler.init('MASI_scheduler', new Date(), "week");           // initialise le scheduler
             scheduler.ignore_week = function (date) {
                 if (date.getDay() == 6 || date.getDay() == 0) //cache samedi et dimanche
                     return true;
             };
+            //définis les temps de pause, on ne pourra ajouter d'event sur ces zones
             if (!app.scheduler_loaded) {
                 app.morningAndNightHours = scheduler.addMarkedTimespan({
-                    days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
+                    days: [1, 2, 3, 4, 5],                          // de lundi a vendredi
                     zones: [0 * 60, 8 * 60 + 45, 18 * 60, 24 * 60],	// de 0h a 8h45	& de 18h a 24h
-                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
+                    type: "pause_section", 			                // empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 app.lunchTime = scheduler.addMarkedTimespan({
-                    days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
-                    zones: [13 * 60, 13 * 60 + 45],			// de 13h a 13h45
-                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
+                    days: [1, 2, 3, 4, 5],                          // de lundi a vendredi
+                    zones: [13 * 60, 13 * 60 + 45],			        // de 13h a 13h45
+                    type: "pause_section", 			                // empèche d'entrer des event pour cette zone
                     css: "red_section"
                 });
                 app.pauseTime = scheduler.addMarkedTimespan({
-                    days: [1, 2, 3, 4, 5],                 // de lundi a vendredi
-                    zones: [10 * 60 + 45, 11 * 60, 15 * 60 + 45, 16 * 60],			// de 10h45 a 11h et 15h45 a 16h
-                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
+                    days: [1, 2, 3, 4, 5],                                      // de lundi a vendredi
+                    zones: [10 * 60 + 45, 11 * 60, 15 * 60 + 45, 16 * 60],		// de 10h45 a 11h et 15h45 a 16h
+                    type: "pause_section", 			                            // empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
                 app.weekends = scheduler.addMarkedTimespan({
-                    days: [0, 6],                       // samedi et dimanche
-                    zones: "fullday",       			// toute la journée
-                    type: "pause_section", 			// empèche d'entrer des event pour cette zone
+                    days: [0, 6],                                   // samedi et dimanche
+                    zones: "fullday",       			            // toute la journée
+                    type: "pause_section", 			                // empèche d'entrer des event pour cette zone
                     css: "gray_section"
                 });
+                // update la vue du scheduler
                 scheduler.update_view();
             }
             else {
+                /*
+                * le else fait la même chose que le iff sauf qu'il supprime les zones dans le cas ou elles existent déjà
+                * afin d'éviter la superposition de celles-ci
+                */
                 scheduler.deleteMarkedTimespan(app.morningAndNightHours);
                 scheduler.deleteMarkedTimespan(app.lunchTime);
                 scheduler.deleteMarkedTimespan(app.pauseTime);
@@ -1748,13 +1783,12 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                     css: "gray_section"
                 });
             }
-            //$(' div .gray_section').css("display","none");
-            //$(' div .red_section').css("display","none");
-
             app.scheduler_loaded = true;
         }
 
-
+        /*
+        * fonction qui permet de récupérer les données dans la DB
+        */
         $scope.getJsonData = function (isFromUser) {
             var myGroupJsonString;
             var myTeachersJsonString;
@@ -1764,12 +1798,12 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
 
             // vérifie si le local storage est dispo sur le browser
             if (typeof(Storage) !== "undefined") {
-                //vérifie si la requete viens du user
+                //vérifie si la requete viens du user, si oui on ignore le local storage et on fait les requetes vers la db quand même(cas update)
+                // après chaque requete on stocke le résultat dans le local storage afin de les utiliser plus tard
                 if (isFromUser) {
                     promotionFactory.findAll().success(function (data, status, headers, config) {
                         //$scope.promotions = data;
                         myGroupJsonString = JSON.stringify(data);
-                        console.log("data : " + JSON.stringify(data));
                         localStorage.mySavedGroupJSONString = myGroupJsonString;
                     });
                     teacherFactory.findAll().success(function (data, status, headers, config) {
@@ -1792,14 +1826,21 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                         myEventListJsonString = JSON.stringify(data);
                         localStorage.mySavedEventListJSONString = myEventListJsonString;
                         $scope.initialiseEvents();
+                        $scope.populate_comboboxes();
                     });
                 }
+                /*
+                * dans le cas ou la requete ne vient pas du user (et donc a l'affichage de la page)
+                * on vérifie si le localstorage contient déjà les string, si oui on les réutilise
+                * si non on fait la requete vers la db (cas de la première fois sur le site)
+                */
                 else {
+                    // vérifie si les données sont présentes dans le local storage, si il en manque une seule on refait les 5 requetes
+                    // (tant qu'a faire, on met à jour)
                     if (!localStorage.mySavedEventListJSONString || !localStorage.mySavedGroupJSONString || !localStorage.mySavedTeachersJSONString || !localStorage.mySavedClassroomsJSONString || !localStorage.mySavedCoursesJSONString) {
                         promotionFactory.findAll().success(function (data, status, headers, config) {
                             //$scope.promotions = data;
                             myGroupJsonString = JSON.stringify(data);
-                            //console.log("data : " + JSON.stringify(data));
                             localStorage.mySavedGroupJSONString = myGroupJsonString;
                         });
                         teacherFactory.findAll().success(function (data, status, headers, config) {
@@ -1826,17 +1867,15 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                         });
                     }
                     else {
-                        //INCOMPLET : A FAIRE -> afficher le message ORANGE (La string existe déjà en local, chargement des données connues)
                         $scope.initialiseEvents();
+                        $scope.populate_comboboxes();
                     }
                 }
             }
-            else {
-                //INCOMPLET : A FAIRE -> afficher le message d'erreur RED (Le browser ne supporte pas le webstorage)
-                //document.getElementById("result").innerHTML="Sorry, your browser does not support web storage...";
-            }
         };
-
+        /*
+        * fonction qui va ajouter les données du localstorage et les affichées dans le tree ou dans le scheduler
+        */
         $scope.initialiseEvents = function () {
             //supression des éléments du tree avant de le reconstruire (si il y en a)
             tree.deleteChildItems(1);
@@ -1861,8 +1900,10 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                 var cptCours = 1;
                 var idCours = 1;
                 for (var itm in JsonArray) {
-                    // si la date N'EST PAS null, il s'agit un schedule
+                    // si la date N'EST PAS null, il s'agit d'un event, on l'ajoute donc dans la string qui contiendra tous les events
                     if (new Date(JsonArray[itm].date).getTime() != new Date(0).getTime()) {
+                        // vu qu'on boucle sur les groupes, on passe plusieurs fois sur la liste des events, il est inutile de
+                        // traiter la liste plus d'une fois dans le cas ou il s'agit d'un event (et pas d'un modèle).
                         if (grp == "0") {
                             eventsString += '{id:"' + JsonArray[itm]._id;														//récupération de l'ID de l'event
                             //récupération du texte de l'event
@@ -1895,10 +1936,9 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                             else {
                                 eventsString += '"},';
                             }
-                            //console.log(eventsString);
                         }
                     }
-                    //si la date EST null, il s'agit d'un MODELE de schedule
+                    //si la date EST null, il s'agit d'un MODELE d'event, on l'ajoutera donc dans le tree
                     else {
                         if (JsonArray[itm].promotion.name == jsonGroupsArray[grp].name) {
                             var newIdString = cptGrp.toString() + idCours.toString();
@@ -1931,6 +1971,8 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                                 tree.setUserData(newIdString, "_idTeachers", teachersIds);
                             else
                                 tree.setUserData(newIdString, "_idTeachers", null);
+                            // définis tous les attribut de l'élément dans le tree, on les récupère quand on drag un élément du tree
+                            // vers le scheduler
                             tree.setUserData(newIdString, "teachers", teacherName);
                             tree.setUserData(newIdString, "_idGroup", JsonArray[itm].promotion._id);
                             tree.setUserData(newIdString, "_idCourse", JsonArray[itm].course._id);
@@ -1945,13 +1987,16 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                         cptCours++;
                     }
                 }
+                // ferme l'élément père du tree pour réduire sa taille a l'affichage (pour que toutes les listes ne soient pas ouvertes)
                 tree.closeItem(cptGrp);
                 cptGrp++;
             }
             eventsString += "]";
+            // parse la string dans le scheduler une fois que la génération de celle ci est terminée
             scheduler.parse(eventsString, "json");
         };
 
+        /* cette fonction gère le remplissage des combobox du filtre de recherche */
         $scope.populate_comboboxes = function () {
             //remplissage des combobox (pour l'option de filtrage)
             $scope.cbx_promotions = jQuery.parseJSON(localStorage.mySavedGroupJSONString);
@@ -1967,23 +2012,13 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                 {value: "Courses_Select", name: "Cours"});
             $scope.filterChosen = "none";
 
-
-            /*$.each(cbx_groups, function (index, value) {
-             $("#Groups_Select_data").append('<option value="' + value.name + '">' + value.name + '</option>');
-             });
-             $.each(cbx_teachers, function (index, value) {
-             var teacherName = value.last_name + " " + value.first_name.charAt(0).toUpperCase() + ".";
-             $("#Teachers_Select_data").append('<option value="' + teacherName + '">' + teacherName + '</option>');
-             });
-             $.each(cbx_classrooms, function (index, value) {
-             $("#Classrooms_Select_data").append('<option value="' + value.name + '">' + value.name + '</option>');
-             });
-             $.each(cbx_courses, function (index, value) {
-             $("#Courses_Select_data").append('<option value="' + value.name + '">' + value.name + '</option>');
-             });*/
             $scope.show_SelectedFilter(document.getElementById("Main_Select"));
         };
 
+        /*
+        * fonction qui met a jour l'affichage du scheduler
+        * ATTENTION: on met a jour par rapport a la base de données
+        */
         $scope.reload_schedulerEventsInStorage = function () {
             //reload des données
             //supression des éléments du tree avant de le reconstruire
@@ -1992,13 +2027,13 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
             $scope.getJsonData(true);
             app.eventsTab.length = 0;
             app.eventsToDeleteTab.length = 0;
-            console.log("appevents apres refresh : " + app.eventsTab);
         };
-
+        /*
+        * fonction qui va sauvegarder les events présent dans la liste eventsTab(liste contenant les events ajouté et déplacés)
+        * et dans la liste eventsToDelete (la liste contenant les events a supprimer)
+        */
         $scope.update_schedulerEventsToDB = function () {
-            console.log(app.eventsTab.length);
             for (var index in app.eventsTab) {
-                console.log("index : " + index);
                 var day = app.eventsTab[index].start_date.getDate();
                 var month = app.eventsTab[index].start_date.getMonth();
                 var year = app.eventsTab[index].start_date.getFullYear();
@@ -2012,11 +2047,9 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                 if (end_minutes === 0)var end_time = end_hours + ":00";
                 else var end_time = end_hours + ":" + end_minutes;
                 var end_index = $.inArray(end_time, heuresFin);
-                console.log("coucou");
-                console.log(app.eventsTab[index]);
-                //un qui est dans la db
+                // si c'est un event qui est dans la db
                 if (app.eventsTab[index].idCourse === undefined) {
-                    scheduleFactory.edit(app.eventsTab[index].id, day, month, year, begin_index + 1, end_index + 1).success(function (data) {/*console.log(app.eventsTab[index].id);*/
+                    scheduleFactory.edit(app.eventsTab[index].id, day, month, year, begin_index + 1, end_index + 1).success(function (data) {
                     });
                 }
                 else {
@@ -2031,31 +2064,20 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                         end: end_index + 1
                     };
                     scheduleFactory.add(schedule).success(function () {
-                        console.log("ok");
                     });
-                    var event = app.eventsTab[index].id;
-                    //scheduler.deleteEvent(event);
-                    //app.eventsTab.splice(app.eventsTab[index],1);
                 }
-                console.log("index fin : " + index);
             }
-            console.log("eventsTab length apres : " + app.eventsTab.length);
-            console.log("events to delete");
-            console.log(app.eventsToDeleteTab);
             for (var index in app.eventsToDeleteTab) {
                 scheduleFactory.delete(app.eventsToDeleteTab[index]).success(function () {
-                    console.log("delete ok")
                 });
             }
+            // après avoir sauvegarder, on met a jour le scheduler
             $scope.reload_schedulerEventsInStorage();
-
-            //scheduleFactory.addSchedule()
         };
-
+        /* méthode qui gère l'affichage des filtres en fonction de la sélection sur la première combobox */
         $scope.show_SelectedFilter = function () {
             var myMaincbx = $scope.filters;
             for (var i = 0; i < myMaincbx.length; i++) {
-                //console.log(myMaincbx[i]);
                 if (myMaincbx[i].value != "none") {
                     if (myMaincbx[i].value == $scope.filterChosen)
                         document.getElementById(myMaincbx[i].value).className = "combobox_visibile";
@@ -2065,9 +2087,9 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
             }
         };
 
+        /* fonction qui filtre l'affichage des events sur le scheduler */
         $scope.Filter_schedules = function () {
             var mainBox = $scope.filterChosen;
-            console.log(mainBox);
             if (mainBox != "none") {
                 var selectedBox;
                 if (mainBox == "Groups_Select")
@@ -2078,7 +2100,6 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                     selectedBox = $scope.classroomChosen;
                 else if (mainBox == "Courses_Select")
                     selectedBox = $scope.courseChosen;
-                console.log("select : " + selectedBox);
                 // on vide le scheduler
                 scheduler.clearAll();
                 //on le reremplit avec les données filtrées
@@ -2127,21 +2148,18 @@ app.controller('FrontOfficeController', ['$scope', '$route', '$http', '$timeout'
                             else {
                                 eventsString += '"},';
                             }
-                            //console.log(eventsString);
                         }
                     }
                 }
                 eventsString += "]";
-                console.log(eventsString);
                 scheduler.parse(eventsString, "json");
-                //console.log(selectedBox);
             }
             else {
                 $scope.initialiseEvents();
             }
         };
 
-        //fais en sorte que le menu de login ne se barre pas quand on clique dans un des champs (login/pwd)
+        //fais en sorte que le menu de login reste affiché quand on clique dans un des champs (login/pwd)
         $(function () {
             // Fix input element click problem
             $('.dropdown input, .dropdown label').click(function (e) {
